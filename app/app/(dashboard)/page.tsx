@@ -1,10 +1,8 @@
-import { Suspense } from "react";
-import Sites from "@/components/sites";
-import OverviewStats from "@/components/overview-stats";
-import Posts from "@/components/posts";
-import Link from "next/link";
-import PlacholderCard from "@/components/placeholder-card";
-import OverviewSitesCTA from "@/components/overview-sites-cta";
+import { Suspense } from 'react';
+import Sites from '@/components/sites';
+import OverviewStats from '@/components/overview-stats';
+import PlacholderCard from '@/components/placeholder-card';
+import OverviewSitesCTA from '@/components/overview-sites-cta';
 
 export default function Overview() {
   return (
@@ -50,9 +48,7 @@ export default function Overview() {
               ))}
             </div>
           }
-        >
-          <Posts limit={8} />
-        </Suspense>
+        ></Suspense>
       </div>
     </div>
   );
