@@ -1,16 +1,15 @@
 import { ReactNode, Suspense } from 'react';
-import Profile from '@/components/profile';
-import Nav from '@/components/nav';
-import { Box, Flex, Skeleton } from '@/components';
+import { Box, Flex, Skeleton, Navbar } from '@/components';
+import { Profile } from '@/components/server';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <Flex>
-      <Nav>
+      <Navbar>
         <Suspense fallback={<Skeleton height="20px" />}>
           <Profile />
         </Suspense>
-      </Nav>
+      </Navbar>
 
       <Box>{children}</Box>
     </Flex>

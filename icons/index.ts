@@ -1,5 +1,5 @@
 'use client';
 
 export * from '@chakra-ui/icons';
-export * from 'react-icons/md';
-export * from 'react-icons/fa6';
+export * from './fa6';
+export * from './md';

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Icon } from '@/components';
-import { FaGithub } from '@/icons';
+import { GithubIcon } from '@/icons';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -23,7 +23,7 @@ export default function LoginButton() {
     <Button
       isDisabled={isLoading}
       isLoading={isLoading}
-      leftIcon={<Icon as={FaGithub} />}
+      leftIcon={<GithubIcon />}
       size="lg"
       loadingText="Login with GitHub"
       onClick={() => {
