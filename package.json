@@ -13,6 +13,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@chakra-ui/icons": "2.1.0",
     "@chakra-ui/next-js": "2.1.5",
     "@chakra-ui/react": "2.8.0",
     "@emotion/react": "11.11.1",
@@ -54,6 +55,7 @@
     "openai-edge": "1.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "4.10.1",
     "react-textarea-autosize": "8.5.2",
     "react-tweet": "3.0.2",
     "remark": "14.0.3",

@@ -1,24 +1,12 @@
-import { InlineSnippet } from '@/components/form/domain-configuration';
-import { NextImage } from '@/components';
+import { Button, NextLink } from '@/components';
 
 export default function HomePage() {
   return (
     <>
-      <div className="flex h-screen flex-col items-center justify-center space-y-10 bg-black">
-        <NextImage
-          width={512}
-          height={512}
-          src="/logo.png"
-          alt="Platforms on Vercel"
-          className="w-48"
-        />
-        <h1 className="text-white">
-          Edit this page on{' '}
-          <InlineSnippet className="ml-2 bg-blue-900 text-blue-100">
-            app/home/page.tsx
-          </InlineSnippet>
-        </h1>
-      </div>
+      <h1 className="text-white">Edit this page on app/home/page.tsx</h1>
+      <Button as={NextLink} href="http://app.localhost:3000">
+        Start creating
+      </Button>
     </>
   );
 }
