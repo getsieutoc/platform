@@ -13,3 +13,6 @@ export {
   Stack,
   Textarea,
 } from '@chakra-ui/react';
+
+export * from './NextImage';
+export * from './NextLink';

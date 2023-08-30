@@ -1,23 +1,22 @@
-import BlurImage from "@/components/blur-image";
-import { placeholderBlurhash, random } from "@/lib/utils";
-import { Site } from "@prisma/client";
-import { BarChart, ExternalLink } from "lucide-react";
-import Link from "next/link";
+import { placeholderBlurhash, random } from '@/lib/utils';
+import { Site } from '@prisma/client';
+import { BarChart, ExternalLink } from 'lucide-react';
+import { NextLink, NextImage } from '@/components';
 
 export default function SiteCard({ data }: { data: Site }) {
   const url = `${data.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
   return (
     <div className="relative rounded-lg border border-stone-200 pb-10 shadow-md transition-all hover:shadow-xl dark:border-stone-700 dark:hover:border-white">
-      <Link
+      <NextLink
         href={`/site/${data.id}`}
         className="flex flex-col overflow-hidden rounded-lg"
       >
-        <BlurImage
-          alt={data.name ?? "Card thumbnail"}
+        <NextImage
+          alt={data.name ?? 'Card thumbnail'}
           width={500}
           height={400}
           className="h-44 object-cover"
-          src={data.image ?? "/placeholder.png"}
+          src={data.image ?? '/placeholder.png'}
           placeholder="blur"
           blurDataURL={data.imageBlurhash ?? placeholderBlurhash}
         />
@@ -29,7 +28,7 @@ export default function SiteCard({ data }: { data: Site }) {
             {data.description}
           </p>
         </div>
-      </Link>
+      </NextLink>
       <div className="absolute bottom-4 flex w-full justify-between space-x-4 px-4">
         <a
           href={
@@ -43,13 +42,13 @@ export default function SiteCard({ data }: { data: Site }) {
         >
           {url} ↗
         </a>
-        <Link
+        <NextLink
           href={`/site/${data.id}/analytics`}
           className="flex items-center rounded-md bg-green-100 px-2 py-1 text-sm font-medium text-green-600 transition-colors hover:bg-green-200 dark:bg-green-900 dark:bg-opacity-50 dark:text-green-400 dark:hover:bg-green-800 dark:hover:bg-opacity-50"
         >
           <BarChart height={16} />
           <p>{random(10, 40)}%</p>
-        </Link>
+        </NextLink>
       </div>
     </div>
   );
