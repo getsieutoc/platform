@@ -2,7 +2,7 @@
 
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 import { useParams, useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import { useAuth } from '@/hooks';
 import { Spinner } from '@chakra-ui/react';
 import va from '@vercel/analytics';
 import { cn } from '@/lib/utils';
@@ -34,7 +34,7 @@ export default function Form({
 }) {
   const { id } = useParams() as { id?: string };
   const router = useRouter();
-  const { update } = useSession();
+  const { update } = useAuth();
   return (
     <form
       action={async (data: FormData) => {

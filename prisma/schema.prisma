@@ -13,6 +13,13 @@ generator client {
   previewFeatures = ["jsonProtocol"]
 }
 
+enum UserRole {
+  ADMIN
+  MANAGER
+  USER
+  SUPPORT
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -22,6 +29,7 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  role          UserRole  @default(USER)
   accounts      Account[]
   sessions      Session[]
   sites         Site[]
