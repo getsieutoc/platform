@@ -10,7 +10,14 @@ export default function AllSites({ params }: { params: { id: string } }) {
 
   return (
     <Flex width="100%" direction="column" gap={6}>
-      <Flex width="100%" direction="row" justify="space-between" gap={6}>
+      <Flex
+        width="100%"
+        height="48px"
+        direction="row"
+        justify="space-between"
+        align="center"
+        gap={6}
+      >
         <Heading as="h1" size="lg">
           All Sites
         </Heading>

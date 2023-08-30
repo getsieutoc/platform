@@ -18,7 +18,7 @@ export default async function Sites({ limit }: { limit?: number }) {
     orderBy: { createdAt: 'asc' },
   });
 
-  return sites.length > 10 ? (
+  return sites.length > 0 ? (
     <Wrap spacing={6}>
       {sites.map((site) => (
         <WrapItem key={site.id}>

@@ -11,7 +11,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         </Suspense>
       </Navbar>
 
-      <Box padding={3} width="100%">
+      <Box padding={6} width="100%" height="100vh" overflowY="scroll">
         {children}
       </Box>
     </Flex>

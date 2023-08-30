@@ -48,7 +48,7 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
       width="240px"
       height="100vh"
       justify="space-between"
-      padding={3}
+      padding={4}
     >
       <Box>
         <NextLink href="/">
