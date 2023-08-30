@@ -1,6 +1,6 @@
 import { getServerSession, type NextAuthOptions } from 'next-auth';
-import GitHubProvider from 'next-auth/providers/github';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import GitHubProvider from 'next-auth/providers/github';
 import { prisma } from '@/lib/prisma';
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
@@ -12,6 +12,7 @@ export const authOptions: NextAuthOptions = {
     GitHubProvider({
       clientId: process.env.AUTH_GITHUB_ID as string,
       clientSecret: process.env.AUTH_GITHUB_SECRET as string,
+
       profile(profile) {
         return {
           id: profile.id.toString(),
@@ -23,6 +24,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+
   pages: {
     signIn: `/login`,
     verifyRequest: `/login`,
@@ -52,6 +54,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.user = user;
       }
+
       return token;
     },
 
@@ -62,22 +65,17 @@ export const authOptions: NextAuthOptions = {
         id: token.sub,
         // @ts-expect-error
         username: token?.user?.username,
+        // @ts-expect-error
+        role: token?.user?.role,
       };
+
       return session;
     },
   },
 };
 
 export function getSession() {
-  return getServerSession(authOptions) as Promise<{
-    user: {
-      id: string;
-      name: string;
-      username: string;
-      email: string;
-      image: string;
-    };
-  } | null>;
+  return getServerSession(authOptions);
 }
 
 export function withSiteAuth(action: any) {

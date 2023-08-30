@@ -5,6 +5,7 @@ import { editUser } from '@/lib/actions';
 
 export default async function ProfileSettingsPage() {
   const session = await getSession();
+
   if (!session) {
     redirect('/login');
   }
