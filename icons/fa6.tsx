@@ -1,5 +1,5 @@
-import { Icon, type IconProps } from '@chakra-ui/react';
+import { Icon, type IconProps as Props } from '@chakra-ui/react';
 import { FaGithub, FaGlobe } from 'react-icons/fa6';
 
-export const GithubIcon = (p: IconProps) => <Icon as={FaGithub} {...p} />;
-export const GlobeIcon = (p: IconProps) => <Icon as={FaGlobe} {...p} />;
+export const GithubIcon = (p: Props) => <Icon as={FaGithub} {...p} />;
+export const GlobeIcon = (p: Props) => <Icon as={FaGlobe} {...p} />;

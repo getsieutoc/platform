@@ -1,7 +1,7 @@
 import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 
-import { Avatar, NextLink, Stack, Text } from '@/components';
+import { Avatar, Flex, NextLink, Stack, Text } from '@/components';
 
 import { LogoutButton } from './LogoutButton';
 
@@ -15,7 +15,7 @@ export const Profile = async () => {
   const { name, image, email } = session.user;
 
   return (
-    <div className="flex w-full items-center justify-between">
+    <Flex direction="row" align="center" justify="space-between">
       <NextLink href="/profile">
         <Stack direction="row">
           <Avatar
@@ -29,6 +29,6 @@ export const Profile = async () => {
       </NextLink>
 
       <LogoutButton />
-    </div>
+    </Flex>
   );
 };

@@ -1,10 +1,9 @@
 'use client';
 
-import { ArrowLeft, BarChart3 } from 'lucide-react';
 import { useParams, useSelectedLayoutSegments } from 'next/navigation';
 import { type ReactNode, useMemo } from 'react';
-import { NextLink, NextImage } from '@/components';
-import { DashboardIcon, GlobeIcon } from '@/icons';
+import { Box, Button, Flex, NextImage, NextLink, Stack } from '@/components';
+import { ArrowBackIcon, DashboardIcon, GlobeIcon, InsertChartIcon } from '@/icons';
 
 export const Navbar = ({ children }: { children: ReactNode }) => {
   const segments = useSelectedLayoutSegments();
@@ -16,13 +15,13 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
         {
           name: 'Back to All Sites',
           href: '/sites',
-          icon: <ArrowLeft width={18} />,
+          icon: <ArrowBackIcon width={18} />,
         },
         {
           name: 'Analytics',
           href: `/site/${id}/analytics`,
           isActive: segments.includes('analytics'),
-          icon: <BarChart3 width={18} />,
+          icon: <InsertChartIcon width={18} />,
         },
       ];
     }
@@ -44,27 +43,36 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
   }, [segments, id]);
 
   return (
-    <div>
-      <div className="grid gap-2">
-        <div className="flex items-center space-x-2 rounded-lg px-2 py-1.5">
-          <NextLink href="/">
-            <NextImage src="/logo.png" width={12} height={12} alt="Logo" />
-          </NextLink>
-        </div>
+    <Flex
+      direction="column"
+      width="240px"
+      height="100vh"
+      justify="space-between"
+      padding={3}
+    >
+      <Box>
+        <NextLink href="/">
+          <NextImage src="/logo.png" width={12} height={12} alt="Logo" />
+        </NextLink>
 
-        <div className="grid gap-1">
+        <Stack marginTop={6} spacing={1}>
           {tabs.map(({ name, href, icon }) => (
-            <NextLink key={name} href={href}>
-              {icon}
-              <span>{name}</span>
-            </NextLink>
+            <Button
+              key={name}
+              as={NextLink}
+              variant="ghost"
+              justifyContent="start"
+              width="100%"
+              href={href}
+              leftIcon={icon}
+            >
+              {name}
+            </Button>
           ))}
-        </div>
-      </div>
-      <div>
-        <div className="my-2 border-t border-stone-200 dark:border-stone-700" />
-        {children}
-      </div>
-    </div>
+        </Stack>
+      </Box>
+
+      <Box>{children}</Box>
+    </Flex>
   );
 };

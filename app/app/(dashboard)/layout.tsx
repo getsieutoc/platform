@@ -6,12 +6,14 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <Flex>
       <Navbar>
-        <Suspense fallback={<Skeleton height="20px" />}>
+        <Suspense fallback={<Skeleton height="24px" />}>
           <Profile />
         </Suspense>
       </Navbar>
 
-      <Box>{children}</Box>
+      <Box padding={3} width="100%">
+        {children}
+      </Box>
     </Flex>
   );
 }

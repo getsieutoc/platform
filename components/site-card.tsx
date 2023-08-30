@@ -1,10 +1,9 @@
-import { placeholderBlurhash, random } from '@/lib/utils';
+import { placeholderBlurhash } from '@/lib/utils';
 import { Site } from '@prisma/client';
-import { BarChart, ExternalLink } from 'lucide-react';
 import { NextLink, NextImage } from '@/components';
+import { InsertChartIcon } from '@/icons';
 
 export default function SiteCard({ data }: { data: Site }) {
-  const url = `${data.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
   return (
     <div className="relative rounded-lg border border-stone-200 pb-10 shadow-md transition-all hover:shadow-xl dark:border-stone-700 dark:hover:border-white">
       <NextLink
@@ -29,27 +28,12 @@ export default function SiteCard({ data }: { data: Site }) {
           </p>
         </div>
       </NextLink>
-      <div className="absolute bottom-4 flex w-full justify-between space-x-4 px-4">
-        <a
-          href={
-            process.env.NEXT_PUBLIC_VERCEL_ENV
-              ? `https://${url}`
-              : `http://${data.subdomain}.localhost:3000`
-          }
-          target="_blank"
-          rel="noreferrer"
-          className="truncate rounded-md bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
-        >
-          {url} ↗
-        </a>
-        <NextLink
-          href={`/site/${data.id}/analytics`}
-          className="flex items-center rounded-md bg-green-100 px-2 py-1 text-sm font-medium text-green-600 transition-colors hover:bg-green-200 dark:bg-green-900 dark:bg-opacity-50 dark:text-green-400 dark:hover:bg-green-800 dark:hover:bg-opacity-50"
-        >
-          <BarChart height={16} />
-          <p>{random(10, 40)}%</p>
-        </NextLink>
-      </div>
+      <NextLink
+        href={`/site/${data.id}/analytics`}
+        className="flex items-center rounded-md bg-green-100 px-2 py-1 text-sm font-medium text-green-600 transition-colors hover:bg-green-200 dark:bg-green-900 dark:bg-opacity-50 dark:text-green-400 dark:hover:bg-green-800 dark:hover:bg-opacity-50"
+      >
+        <InsertChartIcon height={16} />
+      </NextLink>
     </div>
   );
 }
