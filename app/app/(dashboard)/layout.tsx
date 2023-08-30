@@ -1,16 +1,18 @@
-import { ReactNode, Suspense } from "react";
-import Profile from "@/components/profile";
-import Nav from "@/components/nav";
+import { ReactNode, Suspense } from 'react';
+import Profile from '@/components/profile';
+import Nav from '@/components/nav';
+import { Box, Flex, Skeleton } from '@/components';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
-    <div>
+    <Flex>
       <Nav>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Skeleton height="20px" />}>
           <Profile />
         </Suspense>
       </Nav>
-      <div className="min-h-screen dark:bg-black sm:pl-60">{children}</div>
-    </div>
+
+      <Box>{children}</Box>
+    </Flex>
   );
 }
