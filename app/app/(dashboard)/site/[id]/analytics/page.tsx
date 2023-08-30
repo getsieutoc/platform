@@ -1,7 +1,7 @@
-import { getSession } from "@/lib/auth";
-import prisma from "@/lib/prisma";
-import { notFound, redirect } from "next/navigation";
-import AnalyticsMockup from "@/components/analytics";
+import { getSession } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+import { notFound, redirect } from 'next/navigation';
+import AnalyticsMockup from '@/components/analytics';
 
 export default async function SiteAnalytics({
   params,
@@ -10,7 +10,7 @@ export default async function SiteAnalytics({
 }) {
   const session = await getSession();
   if (!session) {
-    redirect("/login");
+    redirect('/login');
   }
   const data = await prisma.site.findUnique({
     where: {

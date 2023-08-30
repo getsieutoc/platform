@@ -1,6 +1,6 @@
 'use server';
 
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 import type { Site } from '@prisma/client';
 import { revalidateTag } from 'next/cache';
 import { withSiteAuth } from './auth';
@@ -216,18 +216,6 @@ export const deleteSite = withSiteAuth(async (_: FormData, site: Site) => {
     };
   }
 });
-
-export const getSiteFromPostId = async (postId: string) => {
-  const post = await prisma.post.findUnique({
-    where: {
-      id: postId,
-    },
-    select: {
-      siteId: true,
-    },
-  });
-  return post?.siteId;
-};
 
 export const editUser = async (
   formData: FormData,

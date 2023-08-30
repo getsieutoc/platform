@@ -5,8 +5,7 @@
     posterity.
 */
 
-import { NextResponse } from "next/server";
-// import prisma from "@/lib/prisma";
+import { NextResponse } from 'next/server';
 
 export async function GET() {
   //   Download data from old database
@@ -51,5 +50,5 @@ export async function GET() {
   //     skipDuplicates: true,
   //   })
 
-  return NextResponse.json({ response: "ok" });
+  return NextResponse.json({ response: 'ok' });
 }
