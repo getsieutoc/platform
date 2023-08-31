@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function CTA() {
   const [closeCTA, setCloseCTA] = useState(false);
   return (
     <div
       className={`${
-        closeCTA ? "h-14 lg:h-auto" : "h-60 sm:h-40 lg:h-auto"
+        closeCTA ? 'h-14 lg:h-auto' : 'h-60 sm:h-40 lg:h-auto'
       } fixed inset-x-0 bottom-5 mx-5 flex max-w-screen-xl flex-col items-center justify-between space-y-3 rounded-lg border-t-4 border-black bg-white px-5 pb-3 pt-0 drop-shadow-lg transition-all duration-150 ease-in-out dark:border dark:border-t-4 dark:border-stone-700 dark:bg-black dark:text-white
           lg:flex-row lg:space-y-0 lg:pt-3 xl:mx-auto`}
     >
       <button
         onClick={() => setCloseCTA(!closeCTA)}
         className={`${
-          closeCTA ? "rotate-180" : "rotate-0"
+          closeCTA ? 'rotate-180' : 'rotate-0'
         } absolute right-3 top-2 text-black transition-all duration-150 ease-in-out dark:text-white lg:hidden`}
       >
         <svg
@@ -33,15 +33,14 @@ export default function CTA() {
       </button>
       <div className="text-center lg:text-left">
         <p className="font-title text-lg text-black dark:text-white sm:text-2xl">
-          Platforms Starter Kit Demo
+          Website Sieutoc Demo
         </p>
         <p
           className={`${
-            closeCTA ? "hidden lg:block" : ""
+            closeCTA ? 'hidden lg:block' : ''
           } mt-2 text-sm text-stone-700 dark:text-stone-300 lg:mt-0`}
         >
-          This is a demo site showcasing how to build a multi-tenant application
-          with{" "}
+          This is a demo site showcasing how to build a multi-tenant application with{' '}
           <a
             className="font-semibold text-black underline dark:text-white"
             href="https://platformize.co"
@@ -49,13 +48,13 @@ export default function CTA() {
             target="_blank"
           >
             custom domain
-          </a>{" "}
+          </a>{' '}
           support.
         </p>
       </div>
       <div
         className={`${
-          closeCTA ? "hidden lg:flex" : ""
+          closeCTA ? 'hidden lg:flex' : ''
         } flex w-full flex-col space-y-3 text-center sm:flex-row sm:space-x-3 sm:space-y-0 lg:w-auto`}
       >
         <a

@@ -1,21 +1,12 @@
-<a href="https://app.vercel.pub">
-  <img alt="Platforms Starter Kit" src="/public/thumbnail.png">
-  <h1 align="center">Platforms Starter Kit</h1>
+<a href="https://sieutoc.website">
+  <img alt="Sieutoc" src="/public/thumbnail.png">
+  <h1 align="center">Website Sieutoc</h1>
 </a>
 
 <p align="center">
-  The <em>all-in-one</em> starter kit <br/>
-  for building multi-tenant applications.
+Create modern website sieu toc!
 </p>
 
-<p align="center">
-  <a href="#introduction"><strong>Introduction</strong></a> ·
-  <a href="https://app.vercel.pub/"><strong>Demo</strong></a> ·
-  <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
-  <a href="https://vercel.com/guides/nextjs-multi-tenant-application"><strong>Guide</strong></a> ·
-  <a href="https://steven.vercel.pub/kitchen-sink"><strong>Kitchen Sink</strong></a> ·
-  <a href="#contributing"><strong>Contributing</strong></a>
-</p>
 <br/>
 
 ## Introduction

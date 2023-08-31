@@ -2,7 +2,15 @@
 
 import { useParams, useSelectedLayoutSegments } from 'next/navigation';
 import { type ReactNode, useMemo } from 'react';
-import { Box, Button, Flex, NextImage, NextLink, Stack } from '@/components';
+import {
+  Box,
+  Button,
+  Flex,
+  NextImage,
+  NextLink,
+  Stack,
+  useColorModeValue,
+} from '@/components';
 import { ArrowBackIcon, DashboardIcon, GlobeIcon, InsertChartIcon } from '@/icons';
 
 export const Navbar = ({ children }: { children: ReactNode }) => {
@@ -42,12 +50,15 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
     ];
   }, [segments, id]);
 
+  const backgroundColor = useColorModeValue('gray.100', 'gray.900');
+
   return (
     <Flex
       direction="column"
       width="240px"
       height="100vh"
       justify="space-between"
+      background={backgroundColor}
       padding={4}
     >
       <Box>

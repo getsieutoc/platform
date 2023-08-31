@@ -5,6 +5,7 @@ import {
   Card,
   CardBody,
   CardFooter,
+  Divider,
   Flex,
   FormControl,
   FormLabel,
@@ -15,7 +16,7 @@ import {
   Textarea,
 } from '@/components';
 import { updateSiteGeneralSettings } from '@/lib/actions';
-import { useAuth, useState } from '@/hooks';
+import { useAuth, useColorModeValue, useState } from '@/hooks';
 import { Site } from '@/types';
 
 type SiteGeneralSettingsFormProps = {
@@ -50,6 +51,8 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
     }
   };
 
+  const footerBorder = useColorModeValue('gray.200', 'gray.600');
+
   if (!data) {
     return <Skeleton height="40px" />;
   }
@@ -81,7 +84,9 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
         </Stack>
       </CardBody>
 
-      <CardFooter bg="gray.50">
+      <Divider color={footerBorder} />
+
+      <CardFooter>
         <Flex width="100%" direction="row" justify="space-between">
           <Text fontSize="sm">
             The information here mostly used for management, the site real data might be
