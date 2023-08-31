@@ -3,9 +3,7 @@ import Sites from '@/components/sites';
 import PlacholderCard from '@/components/placeholder-card';
 import { Flex, Heading, Wrap, WrapItem, CreateSiteButton } from '@/components';
 
-export default function AllSites({ params }: { params: { id: string } }) {
-  console.log('### params: ', { params });
-
+export default function AllSites() {
   return (
     <Flex width="100%" direction="column" gap={6}>
       <Flex

@@ -2,6 +2,7 @@ import Form from '@/components/form';
 import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { editUser } from '@/lib/actions';
+import { Flex, Heading } from '@/components';
 
 export default async function ProfileSettingsPage() {
   const session = await getSession();
@@ -10,11 +11,14 @@ export default async function ProfileSettingsPage() {
     redirect('/login');
   }
   return (
-    <div className="flex max-w-screen-xl flex-col space-y-12 p-8">
-      <div className="flex flex-col space-y-6">
-        <h1 className="font-cal text-3xl font-bold dark:text-white">
+    <Flex width="100%" direction="column" gap={6}>
+      <Flex height="48px" align="center">
+        <Heading as="h1" size="lg">
           Profile Settings
-        </h1>
+        </Heading>
+      </Flex>
+
+      <div className="flex flex-col space-y-6">
         <Form
           title="Name"
           description="Your name on this app."
@@ -41,6 +45,6 @@ export default async function ProfileSettingsPage() {
           handleSubmit={editUser}
         />
       </div>
-    </div>
+    </Flex>
   );
 }

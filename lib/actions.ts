@@ -201,11 +201,7 @@ export const updateSite = withSiteAuth(async (formData: any, site: Site, key: st
         },
       });
     }
-    console.log(
-      'Updated site data! Revalidating tags: ',
-      `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
-      `${site.customDomain}-metadata`
-    );
+
     revalidateTag(`${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`);
     site.customDomain && revalidateTag(`${site.customDomain}-metadata`);
 

@@ -29,7 +29,9 @@ export default async function SiteAnalyticsLayout({
   return (
     <Flex width="100%" direction="column" gap={6}>
       <Flex height="48px" align="center">
-        <Heading as="h1">{data.name}</Heading>
+        <Heading as="h1" size="lg">
+          {data.name}
+        </Heading>
       </Flex>
 
       <SiteSettingsNav />
