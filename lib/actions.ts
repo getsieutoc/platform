@@ -21,16 +21,17 @@ const nanoid = customAlphabet(
   7
 ); // 7-character random string
 
-export const createSite = async (formData: FormData) => {
+type CreateSiteDto = {
+  name: string;
+  description: string;
+  subdomain: string;
+};
+export const createSite = async ({ name, description, subdomain }: CreateSiteDto) => {
   const session = await getSession();
+
   if (!session?.user.id) {
-    return {
-      error: 'Not authenticated',
-    };
+    throw new Error('Unauthorized');
   }
-  const name = formData.get('name') as string;
-  const description = formData.get('description') as string;
-  const subdomain = formData.get('subdomain') as string;
 
   try {
     const response = await prisma.site.create({
@@ -45,21 +46,15 @@ export const createSite = async (formData: FormData) => {
         },
       },
     });
-    revalidateTag(
-      `${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`
-    );
+
+    revalidateTag(`${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`);
     return response;
   } catch (error: any) {
-    console.log('### error: ', { error });
     if (error.code === 'P2002') {
-      return {
-        error: `This subdomain is already taken`,
-      };
-    } else {
-      return {
-        error: error.message,
-      };
+      throw new Error('This subdomain is already taken', { cause: error });
     }
+
+    throw error;
   }
 };
 
@@ -178,9 +173,7 @@ export const updateSite = withSiteAuth(
         `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
         `${site.customDomain}-metadata`
       );
-      revalidateTag(
-        `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`
-      );
+      revalidateTag(`${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`);
       site.customDomain && revalidateTag(`${site.customDomain}-metadata`);
 
       return response;
@@ -205,9 +198,7 @@ export const deleteSite = withSiteAuth(async (_: FormData, site: Site) => {
         id: site.id,
       },
     });
-    revalidateTag(
-      `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`
-    );
+    revalidateTag(`${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`);
     response.customDomain && revalidateTag(`${site.customDomain}-metadata`);
     return response;
   } catch (error: any) {
@@ -217,11 +208,7 @@ export const deleteSite = withSiteAuth(async (_: FormData, site: Site) => {
   }
 });
 
-export const editUser = async (
-  formData: FormData,
-  _id: unknown,
-  key: string
-) => {
+export const editUser = async (formData: FormData, _id: unknown, key: string) => {
   const session = await getSession();
   if (!session?.user.id) {
     return {

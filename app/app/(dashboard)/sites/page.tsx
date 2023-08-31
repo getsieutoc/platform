@@ -2,7 +2,6 @@ import { Suspense } from 'react';
 import Sites from '@/components/sites';
 import PlacholderCard from '@/components/placeholder-card';
 import CreateSiteButton from '@/components/create-site-button';
-import CreateSiteModal from '@/components/modal/create-site';
 import { Flex, Heading, Wrap, WrapItem } from '@/components';
 
 export default function AllSites({ params }: { params: { id: string } }) {
@@ -21,9 +20,8 @@ export default function AllSites({ params }: { params: { id: string } }) {
         <Heading as="h1" size="lg">
           All Sites
         </Heading>
-        <CreateSiteButton>
-          <CreateSiteModal />
-        </CreateSiteButton>
+
+        <CreateSiteButton />
       </Flex>
       <Suspense
         fallback={

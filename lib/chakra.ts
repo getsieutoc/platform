@@ -6,14 +6,17 @@ export const toastOptions: UseToastOptions = {
   status: 'success',
 };
 
-const colorModeInLocalStorage =
-  typeof window !== 'undefined'
-    ? window.localStorage.getItem('chakra-ui-color-mode')
-    : 'system';
+const getColorMode = () => {
+  if (typeof window !== 'undefined') {
+    return window?.localStorage.getItem('chakra-ui-color-mode') ?? 'system';
+  }
+
+  return 'system';
+};
 
 const config = {
   initialColorMode: 'system',
-  useSystemColorMode: colorModeInLocalStorage === 'system',
+  useSystemColorMode: getColorMode() === 'system',
 };
 
 const colors = {
