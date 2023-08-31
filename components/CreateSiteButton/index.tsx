@@ -18,7 +18,7 @@ import { AddIcon } from '@/icons';
 import { useDisclosure, useEffect, useRef, useRouter, useState, useToast } from '@/hooks';
 import { createSite } from '@/lib/actions';
 
-export default function CreateSiteButton() {
+export const CreateSiteButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
@@ -53,7 +53,7 @@ export default function CreateSiteButton() {
         // va.track('Created Site');
         toast({ title: 'Site created successfully!' });
         router.refresh();
-        router.push(`/site/${response.id}`);
+        router.push(`/sites/${response.id}`);
       }
     } catch (error: any) {
       toast({ title: error.message });
@@ -134,4 +134,4 @@ export default function CreateSiteButton() {
       </Modal>
     </>
   );
-}
+};

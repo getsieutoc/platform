@@ -1,8 +1,7 @@
 import { Suspense } from 'react';
 import Sites from '@/components/sites';
 import PlacholderCard from '@/components/placeholder-card';
-import CreateSiteButton from '@/components/create-site-button';
-import { Flex, Heading, Wrap, WrapItem } from '@/components';
+import { Flex, Heading, Wrap, WrapItem, CreateSiteButton } from '@/components';
 
 export default function AllSites({ params }: { params: { id: string } }) {
   console.log('### params: ', { params });

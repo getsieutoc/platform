@@ -3,9 +3,8 @@
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks';
-import { Spinner } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import va from '@vercel/analytics';
-import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
 import DomainConfiguration from './domain-configuration';
@@ -65,14 +64,9 @@ export default function Form({
     >
       <div className="relative flex flex-col space-y-4 p-5 sm:p-10">
         <h2 className="font-cal text-xl dark:text-white">{title}</h2>
-        <p className="text-sm text-stone-500 dark:text-stone-400">
-          {description}
-        </p>
+        <p className="text-sm text-stone-500 dark:text-stone-400">{description}</p>
         {inputAttrs.name === 'image' || inputAttrs.name === 'logo' ? (
-          <Uploader
-            defaultValue={inputAttrs.defaultValue}
-            name={inputAttrs.name}
-          />
+          <Uploader defaultValue={inputAttrs.defaultValue} name={inputAttrs.name} />
         ) : inputAttrs.name === 'font' ? (
           <div className="flex max-w-sm items-center overflow-hidden rounded-lg border border-stone-600">
             <select
@@ -137,16 +131,13 @@ export default function Form({
 function FormButton() {
   const { pending } = useFormStatus();
   return (
-    <button
-      className={cn(
-        'flex h-8 w-32 items-center justify-center space-x-2 rounded-md border text-sm transition-all focus:outline-none sm:h-10',
-        pending
-          ? 'cursor-not-allowed border-stone-200 bg-stone-100 text-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300'
-          : 'border-black bg-black text-white hover:bg-white hover:text-black dark:border-stone-700 dark:hover:border-stone-200 dark:hover:bg-black dark:hover:text-white dark:active:bg-stone-800'
-      )}
-      disabled={pending}
+    <Button
+      colorScheme="green"
+      isDisabled={pending}
+      isLoading={pending}
+      loadingText="Creating..."
     >
-      {pending ? <Spinner /> : <p>Save Changes</p>}
-    </button>
+      Save
+    </Button>
   );
 }

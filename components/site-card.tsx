@@ -6,7 +6,7 @@ export default function SiteCard({ data }: { data: Site }) {
   return (
     <Card
       as={NextLink}
-      href={`/site/${data.id}`}
+      href={`/sites/${data.id}`}
       maxW="md"
       minW="sm"
       _hover={{
