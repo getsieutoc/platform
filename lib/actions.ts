@@ -21,11 +21,12 @@ const nanoid = customAlphabet(
   7
 ); // 7-character random string
 
-type CreateSiteDto = {
+export type CreateSiteDto = {
   name: string;
   description: string;
   subdomain: string;
 };
+
 export const createSite = async ({ name, description, subdomain }: CreateSiteDto) => {
   const session = await getSession();
 
@@ -58,48 +59,80 @@ export const createSite = async ({ name, description, subdomain }: CreateSiteDto
   }
 };
 
-export const updateSite = withSiteAuth(
-  async (formData: FormData, site: Site, key: string) => {
-    const value = formData.get(key) as string;
+export type SiteGeneralSettingsDto = {
+  name: string;
+  description: string;
+};
 
-    try {
-      let response;
+export const updateSiteGeneralSettings = async (
+  siteId: string,
+  { name, description }: SiteGeneralSettingsDto
+) => {
+  const session = await getSession();
 
-      if (key === 'customDomain') {
-        if (value.includes('vercel.pub')) {
-          return {
-            error: 'Cannot use vercel.pub subdomain as your custom domain',
-          };
+  if (!session) {
+    throw new Error('Unauthorized');
+  }
 
-          // if the custom domain is valid, we need to add it to Vercel
-        } else if (validDomainRegex.test(value)) {
-          response = await prisma.site.update({
-            where: {
-              id: site.id,
-            },
-            data: {
-              customDomain: value,
-            },
-          });
-          await addDomainToVercel(value);
+  const site = await prisma.site.findUnique({
+    where: {
+      id: siteId,
+    },
+  });
 
-          // empty value means the user wants to remove the custom domain
-        } else if (value === '') {
-          response = await prisma.site.update({
-            where: {
-              id: site.id,
-            },
-            data: {
-              customDomain: null,
-            },
-          });
-        }
+  if (!site || site.userId !== session.user.id) {
+    throw new Error('You do not have permission to update this site');
+  }
 
-        // if the site had a different customDomain before, we need to remove it from Vercel
-        if (site.customDomain && site.customDomain !== value) {
-          response = await removeDomainFromVercelProject(site.customDomain);
+  const response = await prisma.site.update({
+    data: { name, description },
+    where: { id: siteId },
+  });
 
-          /* Optional: remove domain from Vercel team 
+  return response;
+};
+
+export const updateSite = withSiteAuth(async (formData: any, site: Site, key: string) => {
+  const value = formData.get(key) as string;
+
+  try {
+    let response;
+
+    if (key === 'customDomain') {
+      if (value.includes('vercel.pub')) {
+        return {
+          error: 'Cannot use vercel.pub subdomain as your custom domain',
+        };
+
+        // if the custom domain is valid, we need to add it to Vercel
+      } else if (validDomainRegex.test(value)) {
+        response = await prisma.site.update({
+          where: {
+            id: site.id,
+          },
+          data: {
+            customDomain: value,
+          },
+        });
+        await addDomainToVercel(value);
+
+        // empty value means the user wants to remove the custom domain
+      } else if (value === '') {
+        response = await prisma.site.update({
+          where: {
+            id: site.id,
+          },
+          data: {
+            customDomain: null,
+          },
+        });
+      }
+
+      // if the site had a different customDomain before, we need to remove it from Vercel
+      if (site.customDomain && site.customDomain !== value) {
+        response = await removeDomainFromVercelProject(site.customDomain);
+
+        /* Optional: remove domain from Vercel team 
 
           // first, we need to check if the apex domain is being used by other sites
           const apexDomain = getApexDomain(`https://${site.customDomain}`);
@@ -131,65 +164,64 @@ export const updateSite = withSiteAuth(
           }
           
           */
-        }
-      } else if (key === 'image' || key === 'logo') {
-        if (!process.env.BLOB_READ_WRITE_TOKEN) {
-          return {
-            error:
-              'Missing BLOB_READ_WRITE_TOKEN token. Note: Vercel Blob is currently in beta – please fill out this form for access: https://tally.so/r/nPDMNd',
-          };
-        }
-
-        const file = formData.get(key) as File;
-        const filename = `${nanoid()}.${file.type.split('/')[1]}`;
-
-        const { url } = await put(filename, file, {
-          access: 'public',
-        });
-
-        const blurhash = key === 'image' ? await getBlurDataURL(url) : null;
-
-        response = await prisma.site.update({
-          where: {
-            id: site.id,
-          },
-          data: {
-            [key]: url,
-            ...(blurhash && { imageBlurhash: blurhash }),
-          },
-        });
-      } else {
-        response = await prisma.site.update({
-          where: {
-            id: site.id,
-          },
-          data: {
-            [key]: value,
-          },
-        });
       }
-      console.log(
-        'Updated site data! Revalidating tags: ',
-        `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
-        `${site.customDomain}-metadata`
-      );
-      revalidateTag(`${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`);
-      site.customDomain && revalidateTag(`${site.customDomain}-metadata`);
-
-      return response;
-    } catch (error: any) {
-      if (error.code === 'P2002') {
+    } else if (key === 'image' || key === 'logo') {
+      if (!process.env.BLOB_READ_WRITE_TOKEN) {
         return {
-          error: `This ${key} is already taken`,
-        };
-      } else {
-        return {
-          error: error.message,
+          error:
+            'Missing BLOB_READ_WRITE_TOKEN token. Note: Vercel Blob is currently in beta – please fill out this form for access: https://tally.so/r/nPDMNd',
         };
       }
+
+      const file = formData.get(key) as File;
+      const filename = `${nanoid()}.${file.type.split('/')[1]}`;
+
+      const { url } = await put(filename, file, {
+        access: 'public',
+      });
+
+      const blurhash = key === 'image' ? await getBlurDataURL(url) : null;
+
+      response = await prisma.site.update({
+        where: {
+          id: site.id,
+        },
+        data: {
+          [key]: url,
+          ...(blurhash && { imageBlurhash: blurhash }),
+        },
+      });
+    } else {
+      response = await prisma.site.update({
+        where: {
+          id: site.id,
+        },
+        data: {
+          [key]: value,
+        },
+      });
+    }
+    console.log(
+      'Updated site data! Revalidating tags: ',
+      `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
+      `${site.customDomain}-metadata`
+    );
+    revalidateTag(`${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`);
+    site.customDomain && revalidateTag(`${site.customDomain}-metadata`);
+
+    return response;
+  } catch (error: any) {
+    if (error.code === 'P2002') {
+      return {
+        error: `This ${key} is already taken`,
+      };
+    } else {
+      return {
+        error: error.message,
+      };
     }
   }
-);
+});
 
 export const deleteSite = withSiteAuth(async (_: FormData, site: Site) => {
   try {

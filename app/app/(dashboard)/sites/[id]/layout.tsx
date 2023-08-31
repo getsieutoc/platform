@@ -3,6 +3,7 @@ import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { notFound, redirect } from 'next/navigation';
 import SiteSettingsNav from './nav';
+import { Flex, Heading } from '@/components';
 
 export default async function SiteAnalyticsLayout({
   params,
@@ -25,31 +26,15 @@ export default async function SiteAnalyticsLayout({
     notFound();
   }
 
-  const url = `${data.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
-
   return (
-    <div className="flex max-w-screen-xl flex-col space-y-12 p-8">
-      <div className="flex flex-col space-y-6">
-        <div className="flex flex-col items-center space-x-4 space-y-2 sm:flex-row sm:space-y-0">
-          <h1 className="font-cal text-xl font-bold dark:text-white sm:text-3xl">
-            {data.name}
-          </h1>
-          <a
-            href={
-              process.env.NEXT_PUBLIC_VERCEL_ENV
-                ? `https://${url}`
-                : `http://${data.subdomain}.localhost:3000`
-            }
-            target="_blank"
-            rel="noreferrer"
-            className="truncate rounded-md bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
-          >
-            {url} ↗
-          </a>
-        </div>
-        <SiteSettingsNav />
-        {children}
-      </div>
-    </div>
+    <Flex width="100%" direction="column" gap={6}>
+      <Flex height="48px" align="center">
+        <Heading as="h1">{data.name}</Heading>
+      </Flex>
+
+      <SiteSettingsNav />
+
+      {children}
+    </Flex>
   );
 }
