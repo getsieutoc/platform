@@ -1,7 +1,7 @@
 import Form from '@/components/form';
 import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
-import { editUser } from '@/lib/actions';
+import { editUser } from '@/lib/actions/site';
 import { Flex, Heading } from '@/components';
 
 export default async function ProfileSettingsPage() {

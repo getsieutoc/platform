@@ -15,7 +15,7 @@ import {
   Text,
   Textarea,
 } from '@/components';
-import { updateSiteGeneralSettings } from '@/lib/actions';
+import { updateSiteGeneralSettings } from '@/lib/actions/site';
 import { useAuth, useColorModeValue, useState } from '@/hooks';
 import { Site } from '@/types';
 

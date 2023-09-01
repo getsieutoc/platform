@@ -1,20 +1,20 @@
 'use server';
 
-import { prisma } from '@/lib/prisma';
-import type { Site } from '@prisma/client';
-import { revalidateTag } from 'next/cache';
-import { withSiteAuth } from './auth';
-import { getSession } from '@/lib/auth';
 import {
   addDomainToVercel,
-  // getApexDomain,
   removeDomainFromVercelProject,
-  // removeDomainFromVercelTeam,
   validDomainRegex,
 } from '@/lib/domains';
-import { put } from '@vercel/blob';
+import { revalidateTag } from 'next/cache';
 import { customAlphabet } from 'nanoid';
+import { put } from '@vercel/blob';
+
 import { getBlurDataURL } from '@/lib/utils';
+import { getSession } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+import type { Site } from '@/types';
+
+import { withSiteAuth } from '../auth';
 
 const nanoid = customAlphabet(
   '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',

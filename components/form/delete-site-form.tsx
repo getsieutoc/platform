@@ -3,7 +3,7 @@
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 import { useParams, useRouter } from 'next/navigation';
 import { Spinner } from '@chakra-ui/react';
-import { deleteSite } from '@/lib/actions';
+import { deleteSite } from '@/lib/actions/site';
 import va from '@vercel/analytics';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -16,7 +16,7 @@ export default function DeleteSiteForm({ siteName }: { siteName: string }) {
       action={async (data: FormData) =>
         window.confirm('Are you sure you want to delete your site?') &&
         deleteSite(data, id, 'delete')
-          .then(async (res) => {
+          .then(async (res: any) => {
             if (res.error) {
               toast.error(res.error);
             } else {
@@ -33,8 +33,8 @@ export default function DeleteSiteForm({ siteName }: { siteName: string }) {
       <div className="relative flex flex-col space-y-4 p-5 sm:p-10">
         <h2 className="font-cal text-xl dark:text-white">Delete Site</h2>
         <p className="text-sm text-stone-500 dark:text-stone-400">
-          Deletes your site and all posts associated with it. Type in the name
-          of your site <b>{siteName}</b> to confirm.
+          Deletes your site and all posts associated with it. Type in the name of your
+          site <b>{siteName}</b> to confirm.
         </p>
 
         <input

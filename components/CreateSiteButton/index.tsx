@@ -16,7 +16,8 @@ import {
 } from '@/components';
 import { AddIcon } from '@/icons';
 import { useDisclosure, useEffect, useRef, useRouter, useState, useToast } from '@/hooks';
-import { createSite } from '@/lib/actions';
+import { createRepo } from '@/lib/actions/repo';
+import { createSite } from '@/lib/actions/site';
 
 export const CreateSiteButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -50,15 +51,17 @@ export const CreateSiteButton = () => {
       const response = await createSite(data);
 
       if (response) {
+        const newRepo = await createRepo(response);
+        console.log('### newRepo: ', { newRepo });
         // va.track('Created Site');
         toast({ title: 'Site created successfully!' });
+        onClose();
+
         router.refresh();
         router.push(`/sites/${response.id}`);
       }
     } catch (error: any) {
       toast({ title: error.message });
-    } finally {
-      onClose();
     }
   };
 
