@@ -1,6 +1,6 @@
-import { SiteGeneralSettingsForm } from '@/components/client';
+import { SiteDeleteForm, SiteGeneralSettingsForm } from '@/components/client';
 import { checkRepoExisting } from '@/lib/actions/repo';
-import { Flex, Spinner } from '@/components';
+import { Flex, Spinner, Stack } from '@/components';
 import { prisma } from '@/lib/prisma';
 import { Suspense } from 'react';
 
@@ -12,19 +12,20 @@ type SiteSettingsProps = {
 
 export default async function SiteSettingsIndex({ params }: SiteSettingsProps) {
   const existingRepo = await checkRepoExisting(params.id);
-  console.log('### existingRepo: ', { existingRepo });
 
   const site = await prisma.site.findUnique({
     where: { id: params.id },
   });
 
   return (
-    <Flex width="100%">
+    <Stack width="100%" spacing={6}>
       <Suspense fallback={<Spinner />}>
-        {existingRepo ? <div>{existingRepo.data.git_url}</div> : <p>no repo</p>}
+        {existingRepo && <div>{existingRepo.data.git_url}</div>}
       </Suspense>
 
       <SiteGeneralSettingsForm site={site} />
-    </Flex>
+
+      <SiteDeleteForm site={site} />
+    </Stack>
   );
 }

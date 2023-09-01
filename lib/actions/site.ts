@@ -219,8 +219,15 @@ export const updateSite = withSiteAuth(async (formData: any, site: Site, key: st
   }
 });
 
-export const deleteSite = withSiteAuth(async (_: FormData, site: Site) => {
+export const deleteSite = async (site: Site) => {
   try {
+    const session = await getSession();
+    if (!session?.user.id) {
+      return {
+        error: 'Not authenticated',
+      };
+    }
+
     const response = await prisma.site.delete({
       where: {
         id: site.id,
@@ -234,7 +241,7 @@ export const deleteSite = withSiteAuth(async (_: FormData, site: Site) => {
       error: error.message,
     };
   }
-});
+};
 
 export const editUser = async (formData: FormData, _id: unknown, key: string) => {
   const session = await getSession();

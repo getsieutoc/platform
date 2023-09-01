@@ -9,6 +9,7 @@ export default function SiteCard({ data }: { data: Site }) {
       href={`/sites/${data.id}`}
       maxW="md"
       minW="sm"
+      minH="173px" // I know it's magic number, but it works for now
       _hover={{
         boxShadow: 'xl',
       }}

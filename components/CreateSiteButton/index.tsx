@@ -51,10 +51,12 @@ export const CreateSiteButton = () => {
       const response = await createSite(data);
 
       if (response) {
-        const newRepo = await createRepo(response);
-        console.log('### newRepo: ', { newRepo });
-        // va.track('Created Site');
         toast({ title: 'Site created successfully!' });
+
+        await createRepo(response);
+
+        toast({ title: 'Also, code repo is cloned successfully!' });
+        // va.track('Created Site');
         onClose();
 
         router.refresh();

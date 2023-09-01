@@ -36,17 +36,18 @@ export type CreateRepoDto = Pick<Site, 'id' | 'description'> & {
 } & RequestParameters;
 
 export const createRepo = async (data: CreateRepoDto) => {
-  const response = await octokit.request('POST /orgs/sieutoc-customers/repos', {
-    name: data.id,
-    description: data.description ?? '',
-    homepage: `https://sieutoc.website/sites/${data.id}`,
-    private: data.private ?? true,
-    org: 'ORG',
-    has_issues: true,
-    has_projects: false,
-    has_wiki: false,
-    ...defaultOptions,
-  });
+  const response = await octokit.request(
+    'POST /repos/websitesieutoc/{template_repo}/generate',
+    {
+      template_repo: 'nextjs-template',
+      owner: 'sieutoc-customers',
+      name: data.id,
+      description: data.description ?? '',
+      private: data.private ?? true,
+      include_all_branches: false,
+      ...defaultOptions,
+    }
+  );
 
   return response;
 };

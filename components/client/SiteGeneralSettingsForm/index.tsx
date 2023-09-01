@@ -5,10 +5,12 @@ import {
   Card,
   CardBody,
   CardFooter,
+  CardHeader,
   Divider,
   Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Skeleton,
   Stack,
@@ -59,6 +61,9 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
 
   return (
     <Card direction="column" width="100%">
+      <CardHeader>
+        <Heading size="md">General Settings</Heading>
+      </CardHeader>
       <CardBody>
         <Stack spacing={6} maxW="480px" minW="240px">
           <FormControl>
@@ -87,14 +92,14 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
       <Divider color={footerBorder} />
 
       <CardFooter>
-        <Flex width="100%" direction="row" justify="space-between">
+        <Flex width="100%" direction="row" justify="space-between" align="center">
           <Text fontSize="sm">
             The information here mostly used for management, the site real data might be
             different.
           </Text>
 
           <Button
-            colorScheme="pink"
+            colorScheme="green"
             isDisabled={isLoading}
             isLoading={isLoading}
             onClick={handleSave}
