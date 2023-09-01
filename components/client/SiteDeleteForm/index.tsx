@@ -24,17 +24,24 @@ import {
   Text,
 } from '@/components';
 import { deleteSite } from '@/lib/actions/site';
-import { useColorModeValue, useDisclosure, useRef, useRouter, useState } from '@/hooks';
+import {
+  useColorModeValue,
+  useDisclosure,
+  useRef,
+  useRouter,
+  useState,
+  useToast,
+} from '@/hooks';
 import type { Site } from '@/types';
+import { deleteRepo } from '@/lib/actions/repo';
 
 type SiteGeneralSettingsFormProps = {
   site: Site | null;
 };
 export const SiteDeleteForm = ({ site }: SiteGeneralSettingsFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
-
   const router = useRouter();
-
+  const toast = useToast();
   const cancelRef = useRef(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -49,18 +56,27 @@ export const SiteDeleteForm = ({ site }: SiteGeneralSettingsFormProps) => {
 
       setIsLoading(true);
 
+      const del = await deleteRepo(siteId);
+
+      console.log('### del: ', { del });
+
       const res = await deleteSite(site);
+
+      setIsLoading(false);
+
+      onClose();
+
+      toast({ title: 'Deleted site' });
 
       if (res) {
         router.push('/sites');
       }
-    } catch (error) {
-    } finally {
-      setIsLoading(false);
+    } catch (error: any) {
+      toast({ title: `Error: ${error.message}` });
     }
   };
 
-  const backgroundColor = useColorModeValue('red.50', 'red.800');
+  const backgroundColor = useColorModeValue('red.50', 'red.900');
   const footerBorder = useColorModeValue('red.100', 'red.600');
 
   if (!siteId) {
@@ -77,8 +93,8 @@ export const SiteDeleteForm = ({ site }: SiteGeneralSettingsFormProps) => {
         <CardBody>
           <Stack spacing={6} maxW="480px" minW="240px">
             <Text>
-              The project will be permanently deleted, including its deployments and
-              domains. This action is irreversible and can not be undone.
+              The project will be permanently deleted, including its deployments, GitHub
+              repo and domains. This action is irreversible and can not be undone.
             </Text>
           </Stack>
         </CardBody>
@@ -127,11 +143,12 @@ export const SiteDeleteForm = ({ site }: SiteGeneralSettingsFormProps) => {
             </FormControl>
           </AlertDialogBody>
           <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose}>
+            <Button ref={cancelRef} isDisabled={isLoading} onClick={onClose}>
               Cancel
             </Button>
             <Button
-              isDisabled={confirmName !== site?.name}
+              isLoading={isLoading}
+              isDisabled={confirmName !== site?.name || isLoading}
               colorScheme="red"
               ml={3}
               onClick={handleDelete}

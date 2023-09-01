@@ -1,8 +1,8 @@
 import { extendTheme, UseToastOptions } from '@chakra-ui/react';
 
 export const toastOptions: UseToastOptions = {
-  position: 'top-right',
-  duration: 1000,
+  position: 'top',
+  duration: 3000,
   status: 'success',
 };
 
