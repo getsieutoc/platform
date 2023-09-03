@@ -1,7 +1,6 @@
 'use client';
 
-import { Button, Stack } from '@/components';
-import Link from 'next/link';
+import { Button, Stack, NextLink } from '@/components';
 import { useParams, useSelectedLayoutSegment } from 'next/navigation';
 
 export default function SiteSettingsNav() {
@@ -37,7 +36,12 @@ export default function SiteSettingsNav() {
   return (
     <Stack direction="row">
       {navItems.map((item) => (
-        <Button as={Link} key={item.name} href={item.href} variant={checkVariant(item)}>
+        <Button
+          as={NextLink}
+          key={item.name}
+          href={item.href}
+          variant={checkVariant(item)}
+        >
           {item.name}
         </Button>
       ))}

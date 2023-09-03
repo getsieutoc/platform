@@ -18,7 +18,7 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
   const { id } = useParams() as { id?: string };
 
   const tabs = useMemo(() => {
-    if (segments[0] === 'site' && id) {
+    if (segments[0] === 'sites' && id) {
       return [
         {
           name: 'Back to All Sites',
@@ -27,7 +27,7 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
         },
         {
           name: 'Analytics',
-          href: `/site/${id}/analytics`,
+          href: `/sites/${id}/analytics`,
           isActive: segments.includes('analytics'),
           icon: <InsertChartIcon width={18} />,
         },
@@ -67,15 +67,16 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
         </NextLink>
 
         <Stack marginTop={6} spacing={1}>
-          {tabs.map(({ name, href, icon }) => (
+          {tabs.map(({ name, href, icon, isActive }) => (
             <Button
               key={name}
               as={NextLink}
-              variant="ghost"
               justifyContent="start"
               width="100%"
               href={href}
               leftIcon={icon}
+              colorScheme={isActive ? 'green' : 'blackAlpha'}
+              variant={isActive ? 'outline' : 'ghost'}
             >
               {name}
             </Button>
