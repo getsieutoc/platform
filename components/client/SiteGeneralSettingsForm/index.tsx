@@ -66,7 +66,7 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
       </CardHeader>
       <CardBody>
         <Stack spacing={6} maxW="480px" minW="240px">
-          <FormControl>
+          <FormControl isDisabled={isLoading}>
             <FormLabel>Name</FormLabel>
             <Input
               placeholder="Site name"
@@ -75,7 +75,7 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
             />
           </FormControl>
 
-          <FormControl>
+          <FormControl isDisabled={isLoading}>
             <FormLabel>Description</FormLabel>
             <Textarea
               placeholder="Site description"

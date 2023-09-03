@@ -2,7 +2,7 @@ import { extendTheme, UseToastOptions } from '@chakra-ui/react';
 
 export const toastOptions: UseToastOptions = {
   position: 'top',
-  duration: 3000,
+  duration: 2000,
   status: 'success',
 };
 

@@ -98,7 +98,7 @@ export const CreateSiteButton = () => {
 
           <ModalBody pb={6}>
             <Stack spacing={3}>
-              <FormControl>
+              <FormControl isDisabled={isLoading}>
                 <FormLabel>Name</FormLabel>
                 <Input
                   ref={initialRef}
@@ -110,7 +110,7 @@ export const CreateSiteButton = () => {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl isDisabled={isLoading}>
                 <FormLabel>Description</FormLabel>
                 <Input
                   placeholder="Site description"
@@ -121,7 +121,7 @@ export const CreateSiteButton = () => {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl isDisabled={isLoading}>
                 <FormLabel>Subdomain</FormLabel>
                 <Input
                   placeholder="Subdomain"
