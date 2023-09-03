@@ -5,6 +5,7 @@ import deepmerge from 'deepmerge';
 
 import { TEAM_ID, VERCEL_TOKEN, VERCEL_API_URL } from '../constants';
 import { fetcher } from '../utils';
+import { checkRepoExisting } from './github';
 
 const defaultOptions = {
   framework: 'nextjs',
@@ -40,27 +41,26 @@ export const createProject = async ({
   });
 
   const response = await fetcher<Project>(
-    `${VERCEL_API_URL}/projects?teamId=${TEAM_ID}`,
+    `${VERCEL_API_URL}/v9/projects?teamId=${TEAM_ID}`,
     {
       method: HttpMethod.POST,
-      headers: {
-        Authorization: `Bearer ${VERCEL_TOKEN}`,
-      },
+      headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
       body: JSON.stringify(data),
     }
   );
 
   // Update the subdomain, we can not do it with project creation
   if (response && response.id) {
-    await fetcher(`${VERCEL_API_URL}/projects/${response.id}/domains?teamId=${TEAM_ID}`, {
-      method: HttpMethod.POST,
-      headers: {
-        Authorization: `Bearer ${VERCEL_TOKEN}`,
-      },
-      body: JSON.stringify({
-        name: `${subdomain}.sieutoc.website`,
-      }),
-    });
+    await fetcher(
+      `${VERCEL_API_URL}/v10/projects/${response.id}/domains?teamId=${TEAM_ID}`,
+      {
+        method: HttpMethod.POST,
+        headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
+        body: JSON.stringify({
+          name: `${subdomain}.sieutoc.website`,
+        }),
+      }
+    );
   }
 
   return response;
@@ -68,12 +68,10 @@ export const createProject = async ({
 
 export const findProject = async (idOrName: string) => {
   const response: any = await fetcher(
-    `${VERCEL_API_URL}/projects/${idOrName}?teamId=${TEAM_ID}`,
+    `${VERCEL_API_URL}/v9/projects/${idOrName}?teamId=${TEAM_ID}`,
     {
       method: HttpMethod.GET,
-      headers: {
-        Authorization: `Bearer ${VERCEL_TOKEN}`,
-      },
+      headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
     }
   );
 
@@ -92,14 +90,44 @@ export const deleteProject = async (idOrName: string) => {
   }
 
   const response = await fetcher(
-    `${VERCEL_API_URL}/projects/${found.id}?teamId=${TEAM_ID}`,
+    `${VERCEL_API_URL}/v9/projects/${found.id}?teamId=${TEAM_ID}`,
     {
       method: HttpMethod.DELETE,
-      headers: {
-        Authorization: `Bearer ${VERCEL_TOKEN}`,
-      },
+      headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
     }
   );
 
   return response;
+};
+
+export type DeployDto = {
+  id: string; // Site UUID (used as name)
+};
+export const createDeployment = async ({ id }: DeployDto) => {
+  const existingRepo = await checkRepoExisting(id);
+
+  if (!existingRepo) {
+    return;
+  }
+
+  const deployResponse = await fetcher(
+    `${VERCEL_API_URL}/v13/deployments/?teamId=${TEAM_ID}`,
+    {
+      method: HttpMethod.POST,
+      headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
+      body: JSON.stringify({
+        name: id,
+        gitSource: {
+          repoId: existingRepo.data.id,
+          type: 'github',
+          ref: 'master',
+        },
+        projectSettings: {
+          framework: 'nextjs',
+        },
+      }),
+    }
+  );
+
+  return deployResponse;
 };

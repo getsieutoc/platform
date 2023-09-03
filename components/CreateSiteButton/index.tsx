@@ -16,7 +16,7 @@ import {
 } from '@/components';
 import { AddIcon } from '@/icons';
 import { useDisclosure, useEffect, useRef, useRouter, useState, useToast } from '@/hooks';
-import { createProject } from '@/lib/actions/vercel';
+import { createDeployment, createProject } from '@/lib/actions/vercel';
 import { createRepo } from '@/lib/actions/github';
 import { createSite } from '@/lib/actions/site';
 
@@ -56,22 +56,24 @@ export const CreateSiteButton = () => {
     try {
       setIsLoading(true);
 
-      const response = await createSite(data);
+      const newSite = await createSite(data);
 
-      if (response) {
+      if (newSite) {
         toast({ title: 'Creating your site...' });
 
-        await createRepo(response);
+        await createRepo(newSite);
         toast({ title: 'GitHub repo is cloned successfully, and...' });
 
-        await createProject(response);
+        await createProject(newSite);
         toast({ title: 'Done!' });
+
+        await createDeployment({ id: newSite.id });
 
         // va.track('Created Site');
         onClose();
 
         router.refresh();
-        router.push(`/sites/${response.id}`);
+        router.push(`/sites/${newSite.id}`);
       }
     } catch (error: any) {
       toast({ status: 'error', title: error.message });

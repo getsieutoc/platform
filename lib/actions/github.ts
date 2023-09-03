@@ -11,9 +11,9 @@ const defaultOptions: Partial<RequestParameters> = {
   },
 };
 
-export const checkRepoExisting = async (id: string) => {
+export const checkRepoExisting = async (idAsName: string) => {
   try {
-    const response = await octokit.request(`GET /repos/sieutoc-customers/${id}`, {
+    const response = await octokit.request(`GET /repos/sieutoc-customers/${idAsName}`, {
       owner: 'OWNER',
       repo: 'REPO',
       ...defaultOptions,
@@ -30,7 +30,7 @@ export const checkRepoExisting = async (id: string) => {
 
 // type RequestParameters = Parameters<typeof octokit.request>[1];
 
-export type CreateRepoDto = Pick<Site, 'id' | 'description'> & {
+export type CreateRepoDto = Pick<Site, 'id' | 'subdomain'> & {
   homepage?: string;
   private?: boolean;
 } & RequestParameters;
@@ -42,7 +42,7 @@ export const createRepo = async (data: CreateRepoDto) => {
       template_repo: 'nextjs-template',
       owner: 'sieutoc-customers',
       name: data.id,
-      description: data.description ?? '',
+      description: data.subdomain ?? '',
       private: data.private ?? true,
       include_all_branches: false,
       ...defaultOptions,
@@ -52,13 +52,16 @@ export const createRepo = async (data: CreateRepoDto) => {
   return response;
 };
 
-export const deleteRepo = async (id: string) => {
+export const deleteRepo = async (idAsName: string) => {
   try {
-    const response = await octokit.request(`DELETE /repos/sieutoc-customers/${id}`, {
-      owner: 'OWNER',
-      repo: 'REPO',
-      ...defaultOptions,
-    });
+    const response = await octokit.request(
+      `DELETE /repos/sieutoc-customers/${idAsName}`,
+      {
+        owner: 'OWNER',
+        repo: 'REPO',
+        ...defaultOptions,
+      }
+    );
 
     return response;
   } catch (error: any) {
