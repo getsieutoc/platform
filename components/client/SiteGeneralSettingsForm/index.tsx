@@ -17,7 +17,7 @@ import {
   Text,
   Textarea,
 } from '@/components';
-import { updateSiteGeneralSettings } from '@/lib/actions/site';
+import { updateSiteSimple } from '@/lib/actions/site';
 import { useAuth, useColorModeValue, useState } from '@/hooks';
 import { Site } from '@/types';
 
@@ -42,7 +42,7 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
 
       setIsLoading(true);
 
-      const res = await updateSiteGeneralSettings(siteId, data);
+      const res = await updateSiteSimple(siteId, data);
 
       if (res) {
         update();

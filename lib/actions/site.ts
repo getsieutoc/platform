@@ -66,14 +66,11 @@ export const createSite = async ({ name, description, subdomain }: CreateSiteDto
   }
 };
 
-export type SiteGeneralSettingsDto = {
-  name: string;
-  description: string;
-};
+export type UpdateSiteDto = Partial<Site>;
 
-export const updateSiteGeneralSettings = async (
+export const updateSiteSimple = async (
   siteId: string,
-  { name, description }: SiteGeneralSettingsDto
+  { name, description, subdomain }: UpdateSiteDto
 ) => {
   const session = await getSession();
 
@@ -92,9 +89,13 @@ export const updateSiteGeneralSettings = async (
   }
 
   const response = await prisma.site.update({
-    data: { name, description },
     where: { id: siteId },
+    data: { name, description, subdomain },
   });
+
+  if (subdomain) {
+    revalidateTag(`${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`);
+  }
 
   return response;
 };

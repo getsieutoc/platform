@@ -14,6 +14,33 @@ const defaultOptions = {
   },
 };
 
+export const removeDomainFromVercel = async (projectId: string, domain: string) => {
+  const response = await fetcher(
+    `${VERCEL_API_URL}/v10/projects/${projectId}/domains/${domain}?teamId=${TEAM_ID}`,
+    {
+      method: HttpMethod.DELETE,
+      headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
+    }
+  );
+
+  return response;
+};
+
+export const addDomainToVercel = async (projectId: string, domain: string) => {
+  const response = await fetcher(
+    `${VERCEL_API_URL}/v10/projects/${projectId}/domains?teamId=${TEAM_ID}`,
+    {
+      method: HttpMethod.POST,
+      headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
+      body: JSON.stringify({
+        name: domain,
+      }),
+    }
+  );
+
+  return response;
+};
+
 export type CreateProjectDto = Site;
 
 export const createProject = async ({
@@ -51,16 +78,7 @@ export const createProject = async ({
 
   // Update the subdomain, we can not do it with project creation
   if (response && response.id) {
-    await fetcher(
-      `${VERCEL_API_URL}/v10/projects/${response.id}/domains?teamId=${TEAM_ID}`,
-      {
-        method: HttpMethod.POST,
-        headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
-        body: JSON.stringify({
-          name: `${subdomain}.sieutoc.website`,
-        }),
-      }
-    );
+    await addDomainToVercel(response.id, `${subdomain}.sieutoc.website`);
   }
 
   return response;
