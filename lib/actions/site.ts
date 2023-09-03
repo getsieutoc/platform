@@ -8,6 +8,7 @@ import {
 import { revalidateTag } from 'next/cache';
 import { customAlphabet } from 'nanoid';
 import { put } from '@vercel/blob';
+import crypto from 'crypto';
 
 import { getBlurDataURL } from '@/lib/utils';
 import { getSession } from '@/lib/auth';
@@ -35,11 +36,17 @@ export const createSite = async ({ name, description, subdomain }: CreateSiteDto
   }
 
   try {
+    const environmentVariables = {
+      NEXTAUTH_SECRET: crypto.randomBytes(32).toString('hex'),
+      ARGON_SECRET: crypto.randomBytes(32).toString('hex'),
+    };
+
     const response = await prisma.site.create({
       data: {
         name,
         description,
         subdomain,
+        environmentVariables,
         user: {
           connect: {
             id: session.user.id,

@@ -16,8 +16,15 @@ import {
 } from '@/components';
 import { AddIcon } from '@/icons';
 import { useDisclosure, useEffect, useRef, useRouter, useState, useToast } from '@/hooks';
-import { createRepo } from '@/lib/actions/repo';
+import { createRepo } from '@/lib/actions/github';
 import { createSite } from '@/lib/actions/site';
+import { createProject } from '@/lib/actions/vercel';
+
+const initialValues = {
+  name: '',
+  subdomain: '',
+  description: '',
+};
 
 export const CreateSiteButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,11 +35,7 @@ export const CreateSiteButton = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [data, setData] = useState({
-    name: '',
-    subdomain: '',
-    description: '',
-  });
+  const [data, setData] = useState(initialValues);
 
   useEffect(() => {
     setData((prev) => ({
@@ -43,6 +46,11 @@ export const CreateSiteButton = () => {
         .replace(/[\W_]+/g, '-'),
     }));
   }, [data.name]);
+
+  const handleCancel = () => {
+    onClose();
+    setData(initialValues);
+  };
 
   const handleSubmit = async () => {
     try {
@@ -56,6 +64,10 @@ export const CreateSiteButton = () => {
         await createRepo(response);
 
         toast({ title: 'Also, code repo is cloned successfully!' });
+
+        const project = await createProject(response);
+
+        toast({ title: 'Created Vercel project too!' });
         // va.track('Created Site');
         onClose();
 
@@ -123,17 +135,19 @@ export const CreateSiteButton = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              mr={3}
-              colorScheme="green"
-              isDisabled={isLoading}
-              isLoading={isLoading}
-              loadingText="Creating..."
-              onClick={handleSubmit}
-            >
-              Create Site
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Stack direction="row" spacing={3}>
+              <Button onClick={handleCancel}>Cancel</Button>
+
+              <Button
+                colorScheme="green"
+                isDisabled={isLoading}
+                isLoading={isLoading}
+                loadingText="Creating..."
+                onClick={handleSubmit}
+              >
+                Create Site
+              </Button>
+            </Stack>
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -1,5 +1,5 @@
 import { SiteDeleteForm, SiteGeneralSettingsForm } from '@/components/client';
-import { checkRepoExisting } from '@/lib/actions/repo';
+import { checkRepoExisting } from '@/lib/actions/github';
 import { Spinner, Stack } from '@/components';
 import { prisma } from '@/lib/prisma';
 import { Suspense } from 'react';

@@ -1,16 +1,25 @@
-import { format, formatISO, formatRelative as formatRelativeFn } from 'date-fns';
+import { format, formatRelative as formatRelativeFn } from 'date-fns';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import deepmerge from 'deepmerge';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export async function fetcher<JSON = any>(
+export async function fetcher<JSON = unknown>(
   input: RequestInfo,
-  init?: RequestInit
+  init: RequestInit = {}
 ): Promise<JSON> {
-  const response = await fetch(input, { ...init, cache: 'no-store' });
+  const options = deepmerge(
+    {
+      cache: 'no-store',
+      headers: { 'Content-Type': 'application/json' },
+    },
+    init
+  );
+
+  const response = await fetch(input, options);
 
   return await response.json();
 }

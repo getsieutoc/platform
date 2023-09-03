@@ -1,6 +1,6 @@
 'use server';
 
-import type { Site } from '@/types';
+import type { RequestParameters, Site } from '@/types';
 
 import { GITHUB_API_VERSION } from '../constants';
 import { octokit } from '../octokit';
@@ -28,7 +28,7 @@ export const checkRepoExisting = async (id: string) => {
   }
 };
 
-type RequestParameters = Parameters<typeof octokit.request>[1];
+// type RequestParameters = Parameters<typeof octokit.request>[1];
 
 export type CreateRepoDto = Pick<Site, 'id' | 'description'> & {
   homepage?: string;

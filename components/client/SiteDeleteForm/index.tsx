@@ -33,7 +33,7 @@ import {
   useToast,
 } from '@/hooks';
 import type { Site } from '@/types';
-import { deleteRepo } from '@/lib/actions/repo';
+import { deleteRepo } from '@/lib/actions/github';
 
 type SiteGeneralSettingsFormProps = {
   site: Site | null;
@@ -143,18 +143,19 @@ export const SiteDeleteForm = ({ site }: SiteGeneralSettingsFormProps) => {
             </FormControl>
           </AlertDialogBody>
           <AlertDialogFooter>
-            <Button ref={cancelRef} isDisabled={isLoading} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button
-              isLoading={isLoading}
-              isDisabled={confirmName !== site?.name || isLoading}
-              colorScheme="red"
-              ml={3}
-              onClick={handleDelete}
-            >
-              Yes, delete it
-            </Button>
+            <Stack direction="row" spacing={3}>
+              <Button ref={cancelRef} isDisabled={isLoading} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button
+                isLoading={isLoading}
+                isDisabled={confirmName !== site?.name || isLoading}
+                colorScheme="red"
+                onClick={handleDelete}
+              >
+                Yes, delete it
+              </Button>
+            </Stack>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

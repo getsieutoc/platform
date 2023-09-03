@@ -1,4 +1,4 @@
-import { Octokit } from 'octokit';
+import { Octokit } from '@octokit/core';
 
 declare global {
   // We need var in declare global
