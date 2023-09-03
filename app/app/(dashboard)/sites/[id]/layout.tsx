@@ -1,9 +1,9 @@
+import { notFound, redirect } from 'next/navigation';
 import { ReactNode } from 'react';
+
+import { Flex, Heading } from '@/components';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { notFound, redirect } from 'next/navigation';
-import SiteSettingsNav from './nav';
-import { Flex, Heading } from '@/components';
 
 export default async function SiteAnalyticsLayout({
   params,
@@ -33,8 +33,6 @@ export default async function SiteAnalyticsLayout({
           {data.name}
         </Heading>
       </Flex>
-
-      <SiteSettingsNav />
 
       {children}
     </Flex>

@@ -1,6 +1,16 @@
-import { Icon, type IconProps as Props } from '@chakra-ui/react';
-import { MdDashboard, MdLogout, MdInsertChart } from 'react-icons/md';
+import { Icon, type IconProps as P } from '@chakra-ui/react';
+import {
+  MdDashboard,
+  MdInsertChart,
+  MdLogout,
+  MdPalette,
+  MdPreview,
+  MdBarChart,
+} from 'react-icons/md';
 
-export const DashboardIcon = (p: Props) => <Icon as={MdDashboard} {...p} />;
-export const LogoutIcon = (p: Props) => <Icon as={MdLogout} {...p} />;
-export const InsertChartIcon = (p: Props) => <Icon as={MdInsertChart} {...p} />;
+export const DashboardIcon = (p: P) => <Icon as={MdDashboard} {...p} />;
+export const InsertChartIcon = (p: P) => <Icon as={MdInsertChart} {...p} />;
+export const LogoutIcon = (p: P) => <Icon as={MdLogout} {...p} />;
+export const PaletteIcon = (p: P) => <Icon as={MdPalette} {...p} />;
+export const PreviewIcon = (p: P) => <Icon as={MdPreview} {...p} />;
+export const BarChartIcon = (p: P) => <Icon as={MdBarChart} {...p} />;

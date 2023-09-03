@@ -11,7 +11,15 @@ import {
   Stack,
   useColorModeValue,
 } from '@/components';
-import { ArrowBackIcon, DashboardIcon, GlobeIcon, InsertChartIcon } from '@/icons';
+import {
+  ArrowBackIcon,
+  BarChartIcon,
+  DashboardIcon,
+  GlobeIcon,
+  InsertChartIcon,
+  LinkIcon,
+  PaletteIcon,
+} from '@/icons';
 
 export const Navbar = ({ children }: { children: ReactNode }) => {
   const segments = useSelectedLayoutSegments();
@@ -23,13 +31,32 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
         {
           name: 'Back to All Sites',
           href: '/sites',
-          icon: <ArrowBackIcon width={18} />,
+          icon: <ArrowBackIcon boxSize={4} />,
         },
+        {
+          name: 'General',
+          href: `/sites/${id}`,
+          icon: <DashboardIcon boxSize={4} />,
+          isActive: !segments[2],
+        },
+        {
+          name: 'Domains',
+          href: `/sites/${id}/domains`,
+          icon: <LinkIcon boxSize={4} />,
+          isActive: segments.includes('domains'),
+        },
+        {
+          name: 'Appearance',
+          href: `/sites/${id}/appearance`,
+          icon: <PaletteIcon boxSize={4} />,
+          isActive: segments.includes('appearance'),
+        },
+
         {
           name: 'Analytics',
           href: `/sites/${id}/analytics`,
+          icon: <InsertChartIcon boxSize={4} />,
           isActive: segments.includes('analytics'),
-          icon: <InsertChartIcon width={18} />,
         },
       ];
     }
@@ -39,13 +66,13 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
         name: 'Overview',
         href: '/',
         isActive: segments.length === 0,
-        icon: <DashboardIcon width={18} />,
+        icon: <BarChartIcon boxSize={4} />,
       },
       {
         name: 'Sites',
         href: '/sites',
         isActive: segments[0] === 'sites',
-        icon: <GlobeIcon width={18} />,
+        icon: <GlobeIcon boxSize={4} />,
       },
     ];
   }, [segments, id]);
@@ -75,8 +102,9 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
               width="100%"
               href={href}
               leftIcon={icon}
+              size="sm"
               colorScheme={isActive ? 'green' : 'blackAlpha'}
-              variant={isActive ? 'outline' : 'ghost'}
+              variant={isActive ? 'solid' : 'ghost'}
             >
               {name}
             </Button>
