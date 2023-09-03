@@ -32,9 +32,10 @@ import {
   useState,
   useToast,
 } from '@/hooks';
-import type { Site, ToastId } from '@/types';
+import type { Site } from '@/types';
 import { deleteRepo } from '@/lib/actions/github';
 import { deleteProject } from '@/lib/actions/vercel';
+import { delayAsync } from '@/lib/utils';
 
 type SiteGeneralSettingsFormProps = {
   site: Site | null;
@@ -43,7 +44,6 @@ export const SiteDeleteForm = ({ site }: SiteGeneralSettingsFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const toast = useToast();
-  const toastIdRef = useRef<ToastId>();
   const cancelRef = useRef(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -59,13 +59,17 @@ export const SiteDeleteForm = ({ site }: SiteGeneralSettingsFormProps) => {
       setIsLoading(true);
 
       await deleteProject(siteId);
-      toastIdRef.current = toast({ title: 'Start deleting...' });
+      toast({ title: 'Start deleting...' });
+
+      await delayAsync();
 
       await deleteRepo(siteId);
-      toast.update(toastIdRef.current, { title: 'Deleted GitHub repo...' });
+      toast({ title: 'Deleted GitHub repo...' });
+
+      await delayAsync();
 
       const deletedSite = await deleteSite(site);
-      toast.update(toastIdRef.current, { title: 'Finally, deleted site!' });
+      toast({ title: 'Finally, deleted site!' });
 
       setIsLoading(false);
 

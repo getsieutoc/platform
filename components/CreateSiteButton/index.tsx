@@ -19,7 +19,6 @@ import { useDisclosure, useEffect, useRef, useRouter, useState, useToast } from 
 import { createProject } from '@/lib/actions/vercel';
 import { createRepo } from '@/lib/actions/github';
 import { createSite } from '@/lib/actions/site';
-import type { ToastId } from '@/types';
 
 const initialValues = {
   name: '',
@@ -31,7 +30,6 @@ export const CreateSiteButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
-  const toastIdRef = useRef<ToastId>();
   const toast = useToast();
   const router = useRouter();
 
@@ -61,15 +59,13 @@ export const CreateSiteButton = () => {
       const response = await createSite(data);
 
       if (response) {
-        toastIdRef.current = toast({ title: 'Creating your site...' });
+        toast({ title: 'Creating your site...' });
 
         await createRepo(response);
-        toast.update(toastIdRef?.current, {
-          title: 'GitHub repo is cloned successfully, and...',
-        });
+        toast({ title: 'GitHub repo is cloned successfully, and...' });
 
         await createProject(response);
-        toast.update(toastIdRef?.current, { title: 'Done!' });
+        toast({ title: 'Done!' });
 
         // va.track('Created Site');
         onClose();

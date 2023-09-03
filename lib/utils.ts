@@ -126,3 +126,11 @@ export const formatRelative = (timestamp?: string | number | Date | null) => {
 
   return formatRelativeFn(new Date(timestamp), new Date());
 };
+
+export const delayAsync = async (amountMs = 500): Promise<void> => {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, amountMs);
+  });
+};
