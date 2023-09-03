@@ -32,7 +32,7 @@ import {
   useState,
   useToast,
 } from '@/hooks';
-import type { Site } from '@/types';
+import type { Site, ToastId } from '@/types';
 import { deleteRepo } from '@/lib/actions/github';
 import { deleteProject } from '@/lib/actions/vercel';
 
@@ -43,6 +43,7 @@ export const SiteDeleteForm = ({ site }: SiteGeneralSettingsFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const toast = useToast();
+  const toastIdRef = useRef<ToastId>();
   const cancelRef = useRef(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -58,13 +59,13 @@ export const SiteDeleteForm = ({ site }: SiteGeneralSettingsFormProps) => {
       setIsLoading(true);
 
       await deleteProject(siteId);
-      toast({ status: 'warning', title: 'Deleted Vercel project' });
+      toastIdRef.current = toast({ title: 'Start deleting...' });
 
       await deleteRepo(siteId);
-      toast({ status: 'warning', title: 'Deleted GitHub repo' });
+      toast.update(toastIdRef.current, { title: 'Deleted GitHub repo...' });
 
       const deletedSite = await deleteSite(site);
-      toast({ status: 'warning', title: 'Finally, deleted site!' });
+      toast.update(toastIdRef.current, { title: 'Finally, deleted site!' });
 
       setIsLoading(false);
 
@@ -74,8 +75,7 @@ export const SiteDeleteForm = ({ site }: SiteGeneralSettingsFormProps) => {
         router.push('/sites');
       }
     } catch (error: any) {
-      console.log('### error: ', { error });
-      toast({ title: `Error: ${error.message}` });
+      toast({ status: 'error', title: `Error: ${error.message}` });
     }
   };
 

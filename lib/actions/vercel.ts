@@ -15,7 +15,11 @@ const defaultOptions = {
 
 export type CreateProjectDto = Site;
 
-export const createProject = async ({ id, environmentVariables }: CreateProjectDto) => {
+export const createProject = async ({
+  id,
+  environmentVariables,
+  subdomain,
+}: CreateProjectDto) => {
   const gitRepo = `sieutoc-customers/${id}`;
 
   const envs = environmentVariables as JsonObject;
@@ -35,13 +39,29 @@ export const createProject = async ({ id, environmentVariables }: CreateProjectD
     ].map((o) => ({ ...o, target: 'production', type: 'encrypted' })),
   });
 
-  const response = await fetcher(`${VERCEL_API_URL}/projects?teamId=${TEAM_ID}`, {
-    method: HttpMethod.POST,
-    headers: {
-      Authorization: `Bearer ${VERCEL_TOKEN}`,
-    },
-    body: JSON.stringify(data),
-  });
+  const response = await fetcher<Project>(
+    `${VERCEL_API_URL}/projects?teamId=${TEAM_ID}`,
+    {
+      method: HttpMethod.POST,
+      headers: {
+        Authorization: `Bearer ${VERCEL_TOKEN}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  // Update the subdomain, we can not do it with project creation
+  if (response && response.id) {
+    await fetcher(`${VERCEL_API_URL}/projects/${response.id}/domains?teamId=${TEAM_ID}`, {
+      method: HttpMethod.POST,
+      headers: {
+        Authorization: `Bearer ${VERCEL_TOKEN}`,
+      },
+      body: JSON.stringify({
+        name: `${subdomain}.sieutoc.website`,
+      }),
+    });
+  }
 
   return response;
 };

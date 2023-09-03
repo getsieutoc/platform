@@ -28,7 +28,7 @@ export default async function Sites({ limit }: { limit?: number }) {
     </Wrap>
   ) : (
     <Flex direction="column" alignItems="center">
-      <Heading as="h1" size="4xl">
+      <Heading as="h1" size="4xl" color="gray">
         No Sites Yet
       </Heading>
 

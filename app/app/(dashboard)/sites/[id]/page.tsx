@@ -3,7 +3,6 @@ import { checkRepoExisting } from '@/lib/actions/github';
 import { Spinner, Stack } from '@/components';
 import { prisma } from '@/lib/prisma';
 import { Suspense } from 'react';
-import { findProject } from '@/lib/actions/vercel';
 
 type SiteSettingsProps = {
   params: {
@@ -13,9 +12,6 @@ type SiteSettingsProps = {
 
 export default async function SiteSettingsIndex({ params }: SiteSettingsProps) {
   const existingRepo = await checkRepoExisting(params.id);
-
-  const project = await findProject('asdsadf');
-  console.log('### project: ', { project });
 
   const site = await prisma.site.findUnique({
     where: { id: params.id },

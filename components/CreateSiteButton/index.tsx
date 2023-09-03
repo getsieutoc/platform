@@ -16,9 +16,10 @@ import {
 } from '@/components';
 import { AddIcon } from '@/icons';
 import { useDisclosure, useEffect, useRef, useRouter, useState, useToast } from '@/hooks';
+import { createProject } from '@/lib/actions/vercel';
 import { createRepo } from '@/lib/actions/github';
 import { createSite } from '@/lib/actions/site';
-import { createProject } from '@/lib/actions/vercel';
+import type { ToastId } from '@/types';
 
 const initialValues = {
   name: '',
@@ -30,6 +31,7 @@ export const CreateSiteButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
+  const toastIdRef = useRef<ToastId>();
   const toast = useToast();
   const router = useRouter();
 
@@ -59,15 +61,16 @@ export const CreateSiteButton = () => {
       const response = await createSite(data);
 
       if (response) {
-        toast({ title: 'Site created successfully!' });
+        toastIdRef.current = toast({ title: 'Creating your site...' });
 
         await createRepo(response);
+        toast.update(toastIdRef?.current, {
+          title: 'GitHub repo is cloned successfully, and...',
+        });
 
-        toast({ title: 'Also, code repo is cloned successfully!' });
+        await createProject(response);
+        toast.update(toastIdRef?.current, { title: 'Done!' });
 
-        const project = await createProject(response);
-
-        toast({ title: 'Created Vercel project too!' });
         // va.track('Created Site');
         onClose();
 
@@ -75,7 +78,7 @@ export const CreateSiteButton = () => {
         router.push(`/sites/${response.id}`);
       }
     } catch (error: any) {
-      toast({ title: error.message });
+      toast({ status: 'error', title: error.message });
     }
   };
 

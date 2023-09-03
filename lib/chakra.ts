@@ -4,6 +4,7 @@ export const toastOptions: UseToastOptions = {
   position: 'top',
   duration: 2000,
   status: 'success',
+  isClosable: true,
 };
 
 const getColorMode = () => {
