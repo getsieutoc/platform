@@ -53,11 +53,19 @@ export const createRepo = async (data: CreateRepoDto) => {
 };
 
 export const deleteRepo = async (id: string) => {
-  const response = await octokit.request(`DELETE /repos/sieutoc-customers/${id}`, {
-    owner: 'OWNER',
-    repo: 'REPO',
-    ...defaultOptions,
-  });
+  try {
+    const response = await octokit.request(`DELETE /repos/sieutoc-customers/${id}`, {
+      owner: 'OWNER',
+      repo: 'REPO',
+      ...defaultOptions,
+    });
 
-  return response;
+    return response;
+  } catch (error: any) {
+    // Sometimes the project does not exist, so we need silent this error
+    if (error.status === 404) {
+      return;
+    }
+    throw error;
+  }
 };

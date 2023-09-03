@@ -21,6 +21,10 @@ export async function fetcher<JSON = unknown>(
 
   const response = await fetch(input, options);
 
+  if (response.status === 204 || response.statusText === 'No Content') {
+    return JSON.parse('{}');
+  }
+
   return await response.json();
 }
 

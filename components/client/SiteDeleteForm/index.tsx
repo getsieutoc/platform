@@ -34,6 +34,7 @@ import {
 } from '@/hooks';
 import type { Site } from '@/types';
 import { deleteRepo } from '@/lib/actions/github';
+import { deleteProject } from '@/lib/actions/vercel';
 
 type SiteGeneralSettingsFormProps = {
   site: Site | null;
@@ -56,22 +57,24 @@ export const SiteDeleteForm = ({ site }: SiteGeneralSettingsFormProps) => {
 
       setIsLoading(true);
 
-      const del = await deleteRepo(siteId);
+      await deleteProject(siteId);
+      toast({ status: 'warning', title: 'Deleted Vercel project' });
 
-      console.log('### del: ', { del });
+      await deleteRepo(siteId);
+      toast({ status: 'warning', title: 'Deleted GitHub repo' });
 
-      const res = await deleteSite(site);
+      const deletedSite = await deleteSite(site);
+      toast({ status: 'warning', title: 'Finally, deleted site!' });
 
       setIsLoading(false);
 
       onClose();
 
-      toast({ title: 'Deleted site' });
-
-      if (res) {
+      if (deletedSite) {
         router.push('/sites');
       }
     } catch (error: any) {
+      console.log('### error: ', { error });
       toast({ title: `Error: ${error.message}` });
     }
   };

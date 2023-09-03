@@ -1,7 +1,12 @@
 import { Prisma } from '@prisma/client';
 
-export * from '@octokit/types';
+// Do not know why export * will make nextjs complain about
+// can not find module '@octokit/types'
+export type { RequestParameters } from '@octokit/types';
+
 export * from '@prisma/client';
+
+export * from './vercel';
 
 export enum HttpMethod {
   CONNECT = 'CONNECT',
