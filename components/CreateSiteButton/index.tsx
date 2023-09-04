@@ -14,11 +14,13 @@ import {
   ModalOverlay,
   Stack,
 } from '@/components';
+import { SubdomainInput } from '@/components/client';
 import { AddIcon } from '@/icons';
 import { useDisclosure, useEffect, useRef, useRouter, useState, useToast } from '@/hooks';
 import { createDeployment, createProject } from '@/lib/actions/vercel';
 import { createRepo } from '@/lib/actions/github';
 import { createSite } from '@/lib/actions/site';
+import slugify from 'slugify';
 
 const initialValues = {
   name: '',
@@ -40,10 +42,7 @@ export const CreateSiteButton = () => {
   useEffect(() => {
     setData((prev) => ({
       ...prev,
-      subdomain: prev.name
-        .toLowerCase()
-        .trim()
-        .replace(/[\W_]+/g, '-'),
+      subdomain: slugify(prev.name),
     }));
   }, [data.name]);
 
@@ -122,16 +121,14 @@ export const CreateSiteButton = () => {
                 />
               </FormControl>
 
-              <FormControl isDisabled={isLoading}>
-                <FormLabel>Subdomain</FormLabel>
-                <Input
-                  placeholder="Subdomain"
-                  value={data.subdomain}
-                  onChange={(event) =>
-                    setData((prev) => ({ ...prev, subdomain: event.target.value }))
-                  }
-                />
-              </FormControl>
+              <SubdomainInput
+                isDisabled={isLoading}
+                placeholder="Subdomain"
+                value={data.subdomain}
+                onChange={(event) =>
+                  setData((prev) => ({ ...prev, subdomain: event.target.value }))
+                }
+              />
             </Stack>
           </ModalBody>
 

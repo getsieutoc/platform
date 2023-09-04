@@ -103,7 +103,7 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
               href={href}
               leftIcon={icon}
               size="sm"
-              colorScheme={isActive ? 'green' : 'blackAlpha'}
+              colorScheme={isActive ? 'green' : 'gray'}
               variant={isActive ? 'solid' : 'ghost'}
             >
               {name}

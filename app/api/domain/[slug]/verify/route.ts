@@ -1,20 +1,24 @@
 import {
-  getConfigResponse,
+  findProject,
   getDomainResponse,
+  getConfigResponse,
   verifyDomain,
-} from '@/lib/domains';
+} from '@/lib/actions/vercel';
 import { DomainVerificationStatusProps } from '@/types';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(
-  _req: Request,
-  { params }: { params: { slug: string } }
-) {
+export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
   const domain = params.slug;
+  const { searchParams } = req.nextUrl;
+  const siteId = searchParams.get('siteId');
+  const project = await findProject(siteId);
+
+  if (!project) return;
+
   let status: DomainVerificationStatusProps = 'Valid Configuration';
 
   const [domainJson, configJson] = await Promise.all([
-    getDomainResponse(domain),
+    getDomainResponse(project.id, domain),
     getConfigResponse(domain),
   ]);
 
@@ -29,7 +33,7 @@ export async function GET(
     // if domain is not verified, we try to verify now
   } else if (!domainJson.verified) {
     status = 'Pending Verification';
-    const verificationJson = await verifyDomain(domain);
+    const verificationJson = await verifyDomain(project.id, domain);
 
     // domain was just verified
     if (verificationJson && verificationJson.verified) {

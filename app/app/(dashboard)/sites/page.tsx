@@ -31,7 +31,7 @@ export default function AllSites() {
           </Wrap>
         }
       >
-        <Sites limit={6} />
+        <Sites limit={9} />
       </Suspense>
     </Flex>
   );

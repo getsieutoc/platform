@@ -1,10 +1,21 @@
 'use server';
 
-import { HttpMethod, type JsonObject, type Site, type Project } from '@/types';
 import deepmerge from 'deepmerge';
+
+import {
+  HttpMethod,
+  type JsonObject,
+  type Site,
+  type Project,
+  type DomainResponse,
+  type ProjectResponse,
+  type DomainVerificationResponse,
+  DomainConfigResponse,
+} from '@/types';
 
 import { TEAM_ID, VERCEL_TOKEN, VERCEL_API_URL } from '../constants';
 import { fetcher } from '../utils';
+
 import { checkRepoExisting } from './github';
 
 const defaultOptions = {
@@ -14,19 +25,7 @@ const defaultOptions = {
   },
 };
 
-export const removeDomainFromVercel = async (projectId: string, domain: string) => {
-  const response = await fetcher(
-    `${VERCEL_API_URL}/v10/projects/${projectId}/domains/${domain}?teamId=${TEAM_ID}`,
-    {
-      method: HttpMethod.DELETE,
-      headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
-    }
-  );
-
-  return response;
-};
-
-export const addDomainToVercel = async (projectId: string, domain: string) => {
+export const addDomainToProject = async (projectId: string, domain: string) => {
   const response = await fetcher(
     `${VERCEL_API_URL}/v10/projects/${projectId}/domains?teamId=${TEAM_ID}`,
     {
@@ -38,6 +37,80 @@ export const addDomainToVercel = async (projectId: string, domain: string) => {
     }
   );
 
+  return response;
+};
+
+export const removeDomainFromProject = async (projectId: string, domain: string) => {
+  const response = await fetcher(
+    `${VERCEL_API_URL}/v10/projects/${projectId}/domains/${domain}?teamId=${TEAM_ID}`,
+    {
+      method: HttpMethod.DELETE,
+      headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
+    }
+  );
+
+  return response;
+};
+
+export const getDomainResponse = async (projectId: string, domain: string) => {
+  const response = await fetcher<DomainResponse>(
+    `${VERCEL_API_URL}/v9/projects/${projectId}/domains/${domain}?teamId=${TEAM_ID}`,
+    {
+      method: HttpMethod.GET,
+      headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
+    }
+  );
+
+  return response;
+};
+
+export const getConfigResponse = async (domain: string) => {
+  const response = await fetcher<DomainConfigResponse>(
+    `${VERCEL_API_URL}/v6/domains/${domain}/config?teamId=${TEAM_ID}`,
+    {
+      method: HttpMethod.GET,
+      headers: {
+        Authorization: `Bearer ${VERCEL_TOKEN}`,
+      },
+    }
+  );
+
+  return response;
+};
+
+export const checkSubdomainValid = async (domain?: string | null) => {
+  console.log('### domain: ', { domain });
+
+  if (typeof domain !== 'string' || !domain) return true;
+
+  const response = await fetch(`https://${domain}.sieutoc.website`, {
+    method: HttpMethod.GET,
+  });
+
+  console.log('### response: ', { response });
+  if (response.status === 200 || response.statusText === 'OK') {
+    return true;
+  }
+
+  if (response.status === 404 || response.statusText === 'Not Found') {
+    return false;
+  }
+
+  throw new Error(response.statusText);
+};
+
+export const verifyDomain = async (projectId: string, domain: string) => {
+  const response = await fetcher<DomainVerificationResponse>(
+    `${VERCEL_API_URL}/v9/projects/${projectId}/domains/${domain}/verify?teamId=${TEAM_ID}`,
+    {
+      method: HttpMethod.POST,
+      headers: {
+        Authorization: `Bearer ${process.env.AUTH_BEARER_TOKEN}`,
+      },
+    }
+  );
+
+  console.log('### response: ', { response });
   return response;
 };
 
@@ -78,14 +151,16 @@ export const createProject = async ({
 
   // Update the subdomain, we can not do it with project creation
   if (response && response.id) {
-    await addDomainToVercel(response.id, `${subdomain}.sieutoc.website`);
+    await addDomainToProject(response.id, `${subdomain}.sieutoc.website`);
   }
 
   return response;
 };
 
-export const findProject = async (idOrName: string) => {
-  const response: any = await fetcher(
+export const findProject = async (idOrName?: string | null) => {
+  if (!idOrName) return null;
+
+  const response = await fetcher<ProjectResponse>(
     `${VERCEL_API_URL}/v9/projects/${idOrName}?teamId=${TEAM_ID}`,
     {
       method: HttpMethod.GET,
@@ -93,11 +168,11 @@ export const findProject = async (idOrName: string) => {
     }
   );
 
-  if (response.error && response.error.code === 'not_found') {
+  if ('error' in response && response.error?.code === 'not_found') {
     return null;
   }
 
-  return response as Project;
+  return response;
 };
 
 export const deleteProject = async (idOrName: string) => {
@@ -121,6 +196,7 @@ export const deleteProject = async (idOrName: string) => {
 export type DeployDto = {
   id: string; // Site UUID (used as name)
 };
+
 export const createDeployment = async ({ id }: DeployDto) => {
   const existingRepo = await checkRepoExisting(id);
 

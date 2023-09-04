@@ -3,32 +3,20 @@
 import { useState } from 'react';
 import { getSubdomain } from '@/lib/domains';
 import { AlertCircle, XCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 import { useDomainStatus } from './use-domain-status';
+import { Code } from '@chakra-ui/react';
 
-export const InlineSnippet = ({
-  className,
-  children,
+export default function DomainConfiguration({
+  siteId,
+  domain,
 }: {
-  className?: string;
-  children: string;
-}) => {
-  return (
-    <span
-      className={cn(
-        'inline-block rounded-md bg-blue-100 px-1 py-0.5 font-mono text-blue-900 dark:bg-blue-900 dark:text-blue-100',
-        className
-      )}
-    >
-      {children}
-    </span>
-  );
-};
-export default function DomainConfiguration({ domain }: { domain: string }) {
+  siteId?: string | null;
+  domain: string;
+}) {
   const [recordType, setRecordType] = useState<'A' | 'CNAME'>('A');
 
-  const { status, domainJson } = useDomainStatus({ domain });
+  const { status, domainJson } = useDomainStatus({ siteId, domain });
 
   if (!status || status === 'Valid Configuration' || !domainJson) return null;
 
@@ -60,9 +48,8 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
       {txtVerification ? (
         <>
           <p className="text-sm dark:text-white">
-            Please set the following TXT record on{' '}
-            <InlineSnippet>{domainJson.apexName}</InlineSnippet> to prove
-            ownership of <InlineSnippet>{domainJson.name}</InlineSnippet>:
+            Please set the following TXT record on <Code>{domainJson.apexName}</Code> to
+            prove ownership of <Code>{domainJson.name}</Code>:
           </p>
           <div className="my-5 flex items-start justify-start space-x-10 rounded-md bg-stone-50 p-2 dark:bg-stone-800 dark:text-white">
             <div>
@@ -86,15 +73,13 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
             </div>
           </div>
           <p className="text-sm dark:text-stone-400">
-            Warning: if you are using this domain for another site, setting this
-            TXT record will transfer domain ownership away from that site and
-            break it. Please exercise caution when setting this record.
+            Warning: if you are using this domain for another site, setting this TXT
+            record will transfer domain ownership away from that site and break it. Please
+            exercise caution when setting this record.
           </p>
         </>
       ) : status === 'Unknown Error' ? (
-        <p className="mb-5 text-sm dark:text-white">
-          {domainJson.error.message}
-        </p>
+        <p className="mb-5 text-sm dark:text-white">{domainJson.error.message}</p>
       ) : (
         <>
           <div className="flex justify-start space-x-4">
@@ -123,13 +108,9 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
           </div>
           <div className="my-3 text-left">
             <p className="my-5 text-sm dark:text-white">
-              To configure your{' '}
-              {recordType === 'A' ? 'apex domain' : 'subdomain'} (
-              <InlineSnippet>
-                {recordType === 'A' ? domainJson.apexName : domainJson.name}
-              </InlineSnippet>
-              ), set the following {recordType} record on your DNS provider to
-              continue:
+              To configure your {recordType === 'A' ? 'apex domain' : 'subdomain'} (
+              <Code>{recordType === 'A' ? domainJson.apexName : domainJson.name}</Code>
+              ), set the following {recordType} record on your DNS provider to continue:
             </p>
             <div className="flex items-center justify-start space-x-10 rounded-md bg-stone-50 p-2 dark:bg-stone-800 dark:text-white">
               <div>
@@ -156,9 +137,8 @@ export default function DomainConfiguration({ domain }: { domain: string }) {
               </div>
             </div>
             <p className="mt-5 text-sm dark:text-white">
-              Note: for TTL, if <InlineSnippet>86400</InlineSnippet> is not
-              available, set the highest value possible. Also, domain
-              propagation can take up to an hour.
+              Note: for TTL, if <Code>86400</Code> is not available, set the highest value
+              possible. Also, domain propagation can take up to an hour.
             </p>
           </div>
         </>

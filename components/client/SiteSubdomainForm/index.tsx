@@ -8,39 +8,48 @@ import {
   CardHeader,
   Divider,
   Flex,
-  FormControl,
-  FormLabel,
   Heading,
-  Input,
-  InputGroup,
-  InputLeftAddon,
-  InputRightAddon,
   Skeleton,
   Stack,
   Text,
 } from '@/components';
+import { SubdomainInput } from '@/components/client';
 import { updateSiteSimple } from '@/lib/actions/site';
-import { useAuth, useColorModeValue, useState } from '@/hooks';
+import { useAuth, useColorModeValue, useDebounce, useState } from '@/hooks';
 import { Site } from '@/types';
 import {
-  addDomainToVercel,
+  addDomainToProject,
+  checkSubdomainValid,
   findProject,
-  removeDomainFromVercel,
+  removeDomainFromProject,
 } from '@/lib/actions/vercel';
+import slugify from 'slugify';
 
-type SiteGeneralSettingsFormProps = {
+export type SiteSubdomainFormProps = {
   site: Site | null;
 };
-export const SiteSubdomainForm = ({ site }: SiteGeneralSettingsFormProps) => {
+
+export const SiteSubdomainForm = ({ site }: SiteSubdomainFormProps) => {
   const { update } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const [subdomain, setSubdomain] = useState(site?.subdomain ?? '');
 
+  const [isReady] = useDebounce(
+    () => {
+      const slug = slugify(subdomain);
+      setSubdomain(slug);
+      // const isSubdomainAvailable = await checkSubdomainValid(slug);
+      // console.log('### isSubdomainAvailable: ', { isSubdomainAvailable });
+    },
+    600,
+    [subdomain]
+  );
+
   const handleSave = async () => {
     try {
-      if (!site) return;
+      if (!site || !isReady) return;
 
       setIsLoading(true);
 
@@ -49,9 +58,9 @@ export const SiteSubdomainForm = ({ site }: SiteGeneralSettingsFormProps) => {
       const project = await findProject(site.id);
 
       if (res && project) {
-        await removeDomainFromVercel(project.id, `${site.subdomain}.sieutoc.website`);
+        await removeDomainFromProject(project.id, `${site.subdomain}.sieutoc.website`);
 
-        await addDomainToVercel(project.id, `${subdomain}.sieutoc.website`);
+        await addDomainToProject(project.id, `${subdomain}.sieutoc.website`);
 
         update();
       }
@@ -76,22 +85,13 @@ export const SiteSubdomainForm = ({ site }: SiteGeneralSettingsFormProps) => {
       </CardHeader>
       <CardBody>
         <Stack spacing={6} maxW="480px" minW="240px">
-          <FormControl isDisabled={isLoading}>
-            <FormLabel>Subdomain for your site</FormLabel>
-            <InputGroup>
-              <InputLeftAddon color="gray">
-                <Text>https://</Text>
-              </InputLeftAddon>
-              <Input
-                placeholder={subdomain}
-                value={subdomain}
-                onChange={(event) => setSubdomain(event.target.value)}
-              />
-              <InputRightAddon color="gray">
-                <Text>.sieutoc.website</Text>
-              </InputRightAddon>
-            </InputGroup>
-          </FormControl>
+          <SubdomainInput
+            label="You can change the subdomain here"
+            isDisabled={isLoading}
+            placeholder={subdomain}
+            value={subdomain}
+            onChange={(event) => setSubdomain(event.target.value)}
+          />
         </Stack>
       </CardBody>
 
@@ -103,7 +103,7 @@ export const SiteSubdomainForm = ({ site }: SiteGeneralSettingsFormProps) => {
 
           <Button
             colorScheme={validChanges ? 'green' : 'gray'}
-            isDisabled={!validChanges || isLoading}
+            isDisabled={!validChanges || !isReady() || isLoading}
             isLoading={isLoading}
             onClick={handleSave}
           >
