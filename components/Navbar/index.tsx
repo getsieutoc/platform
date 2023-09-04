@@ -20,6 +20,7 @@ import {
   LinkIcon,
   PaletteIcon,
 } from '@/icons';
+import { IS_PRODUCTION } from '@/lib/constants';
 
 export const Navbar = ({ children }: { children: ReactNode }) => {
   const segments = useSelectedLayoutSegments();
@@ -50,6 +51,7 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
           href: `/sites/${id}/appearance`,
           icon: <PaletteIcon boxSize={4} />,
           isActive: segments.includes('appearance'),
+          isDisabled: true, // DEVELOPMENT
         },
 
         {
@@ -57,6 +59,7 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
           href: `/sites/${id}/analytics`,
           icon: <InsertChartIcon boxSize={4} />,
           isActive: segments.includes('analytics'),
+          isDisabled: true, // DEVELOPMENT
         },
       ];
     }
@@ -94,21 +97,23 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
         </NextLink>
 
         <Stack marginTop={6} spacing={1}>
-          {tabs.map(({ name, href, icon, isActive }) => (
-            <Button
-              key={name}
-              as={NextLink}
-              justifyContent="start"
-              width="100%"
-              href={href}
-              leftIcon={icon}
-              size="sm"
-              colorScheme={isActive ? 'green' : 'gray'}
-              variant={isActive ? 'solid' : 'ghost'}
-            >
-              {name}
-            </Button>
-          ))}
+          {tabs
+            .filter(({ isDisabled }) => (IS_PRODUCTION ? !isDisabled : true))
+            .map(({ name, href, icon, isActive }) => (
+              <Button
+                key={name}
+                colorScheme={isActive ? 'green' : 'gray'}
+                variant={isActive ? 'solid' : 'ghost'}
+                justifyContent="start"
+                leftIcon={icon}
+                width="100%"
+                as={NextLink}
+                href={href}
+                size="sm"
+              >
+                {name}
+              </Button>
+            ))}
         </Stack>
       </Box>
 

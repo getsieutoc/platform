@@ -21,34 +21,26 @@ import {
   addDomainToProject,
   findProject,
 } from '@/lib/actions/vercel';
-import { useColorModeValue, useDebounce, useState } from '@/hooks';
+import { useColorModeValue, useState } from '@/hooks';
 import { updateSiteSimple } from '@/lib/actions/site';
 import type { Site } from '@/types';
 
-import DomainStatus from '@/components/form/domain-status';
 import DomainConfiguration from '@/components/form/domain-configuration';
+import { IS_PRODUCTION } from '@/lib/constants';
 
 type SiteCustomDomainFormProps = {
   site: Site | null;
 };
 
+// We will continue to work on this soon
 export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [customDomain, setCustomDomain] = useState(site?.customDomain ?? '');
 
-  useDebounce(
-    () => {
-      // const isSubdomainAvailable = await checkSubdomainValid(slug);
-      console.log('### isSubdomainAvailable: ');
-    },
-    600,
-    [customDomain]
-  );
-
   const handleSave = async () => {
     try {
-      if (!site) return;
+      if (!site || IS_PRODUCTION) return;
 
       setIsLoading(true);
 
@@ -79,11 +71,11 @@ export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
     <>
       <Card direction="column" width="100%">
         <CardHeader>
-          <Heading size="md">Custom Domain</Heading>
+          <Heading size="md">Custom Domain (Coming Soon!)</Heading>
         </CardHeader>
         <CardBody>
           <Stack spacing={6} maxW="480px" minW="240px">
-            <FormControl isDisabled={isLoading}>
+            <FormControl isDisabled={true || isLoading}>
               <FormLabel>Custom Domain for your site</FormLabel>
               <Input
                 placeholder="yourdomain.com"
@@ -108,7 +100,7 @@ export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
 
             <Button
               colorScheme={validChanges ? 'green' : 'gray'}
-              isDisabled={!validChanges || isLoading}
+              isDisabled={true || !validChanges || isLoading}
               isLoading={isLoading}
               onClick={handleSave}
             >

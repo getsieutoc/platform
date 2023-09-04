@@ -19,11 +19,12 @@ import { useAuth, useColorModeValue, useDebounce, useState } from '@/hooks';
 import { Site } from '@/types';
 import {
   addDomainToProject,
-  checkSubdomainValid,
   findProject,
   removeDomainFromProject,
 } from '@/lib/actions/vercel';
 import slugify from 'slugify';
+
+const SUBDOMAIN_MAX_LENGTH = 24;
 
 export type SiteSubdomainFormProps = {
   site: Site | null;
@@ -36,12 +37,10 @@ export const SiteSubdomainForm = ({ site }: SiteSubdomainFormProps) => {
 
   const [subdomain, setSubdomain] = useState(site?.subdomain ?? '');
 
-  const [isReady] = useDebounce(
+  useDebounce(
     () => {
       const slug = slugify(subdomain);
       setSubdomain(slug);
-      // const isSubdomainAvailable = await checkSubdomainValid(slug);
-      // console.log('### isSubdomainAvailable: ', { isSubdomainAvailable });
     },
     600,
     [subdomain]
@@ -49,7 +48,7 @@ export const SiteSubdomainForm = ({ site }: SiteSubdomainFormProps) => {
 
   const handleSave = async () => {
     try {
-      if (!site || !isReady) return;
+      if (!site) return;
 
       setIsLoading(true);
 
@@ -89,6 +88,7 @@ export const SiteSubdomainForm = ({ site }: SiteSubdomainFormProps) => {
             label="You can change the subdomain here"
             isDisabled={isLoading}
             placeholder={subdomain}
+            isInvalid={subdomain.length < 3 || subdomain.length > SUBDOMAIN_MAX_LENGTH}
             value={subdomain}
             onChange={(event) => setSubdomain(event.target.value)}
           />
@@ -99,11 +99,16 @@ export const SiteSubdomainForm = ({ site }: SiteSubdomainFormProps) => {
 
       <CardFooter>
         <Flex width="100%" direction="row" justify="space-between" align="center">
-          <Text fontSize="sm">Please use 32 characters maximum</Text>
+          <Text
+            fontSize="sm"
+            color={subdomain.length > SUBDOMAIN_MAX_LENGTH ? 'red' : 'gray'}
+          >
+            Please use {SUBDOMAIN_MAX_LENGTH} characters maximum
+          </Text>
 
           <Button
             colorScheme={validChanges ? 'green' : 'gray'}
-            isDisabled={!validChanges || !isReady() || isLoading}
+            isDisabled={!validChanges || isLoading}
             isLoading={isLoading}
             onClick={handleSave}
           >

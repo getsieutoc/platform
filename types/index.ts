@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client';
+import { Endpoints } from '@octokit/types';
 
 // Do not know why export * will make nextjs complain about
 // can not find module '@octokit/types'
@@ -22,3 +23,5 @@ export enum HttpMethod {
 }
 
 export type JsonObject = Prisma.JsonObject;
+
+export type ReposResponse = Endpoints['GET /repos/{owner}/{repo}']['response'];

@@ -78,22 +78,21 @@ export const getConfigResponse = async (domain: string) => {
   return response;
 };
 
-export const checkSubdomainValid = async (domain?: string | null) => {
-  console.log('### domain: ', { domain });
-
-  if (typeof domain !== 'string' || !domain) return true;
+export const isSubdomainFree = async (domain: string) => {
+  if (domain.length <= 3) {
+    throw new Error('Domain is required');
+  }
 
   const response = await fetch(`https://${domain}.sieutoc.website`, {
     method: HttpMethod.GET,
   });
 
-  console.log('### response: ', { response });
   if (response.status === 200 || response.statusText === 'OK') {
-    return true;
+    return false;
   }
 
   if (response.status === 404 || response.statusText === 'Not Found') {
-    return false;
+    return true;
   }
 
   throw new Error(response.statusText);
@@ -110,7 +109,6 @@ export const verifyDomain = async (projectId: string, domain: string) => {
     }
   );
 
-  console.log('### response: ', { response });
   return response;
 };
 
@@ -212,7 +210,7 @@ export const createDeployment = async ({ id }: DeployDto) => {
       body: JSON.stringify({
         name: id,
         gitSource: {
-          repoId: existingRepo.data.id,
+          repoId: existingRepo.id,
           type: 'github',
           ref: 'master',
         },

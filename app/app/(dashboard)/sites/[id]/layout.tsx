@@ -12,6 +12,8 @@ export default async function SiteAnalyticsLayout({
   params: { id: string };
   children: ReactNode;
 }) {
+  // const segment = useSelectedLayoutSegment();
+
   const session = await getSession();
   if (!session) {
     redirect('/login');

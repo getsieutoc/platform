@@ -1,4 +1,5 @@
 export {
+  useClipboard,
   useColorMode,
   useColorModeValue,
   useDisclosure,

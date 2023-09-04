@@ -1,8 +1,11 @@
-import { SiteDeleteForm, SiteGeneralSettingsForm } from '@/components/client';
+import {
+  SiteDeleteForm,
+  SiteGeneralSettingsForm,
+  SiteGithubInfo,
+} from '@/components/client';
 import { checkRepoExisting } from '@/lib/actions/github';
-import { Spinner, Stack } from '@/components';
+import { Stack } from '@/components';
 import { prisma } from '@/lib/prisma';
-import { Suspense } from 'react';
 
 type SiteSettingsProps = {
   params: {
@@ -19,9 +22,7 @@ export default async function SiteSettingsIndex({ params }: SiteSettingsProps) {
 
   return (
     <Stack width="100%" spacing={6}>
-      <Suspense fallback={<Spinner />}>
-        {existingRepo && <div>{existingRepo.data.git_url}</div>}
-      </Suspense>
+      <SiteGithubInfo repo={existingRepo} />
 
       <SiteGeneralSettingsForm site={site} />
 

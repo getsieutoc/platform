@@ -1,6 +1,6 @@
 'use server';
 
-import type { RequestParameters, Site } from '@/types';
+import type { ReposResponse, RequestParameters, Site } from '@/types';
 
 import { GITHUB_API_VERSION } from '../constants';
 import { octokit } from '../octokit';
@@ -13,13 +13,13 @@ const defaultOptions: Partial<RequestParameters> = {
 
 export const checkRepoExisting = async (idAsName: string) => {
   try {
-    const response = await octokit.request(`GET /repos/sieutoc-customers/${idAsName}`, {
-      owner: 'OWNER',
-      repo: 'REPO',
+    const response: ReposResponse = await octokit.request(`GET /repos/{owner}/{repo}`, {
+      owner: 'sieutoc-customers',
+      repo: idAsName,
       ...defaultOptions,
     });
 
-    return response;
+    return response.data;
   } catch (error: any) {
     if (error.status === 404) {
       return null;
