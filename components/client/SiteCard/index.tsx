@@ -1,8 +1,10 @@
-import { NextLink, Heading, Text, Card, CardBody, Stack, CardFooter } from '@/components';
 import { formatRelative } from '@/lib/utils';
 import { Site } from '@/types';
 
-export default function SiteCard({ data }: { data: Site }) {
+import { Heading, Text, Card, CardBody, Stack, CardFooter } from '@chakra-ui/react';
+import { NextLink } from '../NextLink';
+
+export const SiteCard = ({ data }: { data: Site }) => {
   return (
     <Card
       as={NextLink}
@@ -28,4 +30,4 @@ export default function SiteCard({ data }: { data: Site }) {
       </CardFooter>
     </Card>
   );
-}
+};

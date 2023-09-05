@@ -1,19 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { SmallCloseIcon, WarningTwoIcon } from '@/icons';
+import { useDomainStatus, useState } from '@/hooks';
 import { getSubdomain } from '@/lib/domains';
-import { AlertCircle, XCircle } from 'lucide-react';
 
-import { useDomainStatus } from './use-domain-status';
 import { Code } from '@chakra-ui/react';
 
-export default function DomainConfiguration({
+export const DomainConfiguration = ({
   siteId,
   domain,
 }: {
   siteId?: string | null;
   domain: string;
-}) {
+}) => {
   const [recordType, setRecordType] = useState<'A' | 'CNAME'>('A');
 
   const { status, domainJson } = useDomainStatus({ siteId, domain });
@@ -31,13 +30,13 @@ export default function DomainConfiguration({
     <div className="border-t border-stone-200 px-10 pb-5 pt-7 dark:border-stone-700">
       <div className="mb-4 flex items-center space-x-2">
         {status === 'Pending Verification' ? (
-          <AlertCircle
+          <WarningTwoIcon
             fill="#FBBF24"
             stroke="currentColor"
             className="text-white dark:text-black"
           />
         ) : (
-          <XCircle
+          <SmallCloseIcon
             fill="#DC2626"
             stroke="currentColor"
             className="text-white dark:text-black"
@@ -145,4 +144,4 @@ export default function DomainConfiguration({
       )}
     </div>
   );
-}
+};

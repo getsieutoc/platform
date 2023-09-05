@@ -1,6 +1,8 @@
 import { ReactNode, Suspense } from 'react';
-import { Box, Flex, Skeleton, Navbar } from '@/components';
+import { Box, Flex, Skeleton } from '@chakra-ui/react';
+
 import { Profile } from '@/components/server';
+import { Navbar } from '@/components/client';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (

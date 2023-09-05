@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useCallback, useMemo, ChangeEvent } from 'react';
-import { toast } from 'sonner';
 import { BlobResult } from '@vercel/blob';
-import { Spinner } from '@/components';
+import { toast } from 'sonner';
 
-export default function Uploader() {
+import { useState, useCallback, useMemo } from '@/hooks';
+import { Spinner } from '@chakra-ui/react';
+import type { ChangeEvent } from '@/types';
+
+export const Uploader = () => {
   const [data, setData] = useState<{
     image: string | null;
   }>({
@@ -160,9 +162,7 @@ export default function Uploader() {
             <p className="mt-2 text-center text-sm text-gray-500">
               Drag and drop or click to upload.
             </p>
-            <p className="mt-2 text-center text-sm text-gray-500">
-              Max file size: 50MB
-            </p>
+            <p className="mt-2 text-center text-sm text-gray-500">Max file size: 50MB</p>
             <span className="sr-only">Photo upload</span>
           </div>
           {data.image && (
@@ -194,12 +194,8 @@ export default function Uploader() {
             : 'border-black bg-black text-white hover:bg-white hover:text-black'
         } flex h-10 w-full items-center justify-center rounded-md border text-sm transition-all focus:outline-none`}
       >
-        {saving ? (
-          <Spinner size="xs" />
-        ) : (
-          <p className="text-sm">Confirm upload</p>
-        )}
+        {saving ? <Spinner size="xs" /> : <p className="text-sm">Confirm upload</p>}
       </button>
     </form>
   );
-}
+};

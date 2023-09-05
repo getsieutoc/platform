@@ -1,7 +1,8 @@
+import { Flex, Heading, Skeleton, Wrap, WrapItem } from '@chakra-ui/react';
 import { Suspense } from 'react';
-import Sites from '@/components/sites';
-import PlacholderCard from '@/components/placeholder-card';
-import { Flex, Heading, Wrap, WrapItem, CreateSiteButton } from '@/components';
+
+import { CreateSiteButton } from '@/components/client';
+import { Sites } from '@/components/server';
 
 export default function AllSites() {
   return (
@@ -25,7 +26,7 @@ export default function AllSites() {
           <Wrap spacing={6}>
             {Array.from({ length: 6 }).map((_, i) => (
               <WrapItem key={i}>
-                <PlacholderCard />
+                <Skeleton height="40px" />
               </WrapItem>
             ))}
           </Wrap>

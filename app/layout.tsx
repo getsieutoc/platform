@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/react';
-import { Providers } from './providers';
 import { Metadata } from 'next';
+
+import { Providers } from './providers';
 
 const title = 'Website Sieutoc – Thiet ke website sieu toc';
 const description = 'Create modern website in minutes!';

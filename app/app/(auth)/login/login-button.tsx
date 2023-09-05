@@ -1,11 +1,11 @@
 'use client';
 
-import { Button, Icon } from '@/components';
-import { GithubIcon } from '@/icons';
+import { Button } from '@chakra-ui/react';
 import { signIn } from 'next-auth/react';
-import { useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
+
+import { useState, useEffect, useSearchParams } from '@/hooks';
+import { GithubIcon } from '@/icons';
 
 export default function LoginButton() {
   const [isLoading, setLoading] = useState(false);

@@ -1,4 +1,5 @@
-import { Button, Heading, NextLink } from '@/components';
+import { Button, Heading } from '@chakra-ui/react';
+import { NextLink } from '@/components/client';
 
 export default function HomePage() {
   return (

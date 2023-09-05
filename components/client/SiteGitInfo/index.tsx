@@ -1,5 +1,9 @@
 'use client';
 
+import { CheckCircleIcon, CopyIcon, ExternalLinkIcon } from '@/icons';
+import { useClipboard, useColorModeValue } from '@/hooks';
+import type { ReposResponse, Site } from '@/types';
+
 import {
   Box,
   Button,
@@ -16,13 +20,9 @@ import {
   Skeleton,
   Stack,
   Text,
-} from '@/components';
-import { useClipboard, useColorModeValue } from '@/hooks';
-import type { ReposResponse, Site } from '@/types';
+} from '@chakra-ui/react';
 
-import { CheckCircleIcon, CopyIcon, ExternalLinkIcon } from '@/icons';
-
-type SiteGithubInfoProps = {
+export type SiteGithubInfoProps = {
   repo: ReposResponse['data'];
   site: Site;
 };

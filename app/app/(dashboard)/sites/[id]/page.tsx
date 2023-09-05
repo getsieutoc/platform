@@ -1,10 +1,10 @@
+import { Stack } from '@chakra-ui/react';
 import {
   SiteDeleteForm,
   SiteGeneralSettingsForm,
   SiteGitInfo,
 } from '@/components/client';
 import { checkRepoExisting } from '@/lib/actions/github';
-import { Stack } from '@/components';
 import { prisma } from '@/lib/prisma';
 
 type SiteSettingsProps = {

@@ -1,8 +1,9 @@
 'use client';
 
+import { IconButton } from '@chakra-ui/react';
 import { signOut } from 'next-auth/react';
+
 import { LogoutIcon } from '@/icons';
-import { IconButton } from '@/components';
 
 export const LogoutButton = () => {
   return (

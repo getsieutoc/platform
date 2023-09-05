@@ -1,6 +1,16 @@
 'use client';
 
 import {
+  removeDomainFromProject,
+  addDomainToProject,
+  findProject,
+} from '@/lib/actions/vercel';
+import { useColorModeValue, useState } from '@/hooks';
+import { updateSiteSimple } from '@/lib/actions/site';
+import { IS_PRODUCTION } from '@/lib/constants';
+import type { Site } from '@/types';
+
+import {
   Button,
   Card,
   CardBody,
@@ -15,18 +25,8 @@ import {
   Skeleton,
   Stack,
   Text,
-} from '@/components';
-import {
-  removeDomainFromProject,
-  addDomainToProject,
-  findProject,
-} from '@/lib/actions/vercel';
-import { useColorModeValue, useState } from '@/hooks';
-import { updateSiteSimple } from '@/lib/actions/site';
-import type { Site } from '@/types';
-
-import DomainConfiguration from '@/components/form/domain-configuration';
-import { IS_PRODUCTION } from '@/lib/constants';
+} from '@chakra-ui/react';
+import { DomainConfiguration } from '../DomainConfiguration';
 
 type SiteCustomDomainFormProps = {
   site: Site | null;

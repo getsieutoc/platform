@@ -1,7 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
-import { ReactNode } from 'react';
+import { Flex, Heading } from '@chakra-ui/react';
+import type { ReactNode } from 'react';
 
-import { Flex, Heading } from '@/components';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 

@@ -1,5 +1,7 @@
 'use client';
 
+import slugify from 'slugify';
+
 import {
   Button,
   FormControl,
@@ -13,14 +15,14 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-} from '@/components';
-import { SubdomainInput } from '@/components/client';
-import { AddIcon } from '@/icons';
+} from '@chakra-ui/react';
 import { useDisclosure, useEffect, useRef, useRouter, useState, useToast } from '@/hooks';
 import { createDeployment, createProject } from '@/lib/actions/vercel';
 import { createRepo } from '@/lib/actions/github';
 import { createSite } from '@/lib/actions/site';
-import slugify from 'slugify';
+import { AddIcon } from '@/icons';
+
+import { SubdomainInput } from '../SubdomainInput';
 
 const initialValues = {
   name: '',

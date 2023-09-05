@@ -16,14 +16,15 @@ import {
   Stack,
   Text,
   Textarea,
-} from '@/components';
-import { updateSiteSimple } from '@/lib/actions/site';
+} from '@chakra-ui/react';
 import { useAuth, useColorModeValue, useState } from '@/hooks';
+import { updateSiteSimple } from '@/lib/actions/site';
 import { Site } from '@/types';
 
-type SiteGeneralSettingsFormProps = {
+export type SiteGeneralSettingsFormProps = {
   site: Site;
 };
+
 export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) => {
   const { update } = useAuth();
 

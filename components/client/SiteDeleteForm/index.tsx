@@ -1,6 +1,20 @@
 'use client';
 
 import {
+  useColorModeValue,
+  useDisclosure,
+  useRef,
+  useRouter,
+  useState,
+  useToast,
+} from '@/hooks';
+import { deleteProject } from '@/lib/actions/vercel';
+import { deleteRepo } from '@/lib/actions/github';
+import { deleteSite } from '@/lib/actions/site';
+import { delayAsync } from '@/lib/utils';
+import type { Site } from '@/types';
+
+import {
   AlertDialog,
   AlertDialogBody,
   AlertDialogCloseButton,
@@ -22,25 +36,13 @@ import {
   Skeleton,
   Stack,
   Text,
-} from '@/components';
-import { deleteSite } from '@/lib/actions/site';
-import {
-  useColorModeValue,
-  useDisclosure,
-  useRef,
-  useRouter,
-  useState,
-  useToast,
-} from '@/hooks';
-import type { Site } from '@/types';
-import { deleteRepo } from '@/lib/actions/github';
-import { deleteProject } from '@/lib/actions/vercel';
-import { delayAsync } from '@/lib/utils';
+} from '@chakra-ui/react';
 
-type SiteGeneralSettingsFormProps = {
+export type SiteDeleteFormProps = {
   site: Site;
 };
-export const SiteDeleteForm = ({ site }: SiteGeneralSettingsFormProps) => {
+
+export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const toast = useToast();

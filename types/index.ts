@@ -1,6 +1,8 @@
 import { Prisma } from '@prisma/client';
 import { Endpoints } from '@octokit/types';
 
+export type { ChangeEvent } from 'react';
+
 // Do not know why export * will make nextjs complain about
 // can not find module '@octokit/types'
 export type { RequestParameters } from '@octokit/types';

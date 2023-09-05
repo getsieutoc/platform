@@ -1,13 +1,15 @@
+'use client';
+
 import {
+  FormControl,
+  FormLabel,
   Input,
   InputGroup,
   InputLeftAddon,
   InputRightAddon,
   Text,
-  FormLabel,
-  FormControl,
   type InputProps,
-} from '@/components';
+} from '@chakra-ui/react';
 
 export type SubdomainInputProps = Partial<InputProps> & {
   label?: string;

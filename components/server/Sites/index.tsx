@@ -1,11 +1,12 @@
-import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
-import { prisma } from '@/lib/prisma';
-import { Flex, Heading, NextImage, Text, Wrap, WrapItem } from '@/components';
-import SiteCard from './site-card';
-import { parseQuery } from '@/lib/utils';
 
-export default async function Sites({ limit }: { limit?: number }) {
+import { parseQuery } from '@/lib/utils';
+import { getSession } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+import { Flex, Heading, Text, Wrap, WrapItem } from '@chakra-ui/react';
+import { NextImage, SiteCard } from '@/components/client';
+
+export const Sites = async ({ limit }: { limit?: number }) => {
   const session = await getSession();
 
   if (!session) {
@@ -44,4 +45,4 @@ export default async function Sites({ limit }: { limit?: number }) {
       </Text>
     </Flex>
   );
-}
+};

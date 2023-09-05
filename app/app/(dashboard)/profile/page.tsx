@@ -1,8 +1,8 @@
-import Form from '@/components/form';
-import { getSession } from '@/lib/auth';
+import { Flex, Heading } from '@chakra-ui/react';
 import { redirect } from 'next/navigation';
-import { editUser } from '@/lib/actions/site';
-import { Flex, Heading } from '@/components';
+
+// import { editUser } from '@/lib/actions/site';
+import { getSession } from '@/lib/auth';
 
 export default async function ProfileSettingsPage() {
   const session = await getSession();
@@ -17,34 +17,6 @@ export default async function ProfileSettingsPage() {
           Profile Settings
         </Heading>
       </Flex>
-
-      <div className="flex flex-col space-y-6">
-        <Form
-          title="Name"
-          description="Your name on this app."
-          helpText="Please use 32 characters maximum."
-          inputAttrs={{
-            name: 'name',
-            type: 'text',
-            defaultValue: session.user.name!,
-            placeholder: 'Your Name',
-            maxLength: 32,
-          }}
-          handleSubmit={editUser}
-        />
-        <Form
-          title="Email"
-          description="Your email on this app."
-          helpText="Please enter a valid email."
-          inputAttrs={{
-            name: 'email',
-            type: 'email',
-            defaultValue: session.user.email!,
-            placeholder: 'your@email.com',
-          }}
-          handleSubmit={editUser}
-        />
-      </div>
     </Flex>
   );
 }

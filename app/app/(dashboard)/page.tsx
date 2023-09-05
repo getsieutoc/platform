@@ -1,8 +1,7 @@
+import { Flex, Heading, Skeleton } from '@chakra-ui/react';
 import { Suspense } from 'react';
-import Sites from '@/components/sites';
-import OverviewStats from '@/components/overview-stats';
-import PlacholderCard from '@/components/placeholder-card';
-import { Flex, Heading } from '@/components';
+
+import { Sites } from '@/components/server';
 
 export default function Overview() {
   return (
@@ -13,15 +12,13 @@ export default function Overview() {
         </Heading>
       </Flex>
 
-      <OverviewStats />
-
       <div className="flex flex-col space-y-6">
         <div className="flex items-center justify-between">
           <Heading as="h3" size="md">
             Top Sites
           </Heading>
         </div>
-        <Suspense fallback={<PlacholderCard />}>
+        <Suspense fallback={<Skeleton height="20px" />}>
           <Sites limit={1} />
         </Suspense>
       </div>

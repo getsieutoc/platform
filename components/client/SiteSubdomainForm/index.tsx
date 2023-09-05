@@ -1,5 +1,16 @@
 'use client';
 
+import slugify from 'slugify';
+
+import {
+  addDomainToProject,
+  findProject,
+  removeDomainFromProject,
+} from '@/lib/actions/vercel';
+import { useAuth, useColorModeValue, useDebounce, useState } from '@/hooks';
+import { updateSiteSimple } from '@/lib/actions/site';
+import type { Site } from '@/types';
+
 import {
   Button,
   Card,
@@ -12,17 +23,8 @@ import {
   Skeleton,
   Stack,
   Text,
-} from '@/components';
-import { SubdomainInput } from '@/components/client';
-import { updateSiteSimple } from '@/lib/actions/site';
-import { useAuth, useColorModeValue, useDebounce, useState } from '@/hooks';
-import { Site } from '@/types';
-import {
-  addDomainToProject,
-  findProject,
-  removeDomainFromProject,
-} from '@/lib/actions/vercel';
-import slugify from 'slugify';
+} from '@chakra-ui/react';
+import { SubdomainInput } from '../SubdomainInput';
 
 const SUBDOMAIN_MAX_LENGTH = 24;
 

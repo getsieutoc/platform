@@ -1,5 +1,6 @@
+import { Stack } from '@chakra-ui/react';
+
 import { SiteCustomDomainForm, SiteSubdomainForm } from '@/components/client';
-import { Stack } from '@/components';
 import { prisma } from '@/lib/prisma';
 
 export default async function SiteSettingsDomains({

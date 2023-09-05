@@ -3,15 +3,6 @@
 import { useParams, useSelectedLayoutSegments } from 'next/navigation';
 import { type ReactNode, useMemo } from 'react';
 import {
-  Box,
-  Button,
-  Flex,
-  NextImage,
-  NextLink,
-  Stack,
-  useColorModeValue,
-} from '@/components';
-import {
   ArrowBackIcon,
   BarChartIcon,
   DashboardIcon,
@@ -21,6 +12,10 @@ import {
   PaletteIcon,
 } from '@/icons';
 import { IS_PRODUCTION } from '@/lib/constants';
+
+import { Box, Button, Flex, Stack, useColorModeValue } from '@chakra-ui/react';
+import { NextLink } from '../NextLink';
+import { NextImage } from '../NextImage';
 
 export const Navbar = ({ children }: { children: ReactNode }) => {
   const segments = useSelectedLayoutSegments();

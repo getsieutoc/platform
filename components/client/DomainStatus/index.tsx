@@ -1,9 +1,9 @@
 'use client';
 
 import { CheckCircleIcon, InfoIcon, WarningTwoIcon } from '@/icons';
-import { Spinner } from '@chakra-ui/react';
+import { useDomainStatus } from '@/hooks';
 
-import { useDomainStatus } from './use-domain-status';
+import { Spinner } from '@chakra-ui/react';
 
 export default function DomainStatus({
   siteId,
