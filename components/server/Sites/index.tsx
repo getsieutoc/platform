@@ -4,7 +4,9 @@ import { parseQuery } from '@/lib/utils';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { Flex, Heading, Text, Wrap, WrapItem } from '@/components/chakra';
-import { NextImage, SiteCard } from '@/components/client';
+import { NextImage } from '@/components/client';
+
+import { SiteCard } from '../SiteCard';
 
 export const Sites = async ({ limit }: { limit?: number }) => {
   const session = await getSession();

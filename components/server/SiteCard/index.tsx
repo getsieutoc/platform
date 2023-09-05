@@ -1,8 +1,8 @@
 import { formatRelative } from '@/lib/utils';
-import { Site } from '@/types';
+import type { Site } from '@/types';
 
 import { Heading, Text, Card, CardBody, Stack, CardFooter } from '@/components/chakra';
-import { NextLink } from '../NextLink';
+import { NextLink } from '@/components/client';
 
 export const SiteCard = ({ data }: { data: Site }) => {
   return (
