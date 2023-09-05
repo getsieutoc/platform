@@ -4,9 +4,14 @@ on:
   push:
     branches:
       - master
+    paths:
+      - "prisma/**"
 
 jobs:
   prisma-production:
+    if: >-
+      github.event.pull_request.user.login != 'renovate' &&
+      github.event.pull_request.user.login != 'renovate[bot]'
     runs-on: ubuntu-latest
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
