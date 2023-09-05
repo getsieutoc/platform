@@ -4,6 +4,8 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "migrate:dev": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
+    "postinstall": "pnpm db:generate",
     "dev": "pnpm db:generate && docker-compose up -d && next dev",
     "build": "pnpm db:generate && next build",
     "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
