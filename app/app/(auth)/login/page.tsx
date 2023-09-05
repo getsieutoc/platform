@@ -1,4 +1,4 @@
-import { Divider, Heading, Stack } from '@chakra-ui/react';
+import { Divider, Heading, Stack } from '@/components/chakra';
 
 import LoginButton from './login-button';
 

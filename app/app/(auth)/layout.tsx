@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box } from '@/components/chakra';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 

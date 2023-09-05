@@ -13,7 +13,7 @@ import {
 } from '@/icons';
 import { IS_PRODUCTION } from '@/lib/constants';
 
-import { Box, Button, Flex, Stack, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Flex, Stack, useColorModeValue } from '@/components/chakra';
 import { NextLink } from '../NextLink';
 import { NextImage } from '../NextImage';
 

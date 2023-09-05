@@ -1,20 +1,6 @@
 'use client';
 
 import {
-  useColorModeValue,
-  useDisclosure,
-  useRef,
-  useRouter,
-  useState,
-  useToast,
-} from '@/hooks';
-import { deleteProject } from '@/lib/actions/vercel';
-import { deleteRepo } from '@/lib/actions/github';
-import { deleteSite } from '@/lib/actions/site';
-import { delayAsync } from '@/lib/utils';
-import type { Site } from '@/types';
-
-import {
   AlertDialog,
   AlertDialogBody,
   AlertDialogCloseButton,
@@ -36,7 +22,20 @@ import {
   Skeleton,
   Stack,
   Text,
-} from '@chakra-ui/react';
+} from '@/components/chakra';
+import {
+  useColorModeValue,
+  useDisclosure,
+  useRef,
+  useRouter,
+  useState,
+  useToast,
+} from '@/hooks';
+import { deleteProject } from '@/lib/actions/vercel';
+import { deleteRepo } from '@/lib/actions/github';
+import { deleteSite } from '@/lib/actions/site';
+import { delayAsync } from '@/lib/utils';
+import type { Site } from '@/types';
 
 export type SiteDeleteFormProps = {
   site: Site;
@@ -53,6 +52,11 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
   const [confirmName, setConfirmName] = useState('');
 
   const siteId = site?.id ?? '';
+
+  const handleCancel = () => {
+    setConfirmName('');
+    onClose();
+  };
 
   const handleDelete = async () => {
     try {
@@ -153,7 +157,7 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
           </AlertDialogBody>
           <AlertDialogFooter>
             <Stack direction="row" spacing={3}>
-              <Button ref={cancelRef} isDisabled={isLoading} onClick={onClose}>
+              <Button ref={cancelRef} isDisabled={isLoading} onClick={handleCancel}>
                 Cancel
               </Button>
               <Button

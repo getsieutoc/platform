@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { parseQuery } from '@/lib/utils';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { Flex, Heading, Text, Wrap, WrapItem } from '@chakra-ui/react';
+import { Flex, Heading, Text, Wrap, WrapItem } from '@/components/chakra';
 import { NextImage, SiteCard } from '@/components/client';
 
 export const Sites = async ({ limit }: { limit?: number }) => {

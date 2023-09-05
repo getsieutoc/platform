@@ -4,7 +4,7 @@ import { SmallCloseIcon, WarningTwoIcon } from '@/icons';
 import { useDomainStatus, useState } from '@/hooks';
 import { getSubdomain } from '@/lib/domains';
 
-import { Code } from '@chakra-ui/react';
+import { Code } from '@/components/chakra';
 
 export const DomainConfiguration = ({
   siteId,

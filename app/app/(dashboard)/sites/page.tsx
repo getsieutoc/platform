@@ -1,4 +1,4 @@
-import { Flex, Heading, Skeleton, Wrap, WrapItem } from '@chakra-ui/react';
+import { Flex, Heading, Skeleton, Wrap, WrapItem } from '@/components/chakra';
 import { Suspense } from 'react';
 
 import { CreateSiteButton } from '@/components/client';

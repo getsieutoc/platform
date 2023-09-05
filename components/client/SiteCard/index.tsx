@@ -1,7 +1,7 @@
 import { formatRelative } from '@/lib/utils';
 import { Site } from '@/types';
 
-import { Heading, Text, Card, CardBody, Stack, CardFooter } from '@chakra-ui/react';
+import { Heading, Text, Card, CardBody, Stack, CardFooter } from '@/components/chakra';
 import { NextLink } from '../NextLink';
 
 export const SiteCard = ({ data }: { data: Site }) => {

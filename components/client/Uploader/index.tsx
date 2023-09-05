@@ -4,7 +4,7 @@ import { BlobResult } from '@vercel/blob';
 import { toast } from 'sonner';
 
 import { useState, useCallback, useMemo } from '@/hooks';
-import { Spinner } from '@chakra-ui/react';
+import { Spinner } from '@/components/chakra';
 import type { ChangeEvent } from '@/types';
 
 export const Uploader = () => {

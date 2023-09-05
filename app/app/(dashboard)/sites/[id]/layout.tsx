@@ -1,5 +1,5 @@
 import { notFound, redirect } from 'next/navigation';
-import { Flex, Heading } from '@chakra-ui/react';
+import { Flex, Heading } from '@/components/chakra';
 import type { ReactNode } from 'react';
 
 import { getSession } from '@/lib/auth';

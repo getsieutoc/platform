@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box } from '@/components/chakra';
 import { prisma } from '@/lib/prisma';
 
 export default async function SiteSettingsAppearance({

@@ -1,4 +1,4 @@
-import { extendTheme, UseToastOptions } from '@chakra-ui/react';
+import { extendTheme, UseToastOptions } from '@/components/chakra';
 
 export const toastOptions: UseToastOptions = {
   position: 'top',

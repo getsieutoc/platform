@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@chakra-ui/react';
+import { Button } from '@/components/chakra';
 import { signIn } from 'next-auth/react';
 import { toast } from 'sonner';
 

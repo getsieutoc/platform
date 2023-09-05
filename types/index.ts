@@ -6,7 +6,7 @@ export type { ChangeEvent } from 'react';
 // Do not know why export * will make nextjs complain about
 // can not find module '@octokit/types'
 export type { RequestParameters } from '@octokit/types';
-export type { ToastId } from '@chakra-ui/react';
+export type { ToastId } from '@/components/chakra';
 
 export * from '@prisma/client';
 

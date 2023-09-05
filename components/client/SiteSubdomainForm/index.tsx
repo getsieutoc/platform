@@ -23,7 +23,7 @@ import {
   Skeleton,
   Stack,
   Text,
-} from '@chakra-ui/react';
+} from '@/components/chakra';
 import { SubdomainInput } from '../SubdomainInput';
 
 const SUBDOMAIN_MAX_LENGTH = 24;

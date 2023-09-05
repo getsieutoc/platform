@@ -1,4 +1,4 @@
-import { Stack } from '@chakra-ui/react';
+import { Stack } from '@/components/chakra';
 
 import { SiteCustomDomainForm, SiteSubdomainForm } from '@/components/client';
 import { prisma } from '@/lib/prisma';

@@ -4,7 +4,7 @@ export {
   useColorModeValue,
   useDisclosure,
   useToast,
-} from '@chakra-ui/react';
+} from '@/components/chakra';
 export { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 export { useSession } from 'next-auth/react';
 export { useRouter, useSearchParams } from 'next/navigation';

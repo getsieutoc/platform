@@ -1,7 +1,7 @@
 import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 
-import { Avatar, Flex, Stack, Text } from '@chakra-ui/react';
+import { Avatar, Flex, Stack, Text } from '@/components/chakra';
 import { NextLink } from '@/components/client';
 
 import { LogoutButton } from './LogoutButton';

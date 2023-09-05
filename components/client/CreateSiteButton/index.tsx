@@ -15,7 +15,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-} from '@chakra-ui/react';
+} from '@/components/chakra';
 import { useDisclosure, useEffect, useRef, useRouter, useState, useToast } from '@/hooks';
 import { createDeployment, createProject } from '@/lib/actions/vercel';
 import { createRepo } from '@/lib/actions/github';

@@ -9,7 +9,7 @@ import {
   InputRightAddon,
   Text,
   type InputProps,
-} from '@chakra-ui/react';
+} from '@/components/chakra';
 
 export type SubdomainInputProps = Partial<InputProps> & {
   label?: string;

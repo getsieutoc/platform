@@ -1,4 +1,4 @@
-import { Flex, Heading } from '@chakra-ui/react';
+import { Flex, Heading } from '@/components/chakra';
 import { redirect } from 'next/navigation';
 
 // import { editUser } from '@/lib/actions/site';

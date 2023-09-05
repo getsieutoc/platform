@@ -2,7 +2,7 @@
 
 import { CacheProvider } from '@chakra-ui/next-js';
 import { SessionProvider } from 'next-auth/react';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider } from '@/components/chakra';
 import { Toaster } from 'sonner';
 import { SWRConfig } from 'swr';
 

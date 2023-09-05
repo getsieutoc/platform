@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Text, Heading, Flex, SimpleGrid } from '@chakra-ui/react';
+import { Card, Text, Heading, Flex, SimpleGrid } from '@/components/chakra';
 
 export const chartdata = [
   {

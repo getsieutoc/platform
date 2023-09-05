@@ -16,7 +16,7 @@ import {
   Stack,
   Text,
   Textarea,
-} from '@chakra-ui/react';
+} from '@/components/chakra';
 import { useAuth, useColorModeValue, useState } from '@/hooks';
 import { updateSiteSimple } from '@/lib/actions/site';
 import { Site } from '@/types';

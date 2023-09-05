@@ -25,7 +25,7 @@ import {
   Skeleton,
   Stack,
   Text,
-} from '@chakra-ui/react';
+} from '@/components/chakra';
 import { DomainConfiguration } from '../DomainConfiguration';
 
 type SiteCustomDomainFormProps = {

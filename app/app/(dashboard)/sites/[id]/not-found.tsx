@@ -1,4 +1,4 @@
-import { Flex, Heading, Text } from '@chakra-ui/react';
+import { Flex, Heading, Text } from '@/components/chakra';
 import { NextImage } from '@/components/client';
 
 export default function NotFoundSite() {

@@ -1,5 +1,5 @@
 import { ReactNode, Suspense } from 'react';
-import { Box, Flex, Skeleton } from '@chakra-ui/react';
+import { Box, Flex, Skeleton } from '@/components/chakra';
 
 import { Profile } from '@/components/server';
 import { Navbar } from '@/components/client';

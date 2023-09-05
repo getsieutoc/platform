@@ -1,4 +1,4 @@
-import { Flex, Heading, Skeleton } from '@chakra-ui/react';
+import { Flex, Heading, Skeleton } from '@/components/chakra';
 import { Suspense } from 'react';
 
 import { Sites } from '@/components/server';

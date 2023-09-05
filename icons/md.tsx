@@ -1,4 +1,4 @@
-import { Icon, type IconProps as P } from '@chakra-ui/react';
+import { Icon, type IconProps as P } from '@/components/chakra';
 import {
   MdDashboard,
   MdInsertChart,

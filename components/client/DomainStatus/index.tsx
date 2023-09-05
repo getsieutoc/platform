@@ -3,7 +3,7 @@
 import { CheckCircleIcon, InfoIcon, WarningTwoIcon } from '@/icons';
 import { useDomainStatus } from '@/hooks';
 
-import { Spinner } from '@chakra-ui/react';
+import { Spinner } from '@/components/chakra';
 
 export default function DomainStatus({
   siteId,

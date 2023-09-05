@@ -20,7 +20,7 @@ import {
   Skeleton,
   Stack,
   Text,
-} from '@chakra-ui/react';
+} from '@/components/chakra';
 
 export type SiteGithubInfoProps = {
   repo: ReposResponse['data'];
