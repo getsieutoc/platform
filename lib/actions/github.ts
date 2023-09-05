@@ -28,8 +28,6 @@ export const checkRepoExisting = async (idAsName: string) => {
   }
 };
 
-// type RequestParameters = Parameters<typeof octokit.request>[1];
-
 export type CreateRepoDto = Pick<Site, 'id' | 'subdomain'> & {
   homepage?: string;
   private?: boolean;

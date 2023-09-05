@@ -6,6 +6,8 @@ import { prisma } from '@/lib/prisma';
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
 export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
+
   adapter: PrismaAdapter(prisma),
 
   providers: [
@@ -48,7 +50,11 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, account, profile }) => {
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+
       if (user) {
         token.user = user;
       }
@@ -57,6 +63,8 @@ export const authOptions: NextAuthOptions = {
     },
 
     session: async ({ session, token }) => {
+      session.accessToken = token.accessToken as string;
+
       session.user = {
         ...session.user,
         // @ts-expect-error

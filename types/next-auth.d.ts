@@ -8,6 +8,8 @@ declare module 'next-auth/adapters' {
 
 declare module 'next-auth/core/types' {
   interface Session {
+    accessToken: string;
+
     user: DefaultSession['user'] & {
       id: string;
       role: UserRole;
