@@ -104,7 +104,7 @@ export const verifyDomain = async (projectId: string, domain: string) => {
     {
       method: HttpMethod.POST,
       headers: {
-        Authorization: `Bearer ${process.env.AUTH_BEARER_TOKEN}`,
+        Authorization: `Bearer ${VERCEL_TOKEN}`,
       },
     }
   );
