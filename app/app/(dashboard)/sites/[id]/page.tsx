@@ -1,7 +1,7 @@
 import {
   SiteDeleteForm,
   SiteGeneralSettingsForm,
-  SiteGithubInfo,
+  SiteGitInfo,
 } from '@/components/client';
 import { checkRepoExisting } from '@/lib/actions/github';
 import { Stack } from '@/components';
@@ -14,7 +14,7 @@ type SiteSettingsProps = {
 };
 
 export default async function SiteSettingsIndex({ params }: SiteSettingsProps) {
-  const existingRepo = await checkRepoExisting(params.id);
+  const repo = await checkRepoExisting(params.id);
 
   const site = await prisma.site.findUnique({
     where: { id: params.id },
@@ -22,11 +22,11 @@ export default async function SiteSettingsIndex({ params }: SiteSettingsProps) {
 
   return (
     <Stack width="100%" spacing={6}>
-      <SiteGithubInfo repo={existingRepo} />
+      {repo && site && <SiteGitInfo repo={repo} site={site} />}
 
-      <SiteGeneralSettingsForm site={site} />
+      {site && <SiteGeneralSettingsForm site={site} />}
 
-      <SiteDeleteForm site={site} />
+      {site && <SiteDeleteForm site={site} />}
     </Stack>
   );
 }

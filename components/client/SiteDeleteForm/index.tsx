@@ -38,7 +38,7 @@ import { deleteProject } from '@/lib/actions/vercel';
 import { delayAsync } from '@/lib/utils';
 
 type SiteGeneralSettingsFormProps = {
-  site: Site | null;
+  site: Site;
 };
 export const SiteDeleteForm = ({ site }: SiteGeneralSettingsFormProps) => {
   const [isLoading, setIsLoading] = useState(false);

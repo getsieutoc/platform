@@ -22,7 +22,7 @@ import { useAuth, useColorModeValue, useState } from '@/hooks';
 import { Site } from '@/types';
 
 type SiteGeneralSettingsFormProps = {
-  site: Site | null;
+  site: Site;
 };
 export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) => {
   const { update } = useAuth();
