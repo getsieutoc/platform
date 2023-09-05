@@ -55,6 +55,7 @@ export const SiteGitInfo = ({ repo, site }: SiteGithubInfoProps) => {
               </Box>
               <IconButton
                 aria-label="Copy"
+                colorScheme={hasCopied ? 'green' : 'gray'}
                 icon={hasCopied ? <CheckCircleIcon color="green" /> : <CopyIcon />}
                 size="sm"
                 variant="outline"

@@ -80,7 +80,7 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
   return (
     <Flex
       direction="column"
-      width="240px"
+      width={{ sm: '240px', lg: '420px' }}
       height="100vh"
       justify="space-between"
       background={backgroundColor}
