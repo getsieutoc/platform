@@ -45,7 +45,7 @@
     "@vercel/kv": "0.2.2",
     "@vercel/postgres": "0.3.2",
     "ai": "2.1.17",
-    "clsx": "1.2.1",
+    "clsx": "2.0.0",
     "date-fns": "2.30.0",
     "deepmerge": "4.3.1",
     "focus-trap-react": "10.2.1",
