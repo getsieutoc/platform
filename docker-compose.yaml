@@ -4,7 +4,7 @@ name: sieutoc-platform
 services:
   postgres:
     container_name: sieutoc-platform-postgres
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     restart: always
     ports:
       - "${POSTGRES_PORT}:5432"
