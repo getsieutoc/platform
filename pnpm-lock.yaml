@@ -87,8 +87,8 @@ dependencies:
     specifier: 0.2.2
     version: 0.2.2
   '@vercel/postgres':
-    specifier: 0.3.2
-    version: 0.3.2
+    specifier: 0.4.1
+    version: 0.4.1
   ai:
     specifier: 2.1.17
     version: 2.1.17(react@18.2.0)(svelte@4.2.0)(vue@3.3.4)
@@ -1772,8 +1772,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@neondatabase/serverless@0.4.15:
-    resolution: {integrity: sha512-fTTcnfj6z4gpOREF3fbzPYltt5vJKB3G9OdfV4diiO45mBAi//0n/ViOirYm4bGxi0luzszf9jGe3BP6hsQ7Ig==}
+  /@neondatabase/serverless@0.5.6:
+    resolution: {integrity: sha512-Ru0lG6W/nQtHRkDFVQFF+1PJYx8wd3jereln0Ep0YkiHey50hjTLVUycQoE4X977605pXMuFWORweuktzph+Xg==}
     dependencies:
       '@types/pg': 8.6.6
     dev: false
@@ -2959,11 +2959,11 @@ packages:
       - encoding
     dev: false
 
-  /@vercel/postgres@0.3.2:
-    resolution: {integrity: sha512-FZ/EWoxdALIh+N0wq3NWSA+YWm50MTBo75xOpVGSsv0zcgkt39kSSzO74H1graq+k/5dWyuadTVCnmlT5IbFYQ==}
+  /@vercel/postgres@0.4.1:
+    resolution: {integrity: sha512-rYlNnaXrr2/NWK/OodhAUyed0bomaizKKC8XXjNYv8I1K3m75oocP4IGTcBpZe76VCrHuaKW5d6jLQnuRRoNKg==}
     engines: {node: '>=14.6'}
     dependencies:
-      '@neondatabase/serverless': 0.4.15
+      '@neondatabase/serverless': 0.5.6
       bufferutil: 4.0.7
       utf-8-validate: 6.0.3
       ws: 8.13.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
