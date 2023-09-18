@@ -1,13 +1,12 @@
 'use client';
 
+import { useState, useEffect, useSearchParams, useToast } from '@/hooks';
 import { Button } from '@/components/chakra';
 import { signIn } from 'next-auth/react';
-import { toast } from 'sonner';
-
-import { useState, useEffect, useSearchParams } from '@/hooks';
 import { GithubIcon } from '@/icons';
 
 export default function LoginButton() {
+  const toast = useToast();
   const [isLoading, setLoading] = useState(false);
 
   // Get error message added by next/auth in URL.
@@ -16,8 +15,8 @@ export default function LoginButton() {
 
   useEffect(() => {
     const errorMessage = Array.isArray(error) ? error.pop() : error;
-    errorMessage && toast.error(errorMessage);
-  }, [error]);
+    errorMessage && toast({ description: errorMessage, status: 'error' });
+  }, [error, toast]);
 
   return (
     <Button

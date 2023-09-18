@@ -1,7 +1,6 @@
 'use client';
 
 import { BlobResult } from '@vercel/blob';
-import { toast } from 'sonner';
 
 import { useState, useCallback, useMemo } from '@/hooks';
 import { Spinner } from '@/components/chakra';
@@ -22,7 +21,7 @@ export const Uploader = () => {
       const file = event.currentTarget.files && event.currentTarget.files[0];
       if (file) {
         if (file.size / 1024 / 1024 > 50) {
-          toast.error('File size too big (max 50MB)');
+          // toast.error('File size too big (max 50MB)');
         } else {
           setFile(file);
           const reader = new FileReader();
@@ -55,27 +54,10 @@ export const Uploader = () => {
         }).then(async (res) => {
           if (res.status === 200) {
             const { url } = (await res.json()) as BlobResult;
-            toast(
-              <div className="relative">
-                <div className="p-2">
-                  <p className="font-semibold text-gray-900">File uploaded!</p>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Your file has been uploaded to{' '}
-                    <a
-                      className="font-medium text-gray-900 underline"
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {url}
-                    </a>
-                  </p>
-                </div>
-              </div>
-            );
+            // toast();
           } else {
             const error = await res.text();
-            toast.error(error);
+            // toast.error(error);
           }
           setSaving(false);
         });
@@ -117,7 +99,7 @@ export const Uploader = () => {
               const file = e.dataTransfer.files && e.dataTransfer.files[0];
               if (file) {
                 if (file.size / 1024 / 1024 > 50) {
-                  toast.error('File size too big (max 50MB)');
+                  // toast.error('File size too big (max 50MB)');
                 } else {
                   setFile(file);
                   const reader = new FileReader();
