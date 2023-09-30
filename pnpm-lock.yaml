@@ -101,8 +101,8 @@ devDependencies:
     specifier: 3.0.4
     version: 3.0.4
   '@types/node':
-    specifier: 20.7.2
-    version: 20.7.2
+    specifier: 20.8.0
+    version: 20.8.0
   '@types/react':
     specifier: 18.2.23
     version: 18.2.23
@@ -1521,7 +1521,7 @@ packages:
     dependencies:
       '@jest/fake-timers': 29.6.4
       '@jest/types': 29.6.3
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
       jest-mock: 29.6.3
     dev: false
 
@@ -1531,7 +1531,7 @@ packages:
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
       jest-message-util: 29.6.3
       jest-mock: 29.6.3
       jest-util: 29.6.3
@@ -1551,7 +1551,7 @@ packages:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
       '@types/yargs': 17.0.24
       chalk: 4.1.2
     dev: false
@@ -2077,7 +2077,7 @@ packages:
   /@types/jsdom@20.0.1:
     resolution: {integrity: sha512-d0r18sZPmMQr1eG35u12FZfhIXNrnsPU/g5wvRKCUf/tOGilKKwYMYGqh33BNR6ba+2gkHw1EUiHoN3mn7E5IQ==}
     dependencies:
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
       '@types/tough-cookie': 4.0.2
       parse5: 7.1.2
     dev: false
@@ -2089,7 +2089,7 @@ packages:
   /@types/jsonwebtoken@9.0.2:
     resolution: {integrity: sha512-drE6uz7QBKq1fYqqoFKTDRdFCPHd5TCub75BM+D+cMx7NU9hUz7SESLfC2fSCXVFMO5Yj8sOWHuGqPgjc+fz0Q==}
     dependencies:
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
     dev: false
 
   /@types/lodash.mergewith@4.6.7:
@@ -2105,7 +2105,7 @@ packages:
   /@types/node-fetch@2.6.5:
     resolution: {integrity: sha512-OZsUlr2nxvkqUFLSaY2ZbA+P1q22q+KrlxWOn/38RX+u5kTkYL2mTujEpzUhGkS+K/QCYp9oagfXG39XOzyySg==}
     dependencies:
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
       form-data: 4.0.0
     dev: false
 
@@ -2113,8 +2113,8 @@ packages:
     resolution: {integrity: sha512-cOxcXsQ2sxiwkykdJqvyFS+MLQPLvIdwh5l6gNg8qF6s+C7XSkEWOZjK+XhUZd+mYvHV/180g2cnCcIl4l06Pw==}
     dev: false
 
-  /@types/node@20.7.2:
-    resolution: {integrity: sha512-RcdC3hOBOauLP+r/kRt27NrByYtDjsXyAuSbR87O6xpsvi763WI+5fbSIvYJrXnt9w4RuxhV6eAXfIs7aaf/FQ==}
+  /@types/node@20.8.0:
+    resolution: {integrity: sha512-LzcWltT83s1bthcvjBmiBvGJiiUe84NWRHkw+ZV6Fr41z2FbIzvc815dk2nQ3RAKMuN2fkenM/z3Xv2QzEpYxQ==}
 
   /@types/parse-json@4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
@@ -2123,7 +2123,7 @@ packages:
   /@types/pg@8.6.6:
     resolution: {integrity: sha512-O2xNmXebtwVekJDD+02udOncjVcMZQuTEQEMpKJ0ZRf5E7/9JJX3izhKUcUifBkyKpljyUM6BTgy2trmviKlpw==}
     dependencies:
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
       pg-protocol: 1.6.0
       pg-types: 2.2.0
     dev: false
@@ -4135,7 +4135,7 @@ packages:
       '@jest/fake-timers': 29.6.4
       '@jest/types': 29.6.3
       '@types/jsdom': 20.0.1
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
       jest-mock: 29.6.3
       jest-util: 29.6.3
       jsdom: 20.0.3
@@ -4165,7 +4165,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
       jest-util: 29.6.3
     dev: false
 
@@ -4174,7 +4174,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
       chalk: 4.1.2
       ci-info: 3.8.0
       graceful-fs: 4.2.11
