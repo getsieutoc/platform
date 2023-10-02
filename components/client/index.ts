@@ -4,6 +4,8 @@ export * from './CreateSiteButton';
 export * from './Navbar';
 export * from './NextImage';
 export * from './NextLink';
+export * from './PageEditor';
+export * from './SettingCard';
 export * from './SiteCustomDomainForm';
 export * from './SiteDeleteForm';
 export * from './SiteGeneralSettingsForm';
