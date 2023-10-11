@@ -29,7 +29,7 @@
     "@vercel/blob": "0.9.2",
     "@vercel/kv": "0.2.3",
     "@vercel/postgres": "0.5.0",
-    "ai": "2.2.14",
+    "ai": "2.2.15",
     "date-fns": "2.30.0",
     "deepmerge": "4.3.1",
     "framer-motion": "10.16.4",
