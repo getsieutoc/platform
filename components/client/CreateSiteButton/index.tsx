@@ -16,9 +16,17 @@ import {
   ModalOverlay,
   Stack,
 } from '@/components/chakra';
-import { useDisclosure, useEffect, useRef, useRouter, useState, useToast } from '@/hooks';
+import {
+  useAuth,
+  useDisclosure,
+  useEffect,
+  useRef,
+  useRouter,
+  useState,
+  useToast,
+} from '@/hooks';
 import { createDeployment, createProject } from '@/lib/actions/vercel';
-import { createRepo } from '@/lib/actions/github';
+import { addCollaborator, createRepo } from '@/lib/actions/github';
 import { createSite } from '@/lib/actions/site';
 import { AddIcon } from '@/icons';
 
@@ -31,6 +39,7 @@ const initialValues = {
 };
 
 export const CreateSiteButton = () => {
+  const { session } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
@@ -44,7 +53,7 @@ export const CreateSiteButton = () => {
   useEffect(() => {
     setData((prev) => ({
       ...prev,
-      subdomain: slugify(prev.name),
+      subdomain: slugify(prev.name).toLowerCase(),
     }));
   }, [data.name]);
 
@@ -59,13 +68,18 @@ export const CreateSiteButton = () => {
 
       const newSite = await createSite(data);
 
-      if (newSite) {
+      if (newSite && session) {
         toast({ title: 'Creating your site...' });
 
         await createRepo(newSite);
-        toast({ title: 'GitHub repo is cloned successfully, and...' });
+        toast({ title: 'GitHub repo is cloned successfully...' });
 
         await createProject(newSite);
+
+        toast({ title: 'adding you as collaborator...' });
+
+        await addCollaborator(newSite.id, session.user.username);
+
         toast({ title: 'Done!' });
 
         await createDeployment({ id: newSite.id });
@@ -115,7 +129,7 @@ export const CreateSiteButton = () => {
               <FormControl isDisabled={isLoading}>
                 <FormLabel>Description</FormLabel>
                 <Input
-                  placeholder="Site description"
+                  placeholder="Optional but recommended"
                   value={data.description}
                   onChange={(event) =>
                     setData((prev) => ({ ...prev, description: event.target.value }))
@@ -128,7 +142,10 @@ export const CreateSiteButton = () => {
                 placeholder="Subdomain"
                 value={data.subdomain}
                 onChange={(event) =>
-                  setData((prev) => ({ ...prev, subdomain: event.target.value }))
+                  setData((prev) => ({
+                    ...prev,
+                    subdomain: event.target.value.toLowerCase(),
+                  }))
                 }
               />
             </Stack>

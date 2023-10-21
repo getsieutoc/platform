@@ -1,6 +1,6 @@
 'use server';
 
-import type { ReposResponse, RequestParameters, Site } from '@/types';
+import { RequestParameters, Site } from '@/types';
 
 import { GITHUB_API_VERSION } from '../constants';
 import { octokit } from '../octokit';
@@ -13,11 +13,10 @@ const defaultOptions: Partial<RequestParameters> = {
 
 export const checkRepoExisting = async (idAsName: string) => {
   try {
-    const response: ReposResponse = await octokit.request(`GET /repos/{owner}/{repo}`, {
-      owner: 'sieutoc-customers',
-      repo: idAsName,
-      ...defaultOptions,
-    });
+    const response = await octokit.request(
+      `GET /repos/sieutoc-customers/${idAsName}`,
+      defaultOptions
+    );
 
     return response.data;
   } catch (error: any) {
@@ -35,9 +34,8 @@ export type CreateRepoDto = Pick<Site, 'id' | 'subdomain'> & {
 
 export const createRepo = async (data: CreateRepoDto) => {
   const response = await octokit.request(
-    'POST /repos/websitesieutoc/{template_repo}/generate',
+    'POST /repos/websitesieutoc/nextjs-template/generate',
     {
-      template_repo: 'nextjs-template',
       owner: 'sieutoc-customers',
       name: data.id,
       description: data.subdomain ?? '',
@@ -50,15 +48,23 @@ export const createRepo = async (data: CreateRepoDto) => {
   return response;
 };
 
+export const addCollaborator = async (idAsName: string, username: string) => {
+  const response = await octokit.request(
+    `PUT /repos/sieutoc-customers/${idAsName}/collaborators/${username}`,
+    {
+      permission: 'maintain',
+      ...defaultOptions,
+    }
+  );
+
+  return response;
+};
+
 export const deleteRepo = async (idAsName: string) => {
   try {
     const response = await octokit.request(
       `DELETE /repos/sieutoc-customers/${idAsName}`,
-      {
-        owner: 'OWNER',
-        repo: 'REPO',
-        ...defaultOptions,
-      }
+      defaultOptions
     );
 
     return response;

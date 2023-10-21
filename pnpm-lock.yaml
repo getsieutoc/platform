@@ -23,6 +23,9 @@ dependencies:
   '@next-auth/prisma-adapter':
     specifier: 1.0.7
     version: 1.0.7(@prisma/client@5.4.2)(next-auth@4.24.3)
+  '@octokit/auth-app':
+    specifier: 6.0.1
+    version: 6.0.1
   '@octokit/core':
     specifier: 5.0.1
     version: 5.0.1
@@ -1718,7 +1721,7 @@ packages:
     resolution: {integrity: sha512-g/zDXttroZ9Se08shK0d0d/j0cgSA+h4WV7qGUevNEM0piNBkIlfb4Fm6bSwCNAZhNf72mBgERmYOoxicPkqdw==}
     engines: {node: '>= 18'}
     dependencies:
-      '@octokit/auth-app': 6.0.0
+      '@octokit/auth-app': 6.0.1
       '@octokit/auth-unauthenticated': 5.0.0
       '@octokit/core': 5.0.1
       '@octokit/oauth-app': 6.0.0
@@ -1727,15 +1730,15 @@ packages:
       '@octokit/webhooks': 12.0.3
     dev: false
 
-  /@octokit/auth-app@6.0.0:
-    resolution: {integrity: sha512-OKct7Rukf3g9DjpzcpdacQsdmd6oPrJ7fZND22JkjzhDvfhttUOnmh+qPS4kHhaNNyTxqSThnfrUWvkqNLd1nw==}
+  /@octokit/auth-app@6.0.1:
+    resolution: {integrity: sha512-tjCD4nzQNZgmLH62+PSnTF6eGerisFgV4v6euhqJik6yWV96e1ZiiGj+NXIqbgnpjLmtnBqVUrNyGKu3DoGEGA==}
     engines: {node: '>= 18'}
     dependencies:
       '@octokit/auth-oauth-app': 7.0.0
       '@octokit/auth-oauth-user': 4.0.0
       '@octokit/request': 8.1.1
       '@octokit/request-error': 5.0.0
-      '@octokit/types': 11.1.0
+      '@octokit/types': 12.0.0
       deprecation: 2.3.1
       lru-cache: 10.0.1
       universal-github-app-jwt: 1.1.1

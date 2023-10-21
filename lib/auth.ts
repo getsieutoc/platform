@@ -1,4 +1,4 @@
-import { getServerSession, type NextAuthOptions } from 'next-auth';
+import { Account, NextAuthOptions, getServerSession } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GitHubProvider from 'next-auth/providers/github';
 import { AdapterUser } from 'next-auth/adapters';
@@ -52,7 +52,11 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, account }) => {
+      if (account) {
+        token.account = account;
+      }
+
       if (user) {
         token.user = user;
       }
@@ -61,7 +65,9 @@ export const authOptions: NextAuthOptions = {
     },
 
     session: async ({ session, token }) => {
-      if (token && token.user) {
+      if (token && token.user && token.account) {
+        session.account = token.account as Account;
+
         session.user = {
           ...session.user,
           id: token.sub as string, // we can be sure sub is inside token

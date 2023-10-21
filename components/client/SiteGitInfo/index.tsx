@@ -1,8 +1,8 @@
 'use client';
 
 import { CheckCircleIcon, CopyIcon, ExternalLinkIcon } from '@/icons';
-import { useClipboard, useColorModeValue } from '@/hooks';
-import type { ReposResponse, Site } from '@/types';
+import { useAuth, useClipboard, useColorModeValue } from '@/hooks';
+import { UserRole, type ReposResponse, type Site } from '@/types';
 
 import {
   Box,
@@ -31,6 +31,7 @@ export type SiteGithubInfoProps = {
 export const SiteGitInfo = ({ repo, site }: SiteGithubInfoProps) => {
   const gitCloneText = `git clone ${repo.ssh_url}`;
 
+  const { session } = useAuth();
   const { onCopy, hasCopied } = useClipboard(gitCloneText);
 
   const footerBorder = useColorModeValue('gray.200', 'gray.600');
@@ -76,17 +77,19 @@ export const SiteGitInfo = ({ repo, site }: SiteGithubInfoProps) => {
                 Go to GitHub repo
               </Button>
 
-              <Button
-                rightIcon={<ExternalLinkIcon />}
-                colorScheme="black"
-                target="_blank"
-                as={Link}
-                href={`https://vercel.com/sieutoc/${site.id}`}
-                variant="outline"
-                size="xs"
-              >
-                Go to Vercel project
-              </Button>
+              {session?.user.role === UserRole.ADMIN && (
+                <Button
+                  rightIcon={<ExternalLinkIcon />}
+                  colorScheme="black"
+                  target="_blank"
+                  as={Link}
+                  href={`https://vercel.com/sieutoc/${site.id}`}
+                  variant="outline"
+                  size="xs"
+                >
+                  Go to Vercel project
+                </Button>
+              )}
 
               <Button
                 rightIcon={<ExternalLinkIcon />}
