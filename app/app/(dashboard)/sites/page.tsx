@@ -1,10 +1,9 @@
 import { Flex, Heading, Skeleton, Wrap, WrapItem } from '@/components/chakra';
-import { Suspense } from 'react';
-
 import { CreateSiteButton } from '@/components/client';
 import { Sites } from '@/components/server';
+import { Suspense } from 'react';
 
-export default function AllSites() {
+export default async function AllSites() {
   return (
     <Flex width="100%" direction="column" gap={6}>
       <Flex
