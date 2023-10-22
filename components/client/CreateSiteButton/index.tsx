@@ -31,6 +31,7 @@ import { createSite } from '@/lib/actions/site';
 import { AddIcon } from '@/icons';
 
 import { SubdomainInput } from '../SubdomainInput';
+import { UserRole } from '@prisma/client';
 
 const initialValues = {
   name: '',
@@ -78,7 +79,9 @@ export const CreateSiteButton = () => {
 
         toast({ title: 'adding you as collaborator...' });
 
-        await addCollaborator(newSite.id, session.user.username);
+        if (session.user.role !== UserRole.ADMIN) {
+          await addCollaborator(newSite.id, session.user.username);
+        }
 
         toast({ title: 'Done!' });
 
