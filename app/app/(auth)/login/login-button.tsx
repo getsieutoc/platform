@@ -18,6 +18,16 @@ export default function LoginButton() {
     errorMessage && toast({ description: errorMessage, status: 'error' });
   }, [error, toast]);
 
+  const getCallbackUrl = () => {
+    const callbackUrl = searchParams?.get('callbackUrl');
+
+    if (typeof callbackUrl === 'string') {
+      return callbackUrl;
+    }
+
+    return '/';
+  };
+
   return (
     <Button
       isDisabled={isLoading}
@@ -27,7 +37,10 @@ export default function LoginButton() {
       loadingText="Login with GitHub"
       onClick={() => {
         setLoading(true);
-        signIn('github');
+        signIn('github', {
+          redirect: true,
+          callbackUrl: getCallbackUrl(),
+        });
       }}
     >
       Login with GitHub

@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { UserRole } from '@prisma/client';
 
 export default async function SiteAnalyticsLayout({
   params,
@@ -12,20 +13,23 @@ export default async function SiteAnalyticsLayout({
   params: { id: string };
   children: ReactNode;
 }) {
-  // const segment = useSelectedLayoutSegment();
-
   const session = await getSession();
+
   if (!session) {
     redirect('/login');
   }
+
   const data = await prisma.site.findUnique({
-    where: {
-      id: params.id,
-    },
+    where: { id: params.id },
+    include: { user: true },
   });
 
-  if (!data || data.userId !== session.user.id) {
+  if (!data) {
     notFound();
+  }
+
+  if (session.user.role !== UserRole.ADMIN && data.userId !== session.user.id) {
+    redirect('/sites');
   }
 
   return (

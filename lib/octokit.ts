@@ -6,7 +6,7 @@ declare global {
   var octokit: Octokit | undefined;
 }
 
-const octokit = global.octokit || new Octokit({ auth: process.env.GITHUB_TOKEN });
+const octokit = global.octokit ?? new Octokit({ auth: process.env.GITHUB_TOKEN });
 
 if (process.env.NODE_ENV === 'development') {
   global.octokit = octokit;

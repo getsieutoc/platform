@@ -1,7 +1,9 @@
-import { getServerSession, type NextAuthOptions } from 'next-auth';
+import { Account, NextAuthOptions, getServerSession } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GitHubProvider from 'next-auth/providers/github';
+import { AdapterUser } from 'next-auth/adapters';
 import { prisma } from '@/lib/prisma';
+import { UserRole } from '@prisma/client';
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
@@ -12,13 +14,13 @@ export const authOptions: NextAuthOptions = {
 
   providers: [
     GitHubProvider({
-      clientId: process.env.AUTH_GITHUB_ID as string,
-      clientSecret: process.env.AUTH_GITHUB_SECRET as string,
+      clientId: process.env.GITHUB_ID as string,
+      clientSecret: process.env.GITHUB_SECRET as string,
 
       profile(profile) {
         return {
           id: profile.id.toString(),
-          name: profile.name || profile.login,
+          name: profile.name ?? profile.login,
           username: profile.login,
           email: profile.email,
           image: profile.avatar_url,
@@ -50,9 +52,9 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    jwt: async ({ token, user, account, profile }) => {
+    jwt: async ({ token, user, account }) => {
       if (account) {
-        token.accessToken = account.access_token;
+        token.account = account;
       }
 
       if (user) {
@@ -63,17 +65,16 @@ export const authOptions: NextAuthOptions = {
     },
 
     session: async ({ session, token }) => {
-      session.accessToken = token.accessToken as string;
+      if (token && token.user && token.account) {
+        session.account = token.account as Account;
 
-      session.user = {
-        ...session.user,
-        // @ts-expect-error
-        id: token.sub,
-        // @ts-expect-error
-        username: token?.user?.username,
-        // @ts-expect-error
-        role: token?.user?.role,
-      };
+        session.user = {
+          ...session.user,
+          id: token.sub as string, // we can be sure sub is inside token
+          username: (token.user as AdapterUser).username ?? 'no-username',
+          role: (token.user as AdapterUser).role ?? UserRole.USER,
+        };
+      }
 
       return session;
     },
@@ -82,27 +83,4 @@ export const authOptions: NextAuthOptions = {
 
 export function getSession() {
   return getServerSession(authOptions);
-}
-
-export function withSiteAuth(action: any) {
-  return async (formData: FormData | null, siteId: string, key: string | null) => {
-    const session = await getSession();
-    if (!session) {
-      return {
-        error: 'Not authenticated',
-      };
-    }
-    const site = await prisma.site.findUnique({
-      where: {
-        id: siteId,
-      },
-    });
-    if (!site || site.userId !== session.user.id) {
-      return {
-        error: 'Not authorized',
-      };
-    }
-
-    return action(formData, site, key);
-  };
 }

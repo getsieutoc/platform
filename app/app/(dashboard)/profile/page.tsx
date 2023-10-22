@@ -17,6 +17,7 @@ export default async function ProfileSettingsPage() {
           Profile Settings
         </Heading>
       </Flex>
+      <Flex>{JSON.stringify(session.user)}</Flex>
     </Flex>
   );
 }

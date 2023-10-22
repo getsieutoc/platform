@@ -1,10 +1,10 @@
+import { Flex, Heading, Text, Wrap, WrapItem } from '@/components/chakra';
+import { NextImage } from '@/components/client';
 import { redirect } from 'next/navigation';
-
 import { parseQuery } from '@/lib/utils';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { Flex, Heading, Text, Wrap, WrapItem } from '@/components/chakra';
-import { NextImage } from '@/components/client';
+import { UserRole } from '@/types';
 
 import { SiteCard } from '../SiteCard';
 
@@ -17,7 +17,7 @@ export const Sites = async ({ limit }: { limit?: number }) => {
 
   const sites = await prisma.site.findMany({
     take: parseQuery(limit),
-    where: { user: { id: session.user.id } },
+    where: session.user.role === UserRole.ADMIN ? {} : { user: { id: session.user.id } },
     orderBy: { createdAt: 'asc' },
   });
 
