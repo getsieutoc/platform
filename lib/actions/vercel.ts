@@ -135,6 +135,10 @@ export const createProject = async ({
         key: 'ARGON_SECRET',
         value: envs.ARGON_SECRET,
       },
+      {
+        key: 'SITE_ID',
+        value: id,
+      },
     ].map((o) => ({ ...o, target: 'production', type: 'encrypted' })),
   });
 
