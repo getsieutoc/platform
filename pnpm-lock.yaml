@@ -48,8 +48,8 @@ dependencies:
     specifier: 0.5.0
     version: 0.5.0
   ai:
-    specifier: 2.2.17
-    version: 2.2.17(react@18.2.0)(solid-js@1.7.11)(svelte@4.2.0)(vue@3.3.4)
+    specifier: 2.2.18
+    version: 2.2.18(react@18.2.0)(solid-js@1.7.11)(svelte@4.2.0)(vue@3.3.4)
   date-fns:
     specifier: 2.30.0
     version: 2.30.0
@@ -2436,8 +2436,8 @@ packages:
       indent-string: 4.0.0
     dev: false
 
-  /ai@2.2.17(react@18.2.0)(solid-js@1.7.11)(svelte@4.2.0)(vue@3.3.4):
-    resolution: {integrity: sha512-A84UTv5/qSyuDcTfrtnCvKRxIHYunCOMyRLEvVGaJJLw3slnUpPf/tD9WfxNEO8Gh3thmI3xDWkEmqt1vYXEaw==}
+  /ai@2.2.18(react@18.2.0)(solid-js@1.7.11)(svelte@4.2.0)(vue@3.3.4):
+    resolution: {integrity: sha512-29wVZp58HJwCST90pvHLo3gTJ+BObD93mVsL5aHU7q01K8hD+wD7RaVDekmlDnHTXdCOYndoRdFeE0OHsdpheQ==}
     engines: {node: '>=14.6'}
     peerDependencies:
       react: ^18.2.0
