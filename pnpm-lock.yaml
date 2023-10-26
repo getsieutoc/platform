@@ -98,8 +98,8 @@ dependencies:
 
 devDependencies:
   '@octokit/types':
-    specifier: 12.1.0
-    version: 12.1.0
+    specifier: 12.1.1
+    version: 12.1.1
   '@types/js-cookie':
     specifier: 3.0.5
     version: 3.0.5
@@ -1738,7 +1738,7 @@ packages:
       '@octokit/auth-oauth-user': 4.0.0
       '@octokit/request': 8.1.1
       '@octokit/request-error': 5.0.0
-      '@octokit/types': 12.1.0
+      '@octokit/types': 12.1.1
       deprecation: 2.3.1
       lru-cache: 10.0.1
       universal-github-app-jwt: 1.1.1
@@ -1801,7 +1801,7 @@ packages:
       '@octokit/graphql': 7.0.1
       '@octokit/request': 8.1.1
       '@octokit/request-error': 5.0.0
-      '@octokit/types': 12.1.0
+      '@octokit/types': 12.1.1
       before-after-hook: 2.2.3
       universal-user-agent: 6.0.0
     dev: false
@@ -1858,8 +1858,8 @@ packages:
     resolution: {integrity: sha512-V8GImKs3TeQRxRtXFpG2wl19V7444NIOTDF24AWuIbmNaNYOQMWRbjcGDXV5B+0n887fgDcuMNOmlul+k+oJtw==}
     dev: false
 
-  /@octokit/openapi-types@19.0.1:
-    resolution: {integrity: sha512-zC+73r2HIoRb9rWW5S3Y759hrpadlD5pNnya/QfZv0JZE7mvMu+FUa7nxHqTadi2hZc4BPZjJ8veDTuJnh8+8g==}
+  /@octokit/openapi-types@19.0.2:
+    resolution: {integrity: sha512-8li32fUDUeml/ACRp/njCWTsk5t17cfTM1jp9n08pBrqs5cDFJubtjsSnuz56r5Tad6jdEPJld7LxNp9dNcyjQ==}
 
   /@octokit/plugin-paginate-graphql@4.0.0(@octokit/core@5.0.1):
     resolution: {integrity: sha512-7HcYW5tP7/Z6AETAPU14gp5H5KmCPT3hmJrS/5tO7HIgbwenYmgw4OY9Ma54FDySuxMwD+wsJlxtuGWwuZuItA==}
@@ -1887,7 +1887,7 @@ packages:
       '@octokit/core': '>=5'
     dependencies:
       '@octokit/core': 5.0.1
-      '@octokit/types': 12.1.0
+      '@octokit/types': 12.1.1
     dev: false
 
   /@octokit/plugin-rest-endpoint-methods@10.0.0(@octokit/core@5.0.1):
@@ -1897,7 +1897,7 @@ packages:
       '@octokit/core': '>=5'
     dependencies:
       '@octokit/core': 5.0.1
-      '@octokit/types': 12.1.0
+      '@octokit/types': 12.1.1
     dev: false
 
   /@octokit/plugin-retry@6.0.0(@octokit/core@5.0.1):
@@ -1919,7 +1919,7 @@ packages:
       '@octokit/core': ^5.0.0
     dependencies:
       '@octokit/core': 5.0.1
-      '@octokit/types': 12.1.0
+      '@octokit/types': 12.1.1
       bottleneck: 2.19.5
     dev: false
 
@@ -1949,10 +1949,10 @@ packages:
       '@octokit/openapi-types': 18.0.0
     dev: false
 
-  /@octokit/types@12.1.0:
-    resolution: {integrity: sha512-JmjQr5ZbOnpnOLX5drI2O2I1N9suOYZAgINHXTlVVg4lRtUifMv2JssT+RhmNxQwXH153Pc8HaCMdTRkqI1oVQ==}
+  /@octokit/types@12.1.1:
+    resolution: {integrity: sha512-qnJTldJ1NyGT5MTsCg/Zi+y2IFHZ1Jo5+njNCjJ9FcainV7LjuHgmB697kA0g4MjZeDAJsM3B45iqCVsCLVFZg==}
     dependencies:
-      '@octokit/openapi-types': 19.0.1
+      '@octokit/openapi-types': 19.0.2
 
   /@octokit/webhooks-methods@4.0.0:
     resolution: {integrity: sha512-M8mwmTXp+VeolOS/kfRvsDdW+IO0qJ8kYodM/sAysk093q6ApgmBXwK1ZlUvAwXVrp/YVHp6aArj4auAxUAOFw==}
@@ -4612,7 +4612,7 @@ packages:
       '@octokit/plugin-retry': 6.0.0(@octokit/core@5.0.1)
       '@octokit/plugin-throttling': 8.0.0(@octokit/core@5.0.1)
       '@octokit/request-error': 5.0.0
-      '@octokit/types': 12.1.0
+      '@octokit/types': 12.1.1
     dev: false
 
   /oidc-token-hash@5.0.3:
