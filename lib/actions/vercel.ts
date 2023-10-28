@@ -3,14 +3,14 @@
 import deepmerge from 'deepmerge';
 
 import {
-  HttpMethod,
-  type JsonObject,
-  type Site,
-  type Project,
-  type DomainResponse,
-  type ProjectResponse,
-  type DomainVerificationResponse,
   DomainConfigResponse,
+  DomainResponse,
+  DomainVerificationResponse,
+  EnvironmentVariables,
+  HttpMethod,
+  Project,
+  ProjectResponse,
+  Site,
 } from '@/types';
 
 import { TEAM_ID, VERCEL_TOKEN, VERCEL_API_URL } from '../constants';
@@ -121,25 +121,41 @@ export const createProject = async ({
 }: CreateProjectDto) => {
   const gitRepo = `sieutoc-customers/${id}`;
 
-  const envs = environmentVariables as JsonObject;
+  const envs = environmentVariables as EnvironmentVariables;
 
   const data = deepmerge(defaultOptions, {
     name: id,
-    gitRepository: { repo: gitRepo },
+    gitRepository: { repo: gitRepo, type: 'github' },
     environmentVariables: [
-      {
-        key: 'NEXTAUTH_SECRET',
-        value: envs.NEXTAUTH_SECRET,
-      },
-      {
-        key: 'ARGON_SECRET',
-        value: envs.ARGON_SECRET,
-      },
-      {
-        key: 'SITE_ID',
-        value: id,
-      },
-    ].map((o) => ({ ...o, target: 'production', type: 'encrypted' })),
+      ...[
+        {
+          key: 'NEXTAUTH_SECRET',
+          value: envs.production.NEXTAUTH_SECRET,
+        },
+        {
+          key: 'ARGON_SECRET',
+          value: envs.production.ARGON_SECRET,
+        },
+        {
+          key: 'SITE_ID',
+          value: id,
+        },
+      ].map((o) => ({ ...o, target: 'production', type: 'encrypted' })),
+      ...[
+        {
+          key: 'NEXTAUTH_SECRET',
+          value: envs.preview.NEXTAUTH_SECRET,
+        },
+        {
+          key: 'ARGON_SECRET',
+          value: envs.preview.ARGON_SECRET,
+        },
+        {
+          key: 'SITE_ID',
+          value: id,
+        },
+      ].map((o) => ({ ...o, target: 'preview', type: 'encrypted' })),
+    ],
   });
 
   const response = await fetcher<Project>(
@@ -154,6 +170,16 @@ export const createProject = async ({
   // Update the subdomain, we can not do it with project creation
   if (response && response.id) {
     await addDomainToProject(response.id, `${subdomain}.sieutoc.website`);
+
+    // Because the default branch is fucking `main` so we have to make another update request
+    await fetcher<Project>(
+      `https://vercel.com/api/v4/projects/${response.id}/branch?teamId=${TEAM_ID}`,
+      {
+        method: HttpMethod.PATCH,
+        headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
+        body: JSON.stringify({ branch: 'master' }),
+      }
+    );
   }
 
   return response;

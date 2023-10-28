@@ -22,8 +22,14 @@ export const createSite = async ({ name, description, subdomain }: CreateSiteDto
 
   try {
     const environmentVariables = {
-      NEXTAUTH_SECRET: crypto.randomBytes(32).toString('hex'),
-      ARGON_SECRET: crypto.randomBytes(32).toString('hex'),
+      production: {
+        NEXTAUTH_SECRET: crypto.randomBytes(32).toString('hex'),
+        ARGON_SECRET: crypto.randomBytes(32).toString('hex'),
+      },
+      preview: {
+        NEXTAUTH_SECRET: crypto.randomBytes(32).toString('hex'),
+        ARGON_SECRET: crypto.randomBytes(32).toString('hex'),
+      },
     };
 
     const response = await prisma.site.create({
