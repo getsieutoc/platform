@@ -1,10 +1,30 @@
 'use client';
 
-import { SmallCloseIcon, WarningTwoIcon } from '@/icons';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Code,
+  Flex,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+} from '@/components/chakra';
 import { useDomainStatus, useState } from '@/hooks';
 import { getSubdomain } from '@/lib/domains';
 
-import { Code } from '@/components/chakra';
+import { SimpleTable } from '../SimpleTable';
+
+const recordColumns = [
+  { header: 'Type', accessorKey: 'type' },
+  { header: 'Name', accessorKey: 'name' },
+  { header: 'Value', accessorKey: 'value' },
+  { header: 'TTL', accessorKey: 'ttl' },
+];
 
 export const DomainConfiguration = ({
   siteId,
@@ -13,37 +33,33 @@ export const DomainConfiguration = ({
   siteId?: string | null;
   domain: string;
 }) => {
-  const [recordType, setRecordType] = useState<'A' | 'CNAME'>('A');
+  const [tabIndex, setTabIndex] = useState(0);
 
-  const { status, domainJson } = useDomainStatus({ siteId, domain });
+  const { status, message, domainJson, isLoading } = useDomainStatus({ siteId, domain });
 
-  if (!status || status === 'Valid Configuration' || !domainJson) return null;
+  if (!message || message === 'Valid Configuration' || !domainJson) return null;
 
   const subdomain = getSubdomain(domainJson.name, domainJson.apexName);
 
   const txtVerification =
-    (status === 'Pending Verification' &&
+    (message === 'Pending Verification' &&
       domainJson.verification.find((x: any) => x.type === 'TXT')) ||
     null;
 
+  const handleChangeTab = (index: number) => {
+    setTabIndex(index);
+  };
+
   return (
-    <div className="border-t border-stone-200 px-10 pb-5 pt-7 dark:border-stone-700">
-      <div className="mb-4 flex items-center space-x-2">
-        {status === 'Pending Verification' ? (
-          <WarningTwoIcon
-            fill="#FBBF24"
-            stroke="currentColor"
-            className="text-white dark:text-black"
-          />
-        ) : (
-          <SmallCloseIcon
-            fill="#DC2626"
-            stroke="currentColor"
-            className="text-white dark:text-black"
-          />
-        )}
-        <p className="text-lg font-semibold dark:text-white">{status}</p>
-      </div>
+    <Flex direction="column" fontSize="sm" padding={2} gap={2}>
+      <Alert status={status}>
+        <AlertIcon />
+
+        <AlertTitle>{message}</AlertTitle>
+
+        {isLoading && <AlertDescription>Checking...</AlertDescription>}
+      </Alert>
+
       {txtVerification ? (
         <>
           <p className="text-sm dark:text-white">
@@ -77,71 +93,68 @@ export const DomainConfiguration = ({
             exercise caution when setting this record.
           </p>
         </>
-      ) : status === 'Unknown Error' ? (
+      ) : message === 'Unknown Error' ? (
         <p className="mb-5 text-sm dark:text-white">{domainJson.error.message}</p>
       ) : (
         <>
-          <div className="flex justify-start space-x-4">
-            <button
-              type="button"
-              onClick={() => setRecordType('A')}
-              className={`${
-                recordType == 'A'
-                  ? 'border-black text-black dark:border-white dark:text-white'
-                  : 'border-white text-stone-400 dark:border-black dark:text-stone-600'
-              } ease border-b-2 pb-1 text-sm transition-all duration-150`}
-            >
-              A Record{!subdomain && ' (recommended)'}
-            </button>
-            <button
-              type="button"
-              onClick={() => setRecordType('CNAME')}
-              className={`${
-                recordType == 'CNAME'
-                  ? 'border-black text-black dark:border-white dark:text-white'
-                  : 'border-white text-stone-400 dark:border-black dark:text-stone-600'
-              } ease border-b-2 pb-1 text-sm transition-all duration-150`}
-            >
-              CNAME Record{subdomain && ' (recommended)'}
-            </button>
-          </div>
-          <div className="my-3 text-left">
-            <p className="my-5 text-sm dark:text-white">
-              To configure your {recordType === 'A' ? 'apex domain' : 'subdomain'} (
-              <Code>{recordType === 'A' ? domainJson.apexName : domainJson.name}</Code>
-              ), set the following {recordType} record on your DNS provider to continue:
-            </p>
-            <div className="flex items-center justify-start space-x-10 rounded-md bg-stone-50 p-2 dark:bg-stone-800 dark:text-white">
-              <div>
-                <p className="text-sm font-bold">Type</p>
-                <p className="mt-2 font-mono text-sm">{recordType}</p>
-              </div>
-              <div>
-                <p className="text-sm font-bold">Name</p>
-                <p className="mt-2 font-mono text-sm">
-                  {recordType === 'A' ? '@' : subdomain ?? 'www'}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm font-bold">Value</p>
-                <p className="mt-2 font-mono text-sm">
-                  {recordType === 'A'
-                    ? `76.76.21.21`
-                    : `cname.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm font-bold">TTL</p>
-                <p className="mt-2 font-mono text-sm">86400</p>
-              </div>
-            </div>
-            <p className="mt-5 text-sm dark:text-white">
-              Note: for TTL, if <Code>86400</Code> is not available, set the highest value
-              possible. Also, domain propagation can take up to an hour.
-            </p>
-          </div>
+          <Tabs size="sm" index={tabIndex} onChange={handleChangeTab}>
+            <TabList>
+              <Tab>A Record {!subdomain && '(recommended)'}</Tab>
+              <Tab>CNAME Record{subdomain && ' (recommended)'}</Tab>
+            </TabList>
+
+            <TabPanels>
+              <TabPanel>
+                <Text as="p" fontSize="xs">
+                  To configure your apex domain <Code>{domainJson.apexName}</Code>, set
+                  the following A record on your DNS provider to continue:
+                </Text>
+                <Text as="p" fontSize="xs" mb={2}>
+                  Note: for TTL, if 86400 is not available, set the highest value
+                  possible. Also, domain propagation can take up to an hour.
+                </Text>
+
+                <SimpleTable
+                  columns={recordColumns}
+                  data={[
+                    {
+                      id: 'A',
+                      type: 'A',
+                      name: '@',
+                      value: '76.76.21.21',
+                      ttl: 86400,
+                    },
+                  ]}
+                />
+              </TabPanel>
+              <TabPanel>
+                <Text as="p" fontSize="xs">
+                  To configure your subdomain <Code>{domainJson.name}</Code>, set the
+                  following CNAME record on your DNS provider to continue:
+                </Text>
+
+                <Text as="p" fontSize="xs" mb={2}>
+                  Note: for TTL, if 86400 is not available, set the highest value
+                  possible. Also, domain propagation can take up to an hour.
+                </Text>
+
+                <SimpleTable
+                  columns={recordColumns}
+                  data={[
+                    {
+                      id: 'CNAME',
+                      type: 'CNAME',
+                      name: subdomain ?? 'www',
+                      value: `cname.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
+                      ttl: 86400,
+                    },
+                  ]}
+                />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </>
       )}
-    </div>
+    </Flex>
   );
 };

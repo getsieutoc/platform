@@ -4,18 +4,22 @@ import {
   getConfigResponse,
   verifyDomain,
 } from '@/lib/actions/vercel';
-import { DomainVerificationStatusProps } from '@/types';
 import { NextRequest, NextResponse } from 'next/server';
+import { DomainVerificationMessage } from '@/types';
 
 export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
   const domain = params.slug;
+
   const { searchParams } = req.nextUrl;
+
   const siteId = searchParams.get('siteId');
+
   const project = await findProject(siteId);
 
   if (!project) return;
 
-  let status: DomainVerificationStatusProps = 'Valid Configuration';
+  let status = 'info';
+  let message: DomainVerificationMessage = 'Valid Configuration';
 
   const [domainJson, configJson] = await Promise.all([
     getDomainResponse(project.id, domain),
@@ -24,29 +28,36 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
 
   if (domainJson?.error?.code === 'not_found') {
     // domain not found on Vercel project
-    status = 'Domain Not Found';
+    status = 'warning';
+    message = 'Domain Not Found';
 
     // unknown error
   } else if (domainJson.error) {
-    status = 'Unknown Error';
+    status = 'error';
+    message = 'Unknown Error';
 
     // if domain is not verified, we try to verify now
   } else if (!domainJson.verified) {
-    status = 'Pending Verification';
+    status = 'info';
+    message = 'Pending Verification';
     const verificationJson = await verifyDomain(project.id, domain);
 
     // domain was just verified
     if (verificationJson && verificationJson.verified) {
-      status = 'Valid Configuration';
+      status = 'success';
+      message = 'Valid Configuration';
     }
   } else if (configJson.misconfigured) {
-    status = 'Invalid Configuration';
+    status = 'warning';
+    message = 'Invalid Configuration';
   } else {
-    status = 'Valid Configuration';
+    status = 'success';
+    message = 'Valid Configuration';
   }
 
   return NextResponse.json({
     status,
+    message,
     domainJson,
   });
 }
