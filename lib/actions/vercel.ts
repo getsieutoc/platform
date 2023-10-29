@@ -13,7 +13,7 @@ import {
   Site,
 } from '@/types';
 
-import { TEAM_ID, VERCEL_TOKEN, VERCEL_API_URL } from '../constants';
+import { TEAM_ID, VERCEL_TOKEN } from '../constants';
 import { fetcher } from '../utils';
 
 import { checkRepoExisting } from './github';
@@ -27,7 +27,7 @@ const defaultOptions = {
 
 export const addDomainToProject = async (projectId: string, domain: string) => {
   const response = await fetcher(
-    `${VERCEL_API_URL}/v10/projects/${projectId}/domains?teamId=${TEAM_ID}`,
+    `https://api.vercel.com/v10/projects/${projectId}/domains?teamId=${TEAM_ID}`,
     {
       method: HttpMethod.POST,
       headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
@@ -42,7 +42,7 @@ export const addDomainToProject = async (projectId: string, domain: string) => {
 
 export const removeDomainFromProject = async (projectId: string, domain: string) => {
   const response = await fetcher(
-    `${VERCEL_API_URL}/v10/projects/${projectId}/domains/${domain}?teamId=${TEAM_ID}`,
+    `https://api.vercel.com/v10/projects/${projectId}/domains/${domain}?teamId=${TEAM_ID}`,
     {
       method: HttpMethod.DELETE,
       headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
@@ -54,7 +54,7 @@ export const removeDomainFromProject = async (projectId: string, domain: string)
 
 export const getDomainResponse = async (projectId: string, domain: string) => {
   const response = await fetcher<DomainResponse>(
-    `${VERCEL_API_URL}/v9/projects/${projectId}/domains/${domain}?teamId=${TEAM_ID}`,
+    `https://api.vercel.com/v9/projects/${projectId}/domains/${domain}?teamId=${TEAM_ID}`,
     {
       method: HttpMethod.GET,
       headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
@@ -66,7 +66,7 @@ export const getDomainResponse = async (projectId: string, domain: string) => {
 
 export const getConfigResponse = async (domain: string) => {
   const response = await fetcher<DomainConfigResponse>(
-    `${VERCEL_API_URL}/v6/domains/${domain}/config?teamId=${TEAM_ID}`,
+    `https://api.vercel.com/v6/domains/${domain}/config?teamId=${TEAM_ID}`,
     {
       method: HttpMethod.GET,
       headers: {
@@ -100,7 +100,7 @@ export const isSubdomainFree = async (domain: string) => {
 
 export const verifyDomain = async (projectId: string, domain: string) => {
   const response = await fetcher<DomainVerificationResponse>(
-    `${VERCEL_API_URL}/v9/projects/${projectId}/domains/${domain}/verify?teamId=${TEAM_ID}`,
+    `https://api.vercel.com/v9/projects/${projectId}/domains/${domain}/verify?teamId=${TEAM_ID}`,
     {
       method: HttpMethod.POST,
       headers: {
@@ -159,7 +159,7 @@ export const createProject = async ({
   });
 
   const response = await fetcher<Project>(
-    `${VERCEL_API_URL}/v9/projects?teamId=${TEAM_ID}`,
+    `https://api.vercel.com/v9/projects?teamId=${TEAM_ID}`,
     {
       method: HttpMethod.POST,
       headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
@@ -189,7 +189,7 @@ export const findProject = async (idOrName?: string | null) => {
   if (!idOrName) return null;
 
   const response = await fetcher<ProjectResponse>(
-    `${VERCEL_API_URL}/v9/projects/${idOrName}?teamId=${TEAM_ID}`,
+    `https://api.vercel.com/v9/projects/${idOrName}?teamId=${TEAM_ID}`,
     {
       method: HttpMethod.GET,
       headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
@@ -211,7 +211,7 @@ export const deleteProject = async (idOrName: string) => {
   }
 
   const response = await fetcher(
-    `${VERCEL_API_URL}/v9/projects/${found.id}?teamId=${TEAM_ID}`,
+    `https://api.vercel.com/v9/projects/${found.id}?teamId=${TEAM_ID}`,
     {
       method: HttpMethod.DELETE,
       headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
@@ -233,7 +233,7 @@ export const createDeployment = async ({ id }: DeployDto) => {
   }
 
   const deployResponse = await fetcher(
-    `${VERCEL_API_URL}/v13/deployments/?teamId=${TEAM_ID}`,
+    `https://api.vercel.com/v13/deployments/?teamId=${TEAM_ID}`,
     {
       method: HttpMethod.POST,
       headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
