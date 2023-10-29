@@ -12,13 +12,13 @@ export default function DomainStatus({
   siteId?: string | null;
   domain: string;
 }) {
-  const { status, loading } = useDomainStatus({ siteId, domain });
+  const { message, isLoading } = useDomainStatus({ siteId, domain });
 
-  return loading ? (
+  return isLoading ? (
     <Spinner />
-  ) : status === 'Valid Configuration' ? (
+  ) : message === 'Valid Configuration' ? (
     <CheckCircleIcon color="green" />
-  ) : status === 'Pending Verification' ? (
+  ) : message === 'Pending Verification' ? (
     <InfoIcon color="orange" />
   ) : (
     <WarningTwoIcon color="red" />
