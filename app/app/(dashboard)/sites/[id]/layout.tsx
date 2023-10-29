@@ -1,24 +1,16 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { Flex, Heading } from '@/components/chakra';
 import type { ReactNode } from 'react';
 
-import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { UserRole } from '@prisma/client';
 
-export default async function SiteAnalyticsLayout({
+export default async function SingleSiteLayout({
   params,
   children,
 }: {
   params: { id: string };
   children: ReactNode;
 }) {
-  const session = await getSession();
-
-  if (!session) {
-    redirect('/login');
-  }
-
   const data = await prisma.site.findUnique({
     where: { id: params.id },
     include: { user: true },
@@ -26,10 +18,6 @@ export default async function SiteAnalyticsLayout({
 
   if (!data) {
     notFound();
-  }
-
-  if (session.user.role !== UserRole.ADMIN && data.userId !== session.user.id) {
-    redirect('/sites');
   }
 
   return (
