@@ -7,8 +7,7 @@ import {
 } from '@/lib/actions/vercel';
 import { useColorModeValue, useState } from '@/hooks';
 import { updateSiteSimple } from '@/lib/actions/site';
-import { IS_PRODUCTION } from '@/lib/constants';
-import type { Site } from '@/types';
+import { validDomainRegex } from '@/lib/domains';
 
 import {
   Button,
@@ -26,42 +25,45 @@ import {
   Stack,
   Text,
 } from '@/components/chakra';
+import { Site } from '@/types';
+
 import { DomainConfiguration } from '../DomainConfiguration';
 
 type SiteCustomDomainFormProps = {
   site: Site | null;
 };
 
-// We will continue to work on this soon
 export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [customDomain, setCustomDomain] = useState(site?.customDomain ?? '');
 
+  const validDomain = validDomainRegex.test(customDomain);
+
+  const hasChanged = customDomain.length > 0 && customDomain !== site?.customDomain;
+
+  const footerBorder = useColorModeValue('gray.200', 'gray.600');
+
   const handleSave = async () => {
     try {
-      if (!site || IS_PRODUCTION) return;
+      if (!site || !validDomain) return;
 
       setIsLoading(true);
 
-      const res = await updateSiteSimple(site.id, { subdomain: customDomain });
+      const response = await updateSiteSimple(site.id, { customDomain });
 
       const project = await findProject(site.id);
 
-      if (res && project) {
-        await removeDomainFromProject(project.id, `${site.subdomain}.sieutoc.website`);
+      if (response && project) {
+        await removeDomainFromProject(project.id, customDomain);
 
-        await addDomainToProject(project.id, `${customDomain}.sieutoc.website`);
+        await addDomainToProject(project.id, customDomain);
       }
     } catch (error) {
     } finally {
       setIsLoading(false);
     }
   };
-
-  const validChanges = customDomain.length > 3 && customDomain !== site?.customDomain;
-
-  const footerBorder = useColorModeValue('gray.200', 'gray.600');
 
   if (!site) {
     return <Skeleton height="40px" />;
@@ -71,22 +73,22 @@ export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
     <>
       <Card direction="column" width="100%">
         <CardHeader>
-          <Heading size="md">Custom Domain (Coming Soon!)</Heading>
+          <Heading size="md">Custom Domain</Heading>
         </CardHeader>
         <CardBody>
-          <Stack spacing={6} maxW="480px" minW="240px">
-            <FormControl isDisabled={true || isLoading}>
-              <FormLabel>Custom Domain for your site</FormLabel>
+          <Stack spacing={6}>
+            <FormControl isDisabled={isLoading} maxW="480px" minW="240px">
+              <FormLabel>Custom Domain</FormLabel>
               <Input
+                isInvalid={hasChanged && !validDomain}
                 placeholder="yourdomain.com"
                 maxLength={64}
-                pattern="^[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}$"
                 value={customDomain}
                 onChange={(event) => setCustomDomain(event.target.value)}
               />
             </FormControl>
 
-            {customDomain && (
+            {hasChanged && validDomain && (
               <DomainConfiguration siteId={site.id} domain={customDomain} />
             )}
           </Stack>
@@ -96,11 +98,11 @@ export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
 
         <CardFooter>
           <Flex width="100%" direction="row" justify="space-between" align="center">
-            <Text fontSize="sm">Please use 64 characters maximum</Text>
+            <Text fontSize="sm">Use 64 characters maximum.</Text>
 
             <Button
-              colorScheme={validChanges ? 'green' : 'gray'}
-              isDisabled={true || !validChanges || isLoading}
+              colorScheme={hasChanged && validDomain ? 'green' : 'gray'}
+              isDisabled={!hasChanged || !validDomain || isLoading}
               isLoading={isLoading}
               onClick={handleSave}
             >

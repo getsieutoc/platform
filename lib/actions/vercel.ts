@@ -125,7 +125,7 @@ export const createProject = async ({
 
   const data = deepmerge(defaultOptions, {
     name: id,
-    gitRepository: { repo: gitRepo, type: 'github' },
+    gitRepository: { repo: gitRepo },
     environmentVariables: [
       ...[
         {

@@ -5,7 +5,7 @@ export type ErrorResponse = {
   };
 };
 
-export type DomainVerificationStatusProps =
+export type DomainVerificationMessage =
   | 'Valid Configuration'
   | 'Invalid Configuration'
   | 'Pending Verification'
