@@ -4,8 +4,8 @@ import {
   getConfigResponse,
   verifyDomain,
 } from '@/lib/actions/vercel';
-import { DomainVerificationMessage } from '@/types';
 import { NextRequest, NextResponse } from 'next/server';
+import { DomainVerificationMessage } from '@/types';
 
 export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
   const domain = params.slug;
