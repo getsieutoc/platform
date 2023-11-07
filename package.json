@@ -37,7 +37,7 @@
     "deepmerge": "4.3.1",
     "framer-motion": "10.16.4",
     "js-cookie": "3.0.5",
-    "nanoid": "5.0.2",
+    "nanoid": "5.0.3",
     "next": "14.0.1",
     "next-auth": "4.24.4",
     "octokit": "3.1.1",
