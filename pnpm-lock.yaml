@@ -98,8 +98,8 @@ dependencies:
 
 devDependencies:
   '@octokit/types':
-    specifier: 12.1.1
-    version: 12.1.1
+    specifier: 12.2.0
+    version: 12.2.0
   '@types/js-cookie':
     specifier: 3.0.6
     version: 3.0.6
@@ -1738,7 +1738,7 @@ packages:
       '@octokit/auth-oauth-user': 4.0.0
       '@octokit/request': 8.1.1
       '@octokit/request-error': 5.0.0
-      '@octokit/types': 12.1.1
+      '@octokit/types': 12.2.0
       deprecation: 2.3.1
       lru-cache: 10.0.1
       universal-github-app-jwt: 1.1.1
@@ -1801,7 +1801,7 @@ packages:
       '@octokit/graphql': 7.0.1
       '@octokit/request': 8.1.1
       '@octokit/request-error': 5.0.0
-      '@octokit/types': 12.1.1
+      '@octokit/types': 12.2.0
       before-after-hook: 2.2.3
       universal-user-agent: 6.0.0
     dev: false
@@ -1887,7 +1887,7 @@ packages:
       '@octokit/core': '>=5'
     dependencies:
       '@octokit/core': 5.0.1
-      '@octokit/types': 12.1.1
+      '@octokit/types': 12.2.0
     dev: false
 
   /@octokit/plugin-rest-endpoint-methods@10.0.0(@octokit/core@5.0.1):
@@ -1897,7 +1897,7 @@ packages:
       '@octokit/core': '>=5'
     dependencies:
       '@octokit/core': 5.0.1
-      '@octokit/types': 12.1.1
+      '@octokit/types': 12.2.0
     dev: false
 
   /@octokit/plugin-retry@6.0.0(@octokit/core@5.0.1):
@@ -1919,7 +1919,7 @@ packages:
       '@octokit/core': ^5.0.0
     dependencies:
       '@octokit/core': 5.0.1
-      '@octokit/types': 12.1.1
+      '@octokit/types': 12.2.0
       bottleneck: 2.19.5
     dev: false
 
@@ -1949,8 +1949,8 @@ packages:
       '@octokit/openapi-types': 18.0.0
     dev: false
 
-  /@octokit/types@12.1.1:
-    resolution: {integrity: sha512-qnJTldJ1NyGT5MTsCg/Zi+y2IFHZ1Jo5+njNCjJ9FcainV7LjuHgmB697kA0g4MjZeDAJsM3B45iqCVsCLVFZg==}
+  /@octokit/types@12.2.0:
+    resolution: {integrity: sha512-ZkdHqHJdifVndN7Pha10+qrgAjy3AcG//Vmjr/o5UFuTiYCcMhqDj39Yr9VM9zJ/42KO2xAYhV7cvLnLI9Kvwg==}
     dependencies:
       '@octokit/openapi-types': 19.0.2
 
@@ -4612,7 +4612,7 @@ packages:
       '@octokit/plugin-retry': 6.0.0(@octokit/core@5.0.1)
       '@octokit/plugin-throttling': 8.0.0(@octokit/core@5.0.1)
       '@octokit/request-error': 5.0.0
-      '@octokit/types': 12.1.1
+      '@octokit/types': 12.2.0
     dev: false
 
   /oidc-token-hash@5.0.3:
