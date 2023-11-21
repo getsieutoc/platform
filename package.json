@@ -31,7 +31,7 @@
     "@vercel/analytics": "1.1.1",
     "@vercel/blob": "0.9.2",
     "@vercel/kv": "0.2.3",
-    "@vercel/postgres": "0.5.0",
+    "@vercel/postgres": "0.5.1",
     "ai": "2.2.25",
     "date-fns": "2.30.0",
     "deepmerge": "4.3.1",
