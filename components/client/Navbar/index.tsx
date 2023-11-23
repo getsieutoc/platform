@@ -76,6 +76,7 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
   }, [segments, id]);
 
   const backgroundColor = useColorModeValue('gray.100', 'gray.900');
+  const logoPath = useColorModeValue('/light.png', '/dark.png');
 
   return (
     <Flex
@@ -88,7 +89,7 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
     >
       <Box>
         <NextLink href="/">
-          <NextImage src="/logo.png" width={12} height={12} alt="Logo" />
+          <NextImage src={logoPath} width={128} height={37} alt="Logo" />
         </NextLink>
 
         <Stack marginTop={6} spacing={1}>
