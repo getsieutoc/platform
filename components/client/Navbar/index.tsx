@@ -16,6 +16,7 @@ import { IS_PRODUCTION } from '@/lib/constants';
 import { Box, Button, Flex, Stack, useColorModeValue } from '@/components/chakra';
 import { NextLink } from '../NextLink';
 import { NextImage } from '../NextImage';
+import { ColorModeSwitcher } from '../ColorModeSwitcher';
 
 export const Navbar = ({ children }: { children: ReactNode }) => {
   const segments = useSelectedLayoutSegments();
@@ -75,7 +76,7 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
     ];
   }, [segments, id]);
 
-  const backgroundColor = useColorModeValue('gray.100', 'gray.900');
+  const backgroundColor = useColorModeValue('white', 'black');
   const logoPath = useColorModeValue('/light.png', '/dark.png');
 
   return (
@@ -88,9 +89,13 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
       padding={4}
     >
       <Box>
-        <NextLink href="/">
-          <NextImage src={logoPath} width={128} height={37} alt="Logo" />
-        </NextLink>
+        <Flex direction="row" justify="space-between" align="end">
+          <NextLink href="/">
+            <NextImage src={logoPath} width={128} height={37} alt="Logo" />
+          </NextLink>
+
+          <ColorModeSwitcher size="sm" />
+        </Flex>
 
         <Stack marginTop={6} spacing={1}>
           {tabs
