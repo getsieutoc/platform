@@ -99,7 +99,7 @@ export const SiteQuickLinks = ({ repo, site }: SiteGithubInfoProps) => {
                 href={
                   site.customDomain
                     ? site.customDomain
-                    : `https://${site.subdomain}.sieutoc.website`
+                    : `https://${site.slug}.sieutoc.website`
                 }
                 variant="outline"
                 size="xs"

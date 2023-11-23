@@ -23,7 +23,7 @@ export default function AllSites() {
       <Suspense
         fallback={
           <Wrap spacing={6}>
-            {Array.from({ length: 6 }).map((_, i) => (
+            {Array.from({ length: 3 }).map((_, i) => (
               <WrapItem key={i}>
                 <Skeleton height="40px" />
               </WrapItem>

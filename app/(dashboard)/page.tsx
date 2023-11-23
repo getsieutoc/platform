@@ -1,12 +1,16 @@
-import { Flex, Heading, Skeleton } from '@/components/chakra';
-import { Suspense } from 'react';
-
-import { Sites } from '@/components/server';
+import { Flex, Heading } from '@/components/chakra';
 
 export default function Overview() {
   return (
     <Flex width="100%" direction="column" gap={6}>
-      <Flex height="48px" align="center">
+      <Flex
+        width="100%"
+        height="48px"
+        direction="row"
+        justify="space-between"
+        align="center"
+        gap={6}
+      >
         <Heading as="h1" size="lg">
           Overview
         </Heading>
@@ -15,12 +19,9 @@ export default function Overview() {
       <div className="flex flex-col space-y-6">
         <div className="flex items-center justify-between">
           <Heading as="h3" size="md">
-            Top Sites
+            Under Construction
           </Heading>
         </div>
-        <Suspense fallback={<Skeleton height="20px" />}>
-          <Sites limit={1} />
-        </Suspense>
       </div>
     </Flex>
   );

@@ -14,12 +14,13 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
   Stack,
 } from '@/components/chakra';
 import {
   useAuth,
+  useDebounce,
   useDisclosure,
-  useEffect,
   useRef,
   useRouter,
   useState,
@@ -27,15 +28,14 @@ import {
 } from '@/hooks';
 import { addCollaborator, createRepo } from '@/lib/actions/github';
 import { createSite } from '@/lib/actions/site';
-import { AddIcon } from '@/icons';
-
-import { SubdomainInput } from '../SubdomainInput';
 import { UserRole } from '@prisma/client';
+import { AddIcon } from '@/icons';
 
 const initialValues = {
   name: '',
-  subdomain: '',
+  slug: '',
   description: '',
+  template: '',
 };
 
 export const CreateSiteButton = () => {
@@ -48,14 +48,20 @@ export const CreateSiteButton = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [template, setTemplate] = useState('taijutsu');
+
   const [data, setData] = useState(initialValues);
 
-  useEffect(() => {
-    setData((prev) => ({
-      ...prev,
-      subdomain: slugify(prev.name).toLowerCase(),
-    }));
-  }, [data.name]);
+  useDebounce(
+    () => {
+      setData((prev) => ({
+        ...prev,
+        slug: slugify(prev.name).toLowerCase(),
+      }));
+    },
+    200,
+    [data.name]
+  );
 
   const handleCancel = () => {
     onClose();
@@ -71,7 +77,7 @@ export const CreateSiteButton = () => {
       if (newSite && session) {
         toast({ title: 'Creating your site...' });
 
-        await createRepo(newSite);
+        await createRepo({ ...newSite, template });
         toast({ title: 'GitHub repo is cloned successfully...' });
 
         toast({ title: 'adding you as collaborator...' });
@@ -112,6 +118,17 @@ export const CreateSiteButton = () => {
           <ModalBody pb={6}>
             <Stack spacing={3}>
               <FormControl isDisabled={isLoading}>
+                <FormLabel>Template</FormLabel>
+                <Select
+                  placeholder="Generate from template"
+                  value={template}
+                  onChange={(e) => setTemplate(e.target.value)}
+                >
+                  <option value="taijutsu">Taijutsu (TailwindCSS)</option>
+                  <option value="ninjutsu">Ninjutsu (Chakra UI)</option>
+                </Select>
+              </FormControl>
+              <FormControl isDisabled={isLoading}>
                 <FormLabel>Name</FormLabel>
                 <Input
                   ref={initialRef}
@@ -134,17 +151,20 @@ export const CreateSiteButton = () => {
                 />
               </FormControl>
 
-              <SubdomainInput
-                isDisabled={isLoading}
-                placeholder="Subdomain"
-                value={data.subdomain}
-                onChange={(event) =>
-                  setData((prev) => ({
-                    ...prev,
-                    subdomain: event.target.value.toLowerCase(),
-                  }))
-                }
-              />
+              <FormControl isDisabled={isLoading}>
+                <FormLabel>Slug</FormLabel>
+                <Input
+                  isDisabled={isLoading}
+                  placeholder="slug"
+                  value={data.slug}
+                  onChange={(event) =>
+                    setData((prev) => ({
+                      ...prev,
+                      slug: event.target.value.toLowerCase(),
+                    }))
+                  }
+                />
+              </FormControl>
             </Stack>
           </ModalBody>
 

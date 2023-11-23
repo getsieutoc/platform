@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 export const metadata: Metadata = {
-  title: 'Login | Website Sieutoc',
+  title: 'Login | Sieutoc Platform',
 };
 
 export default function AuthLayout({ children }: { children: ReactNode }) {

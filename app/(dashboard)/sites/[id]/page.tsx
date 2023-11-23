@@ -1,4 +1,5 @@
 import {
+  SiteCustomDomainForm,
   SiteDeleteForm,
   SiteGeneralSettingsForm,
   SiteQuickLinks,
@@ -34,14 +35,15 @@ export default async function SingleSitePage({ params }: SingleSitePageProps) {
     redirect('/sites');
   }
 
-  if (!site)
-    return (
-      <Stack width="100%" spacing={6}>
-        {site && <SiteQuickLinks repo={repo} site={site} />}
+  return (
+    <Stack width="100%" spacing={6}>
+      {site && <SiteQuickLinks repo={repo} site={site} />}
 
-        {site && <SiteGeneralSettingsForm site={site} />}
+      {site && <SiteGeneralSettingsForm site={site} />}
 
-        {site && <SiteDeleteForm site={site} />}
-      </Stack>
-    );
+      {site && <SiteCustomDomainForm site={site} />}
+
+      {site && <SiteDeleteForm site={site} />}
+    </Stack>
+  );
 }

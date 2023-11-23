@@ -1,19 +1,10 @@
 'use client';
 
-import { useParams, useSelectedLayoutSegments } from 'next/navigation';
-import { type ReactNode, useMemo } from 'react';
-import {
-  ArrowBackIcon,
-  BarChartIcon,
-  DashboardIcon,
-  GlobeIcon,
-  InsertChartIcon,
-  LinkIcon,
-  PaletteIcon,
-} from '@/icons';
-import { IS_PRODUCTION } from '@/lib/constants';
-
 import { Box, Button, Flex, Stack, useColorModeValue } from '@/components/chakra';
+import { useParams, useSelectedLayoutSegments } from 'next/navigation';
+import { ReactNode, useMemo } from 'react';
+import { ArrowBackIcon, BarChartIcon, DashboardIcon, GlobeIcon, LinkIcon } from '@/icons';
+
 import { NextLink } from '../NextLink';
 import { NextImage } from '../NextImage';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
@@ -41,21 +32,6 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
           href: `/sites/${id}/domains`,
           icon: <LinkIcon boxSize={4} />,
           isActive: segments.includes('domains'),
-        },
-        {
-          name: 'Appearance',
-          href: `/sites/${id}/appearance`,
-          icon: <PaletteIcon boxSize={4} />,
-          isActive: segments.includes('appearance'),
-          isDisabled: true, // DEVELOPMENT
-        },
-
-        {
-          name: 'Analytics',
-          href: `/sites/${id}/analytics`,
-          icon: <InsertChartIcon boxSize={4} />,
-          isActive: segments.includes('analytics'),
-          isDisabled: true, // DEVELOPMENT
         },
       ];
     }
@@ -91,30 +67,28 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
       <Box>
         <Flex direction="row" justify="space-between" align="end">
           <NextLink href="/">
-            <NextImage src={logoPath} width={128} height={37} alt="Logo" />
+            <NextImage priority src={logoPath} width={128} height={37} alt="Logo" />
           </NextLink>
 
           <ColorModeSwitcher size="sm" />
         </Flex>
 
         <Stack marginTop={6} spacing={1}>
-          {tabs
-            .filter(({ isDisabled }) => (IS_PRODUCTION ? !isDisabled : true))
-            .map(({ name, href, icon, isActive }) => (
-              <Button
-                key={name}
-                colorScheme={isActive ? 'green' : 'gray'}
-                variant={isActive ? 'solid' : 'ghost'}
-                justifyContent="start"
-                leftIcon={icon}
-                width="100%"
-                as={NextLink}
-                href={href}
-                size="sm"
-              >
-                {name}
-              </Button>
-            ))}
+          {tabs.map(({ name, href, icon, isActive }) => (
+            <Button
+              key={name}
+              colorScheme={isActive ? 'green' : 'gray'}
+              variant={isActive ? 'solid' : 'ghost'}
+              justifyContent="start"
+              leftIcon={icon}
+              width="100%"
+              as={NextLink}
+              href={href}
+              size="sm"
+            >
+              {name}
+            </Button>
+          ))}
         </Stack>
       </Box>
 

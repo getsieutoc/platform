@@ -1,5 +1,6 @@
 'use client';
 
+import slugify from 'slugify';
 import {
   Button,
   Card,
@@ -16,7 +17,7 @@ import {
   Text,
   Textarea,
 } from '@/components/chakra';
-import { useAuth, useColorModeValue, useState } from '@/hooks';
+import { useAuth, useColorModeValue, useDebounce, useState } from '@/hooks';
 import { updateSiteSimple } from '@/lib/actions/site';
 import { Site } from '@/types';
 
@@ -31,10 +32,22 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
 
   const [data, setData] = useState({
     name: site?.name ?? '',
+    slug: site?.slug ?? '',
     description: site?.description ?? '',
   });
 
   const siteId = site?.id ?? '';
+
+  useDebounce(
+    () => {
+      setData((prev) => ({
+        ...prev,
+        slug: slugify(prev.name).toLowerCase(),
+      }));
+    },
+    200,
+    [data.name]
+  );
 
   const handleSave = async () => {
     try {
@@ -72,6 +85,15 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
               placeholder="Site name"
               value={data.name ?? ''}
               onChange={(event) => setData(() => ({ ...data, name: event.target.value }))}
+            />
+          </FormControl>
+
+          <FormControl isDisabled={isLoading}>
+            <FormLabel>Slug</FormLabel>
+            <Input
+              placeholder="Slug"
+              value={data.slug ?? ''}
+              onChange={(event) => setData(() => ({ ...data, slug: event.target.value }))}
             />
           </FormControl>
 

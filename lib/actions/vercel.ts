@@ -120,7 +120,7 @@ export type CreateProjectDto = Site;
 export const createProject = async ({
   id,
   environmentVariables,
-  subdomain,
+  slug,
 }: CreateProjectDto) => {
   const gitRepo = `sieutoc-customers/${id}`;
 
@@ -172,7 +172,7 @@ export const createProject = async ({
 
   // Update the subdomain, we can not do it with project creation
   if (response && response.id) {
-    await addDomainToProject(response.id, `${subdomain}.sieutoc.website`);
+    await addDomainToProject(response.id, `${slug}.sieutoc.website`);
 
     // Because the default branch is fucking `main` so we have to make another update request
     await fetcher<Project>(

@@ -76,9 +76,9 @@ model VerificationToken {
 
 model Site {
   id                   String   @id @default(uuid())
-  name                 String?
+  name                 String
   description          String?  @db.Text
-  subdomain            String?  @unique
+  slug                 String   @unique
   customDomain         String?  @unique
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
