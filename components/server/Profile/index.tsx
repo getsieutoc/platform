@@ -15,17 +15,15 @@ export const Profile = async () => {
 
   const { name, image, email } = session.user;
 
+  const displayName = name ?? email ?? '';
+
   return (
     <Flex direction="row" align="center" justify="space-between">
       <NextLink href="/profile">
         <Stack direction="row">
-          <Avatar
-            size="xs"
-            name={name ?? 'User avatar'}
-            src={image ?? `https://avatar.vercel.sh/${email}`}
-          />
+          <Avatar size="xs" name={displayName} src={image ?? ''} />
 
-          <Text>{name ?? 'Unnamed'}</Text>
+          <Text>{displayName}</Text>
         </Stack>
       </NextLink>
 

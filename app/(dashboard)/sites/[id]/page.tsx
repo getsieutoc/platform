@@ -11,13 +11,13 @@ import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { UserRole } from '@prisma/client';
 
-type SiteSettingsProps = {
+type SingleSitePageProps = {
   params: {
     id: string;
   };
 };
 
-export default async function SiteSettingsIndex({ params }: SiteSettingsProps) {
+export default async function SingleSitePage({ params }: SingleSitePageProps) {
   const session = await getSession();
 
   if (!session) {
