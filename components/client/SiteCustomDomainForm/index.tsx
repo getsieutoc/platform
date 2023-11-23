@@ -1,10 +1,5 @@
 'use client';
 
-import {
-  removeDomainFromProject,
-  addDomainToProject,
-  findProject,
-} from '@/lib/actions/vercel';
 import { useColorModeValue, useState } from '@/hooks';
 import { updateSiteSimple } from '@/lib/actions/site';
 import { validDomainRegex } from '@/lib/domains';
@@ -27,8 +22,6 @@ import {
 } from '@/components/chakra';
 import { Site } from '@/types';
 
-import { DomainConfiguration } from '../DomainConfiguration';
-
 type SiteCustomDomainFormProps = {
   site: Site | null;
 };
@@ -50,15 +43,7 @@ export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
 
       setIsLoading(true);
 
-      const response = await updateSiteSimple(site.id, { customDomain });
-
-      const project = await findProject(site.id);
-
-      if (response && project) {
-        await removeDomainFromProject(project.id, customDomain);
-
-        await addDomainToProject(project.id, customDomain);
-      }
+      await updateSiteSimple(site.id, { customDomain });
     } catch (error) {
     } finally {
       setIsLoading(false);
@@ -87,10 +72,6 @@ export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
                 onChange={(event) => setCustomDomain(event.target.value)}
               />
             </FormControl>
-
-            {hasChanged && validDomain && (
-              <DomainConfiguration siteId={site.id} domain={customDomain} />
-            )}
           </Stack>
         </CardBody>
 

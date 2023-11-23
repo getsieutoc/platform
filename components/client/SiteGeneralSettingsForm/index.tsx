@@ -6,7 +6,6 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Divider,
   Flex,
   FormControl,
   FormLabel,
@@ -54,7 +53,7 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
     }
   };
 
-  const footerBorder = useColorModeValue('gray.200', 'gray.600');
+  const borderColor = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
 
   if (!data) {
     return <Skeleton height="40px" />;
@@ -65,7 +64,7 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
       <CardHeader>
         <Heading size="md">General Settings</Heading>
       </CardHeader>
-      <CardBody>
+      <CardBody pt="0" borderBottomColor={borderColor} borderBottomWidth="1px">
         <Stack spacing={6} maxW="480px" minW="240px">
           <FormControl isDisabled={isLoading}>
             <FormLabel>Name</FormLabel>
@@ -89,8 +88,6 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
           </FormControl>
         </Stack>
       </CardBody>
-
-      <Divider color={footerBorder} />
 
       <CardFooter>
         <Flex width="100%" direction="row" justify="space-between" align="center">

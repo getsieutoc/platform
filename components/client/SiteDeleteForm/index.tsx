@@ -1,4 +1,4 @@
-'use client';
+'>puse client';
 
 import {
   AlertDialog,
@@ -13,7 +13,6 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Divider,
   Flex,
   FormControl,
   FormLabel,
@@ -31,7 +30,6 @@ import {
   useState,
   useToast,
 } from '@/hooks';
-import { deleteProject } from '@/lib/actions/vercel';
 import { deleteRepo } from '@/lib/actions/github';
 import { deleteSite } from '@/lib/actions/site';
 import { delayAsync } from '@/lib/utils';
@@ -64,7 +62,6 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
 
       setIsLoading(true);
 
-      await deleteProject(siteId);
       toast({ title: 'Start deleting...' });
 
       await delayAsync();
@@ -89,8 +86,8 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
     }
   };
 
-  const backgroundColor = useColorModeValue('red.50', 'red.900');
-  const footerBorder = useColorModeValue('red.100', 'red.600');
+  const borderColor = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
+  const dangerColor = useColorModeValue('red.600', 'red.400');
 
   if (!siteId) {
     return <Skeleton height="40px" />;
@@ -98,12 +95,14 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
 
   return (
     <>
-      <Card bg={backgroundColor} direction="column" width="100%">
+      <Card direction="column" width="100%">
         <CardHeader>
-          <Heading size="md">Delete Site</Heading>
+          <Heading size="md" color={dangerColor}>
+            Delete Site
+          </Heading>
         </CardHeader>
 
-        <CardBody>
+        <CardBody pt="0" borderBottomColor={borderColor} borderBottomWidth="1px">
           <Stack spacing={6} maxW="480px" minW="240px">
             <Text>
               The project will be permanently deleted, including its deployments, GitHub
@@ -112,12 +111,11 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
           </Stack>
         </CardBody>
 
-        <Divider color={footerBorder} />
-
         <CardFooter>
           <Flex width="100%" direction="row" justify="end">
             <Button
               colorScheme="red"
+              variant="outline"
               isDisabled={isLoading}
               isLoading={isLoading}
               onClick={onOpen}

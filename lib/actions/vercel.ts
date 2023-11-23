@@ -1,5 +1,8 @@
 'use server';
 
+// We are not using Vercel at this moment, because it has limit of 5 databases
+// per account. We might want to go back if they support more than that.
+// So we keep this helpers, but not use it when we host at Linode
 import deepmerge from 'deepmerge';
 
 import {

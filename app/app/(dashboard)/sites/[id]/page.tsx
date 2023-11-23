@@ -1,7 +1,7 @@
 import {
   SiteDeleteForm,
   SiteGeneralSettingsForm,
-  SiteGitInfo,
+  SiteQuickLinks,
 } from '@/components/client';
 import { Stack } from '@/components/chakra';
 
@@ -34,13 +34,14 @@ export default async function SiteSettingsIndex({ params }: SiteSettingsProps) {
     redirect('/sites');
   }
 
-  return (
-    <Stack width="100%" spacing={6}>
-      {repo && site && <SiteGitInfo repo={repo} site={site} />}
+  if (!site)
+    return (
+      <Stack width="100%" spacing={6}>
+        {site && <SiteQuickLinks repo={repo} site={site} />}
 
-      {site && <SiteGeneralSettingsForm site={site} />}
+        {site && <SiteGeneralSettingsForm site={site} />}
 
-      {site && <SiteDeleteForm site={site} />}
-    </Stack>
-  );
+        {site && <SiteDeleteForm site={site} />}
+      </Stack>
+    );
 }

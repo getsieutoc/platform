@@ -1,13 +1,11 @@
 'use server';
 
 import { RequestParameters, Site } from '@/types';
-
-import { GITHUB_API_VERSION } from '../constants';
 import { octokit } from '../octokit';
 
 const defaultOptions: Partial<RequestParameters> = {
   headers: {
-    'X-GitHub-Api-Version': GITHUB_API_VERSION,
+    'X-GitHub-Api-Version': '2022-11-28',
   },
 };
 

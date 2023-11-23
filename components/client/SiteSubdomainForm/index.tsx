@@ -2,11 +2,10 @@
 
 import slugify from 'slugify';
 
-import {
-  addDomainToProject,
-  findProject,
-  removeDomainFromProject,
-} from '@/lib/actions/vercel';
+// import {
+//   addDomainToProject,
+//   findProject,
+//   removeDomainFromProject,
 import { useAuth, useColorModeValue, useDebounce, useState } from '@/hooks';
 import { updateSiteSimple } from '@/lib/actions/site';
 import type { Site } from '@/types';
@@ -56,13 +55,7 @@ export const SiteSubdomainForm = ({ site }: SiteSubdomainFormProps) => {
 
       const res = await updateSiteSimple(site.id, { subdomain });
 
-      const project = await findProject(site.id);
-
-      if (res && project) {
-        await removeDomainFromProject(project.id, `${site.subdomain}.sieutoc.website`);
-
-        await addDomainToProject(project.id, `${subdomain}.sieutoc.website`);
-
+      if (res) {
         update();
       }
     } catch (error) {

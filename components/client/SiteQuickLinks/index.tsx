@@ -28,7 +28,7 @@ export type SiteGithubInfoProps = {
 };
 
 // We will continue to work on this soon
-export const SiteGitInfo = ({ repo, site }: SiteGithubInfoProps) => {
+export const SiteQuickLinks = ({ repo, site }: SiteGithubInfoProps) => {
   const gitCloneText = `git clone ${repo.ssh_url}`;
 
   const { session } = useAuth();
@@ -44,7 +44,7 @@ export const SiteGitInfo = ({ repo, site }: SiteGithubInfoProps) => {
     <>
       <Card direction="column" width="100%">
         <CardHeader>
-          <Heading size="md">General Information</Heading>
+          <Heading size="md">Quick Links</Heading>
         </CardHeader>
         <CardBody>
           <Stack spacing={6} minW="240px">
@@ -80,14 +80,14 @@ export const SiteGitInfo = ({ repo, site }: SiteGithubInfoProps) => {
               {session?.user.role === UserRole.ADMIN && (
                 <Button
                   rightIcon={<ExternalLinkIcon />}
-                  colorScheme="black"
+                  colorScheme="green"
                   target="_blank"
                   as={Link}
-                  href={`https://vercel.com/sieutoc/${site.id}`}
+                  href={`https://panel.sieutoc.website/projects/${site.id}`}
                   variant="outline"
                   size="xs"
                 >
-                  Go to Vercel project
+                  Go to EasyPanel project
                 </Button>
               )}
 

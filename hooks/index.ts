@@ -11,5 +11,4 @@ export { useRouter, useSearchParams } from 'next/navigation';
 export { useDebounce } from 'react-use';
 
 export * from './use-auth';
-export * from './use-domain-status';
 export * from './use-window-size';

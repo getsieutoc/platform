@@ -25,7 +25,6 @@ import {
   useState,
   useToast,
 } from '@/hooks';
-import { createDeployment, createProject } from '@/lib/actions/vercel';
 import { addCollaborator, createRepo } from '@/lib/actions/github';
 import { createSite } from '@/lib/actions/site';
 import { AddIcon } from '@/icons';
@@ -75,8 +74,6 @@ export const CreateSiteButton = () => {
         await createRepo(newSite);
         toast({ title: 'GitHub repo is cloned successfully...' });
 
-        await createProject(newSite);
-
         toast({ title: 'adding you as collaborator...' });
 
         if (session.user.role !== UserRole.ADMIN) {
@@ -85,9 +82,6 @@ export const CreateSiteButton = () => {
 
         toast({ title: 'Done!' });
 
-        await createDeployment({ id: newSite.id });
-
-        // va.track('Created Site');
         onClose();
 
         router.refresh();
