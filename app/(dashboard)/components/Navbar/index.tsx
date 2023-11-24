@@ -5,9 +5,7 @@ import { useParams, useSelectedLayoutSegments } from 'next/navigation';
 import { ReactNode, useMemo } from 'react';
 import { ArrowBackIcon, BarChartIcon, DashboardIcon, GlobeIcon } from '@/icons';
 
-import { NextLink } from '../NextLink';
-import { NextImage } from '../NextImage';
-import { ColorModeSwitcher } from '../ColorModeSwitcher';
+import { ColorModeSwitcher, NextLink, NextImage } from '@/components/client';
 
 export const Navbar = ({ children }: { children: ReactNode }) => {
   const segments = useSelectedLayoutSegments();

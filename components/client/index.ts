@@ -1,7 +1,7 @@
 'use client';
 
 export * from './CreateSiteButton';
-export * from './Navbar';
+export * from './ColorModeSwitcher';
 export * from './NextImage';
 export * from './NextLink';
 export * from './Providers';
