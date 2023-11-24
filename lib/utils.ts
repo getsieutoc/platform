@@ -1,5 +1,6 @@
 import { format, formatRelative as formatRelativeFn } from 'date-fns';
 import deepmerge from 'deepmerge';
+import { HttpMethod } from '@/types';
 
 export { default as isEqual } from 'fast-deep-equal';
 
@@ -10,6 +11,7 @@ export async function fetcher<JSON = unknown>(
   const options = deepmerge(
     {
       cache: 'no-store',
+      method: HttpMethod.GET,
       headers: { 'Content-Type': 'application/json' },
     },
     init
