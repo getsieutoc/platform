@@ -2,10 +2,10 @@ import { Account, NextAuthOptions, getServerSession } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GitHubProvider from 'next-auth/providers/github';
 import { AdapterUser } from 'next-auth/adapters';
-import { prisma } from '@/lib/prisma';
 import { UserRole } from '@prisma/client';
-
-const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
+import { prisma } from '@/lib/prisma';
+import { fetcher } from './utils';
+import { Organization } from '@/types';
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -37,21 +37,18 @@ export const authOptions: NextAuthOptions = {
 
   session: { strategy: 'jwt' },
 
-  cookies: {
-    sessionToken: {
-      name: `${VERCEL_DEPLOYMENT ? '__Secure-' : ''}next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-        // When working on localhost, the cookie domain must be omitted entirely (https://stackoverflow.com/a/1188145)
-        domain: VERCEL_DEPLOYMENT ? `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}` : undefined,
-        secure: VERCEL_DEPLOYMENT,
-      },
-    },
-  },
-
   callbacks: {
+    signIn: async ({ profile }) => {
+      if (profile && 'organizations_url' in profile) {
+        const organizations = await fetcher<Organization[]>(
+          (profile as any).organizations_url
+        );
+        return organizations.some((org) => org.login === 'websitesieutoc');
+      }
+
+      return false;
+    },
+
     jwt: async ({ token, user, account }) => {
       if (account) {
         token.account = account;

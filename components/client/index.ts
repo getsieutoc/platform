@@ -1,13 +1,12 @@
 'use client';
 
 export * from './CreateSiteButton';
-export * from './Navbar';
+export * from './ColorModeSwitcher';
 export * from './NextImage';
 export * from './NextLink';
 export * from './SimpleTable';
 export * from './SiteCustomDomainForm';
 export * from './SiteDeleteForm';
 export * from './SiteGeneralSettingsForm';
-export * from './SiteGitInfo';
-export * from './SiteSubdomainForm';
+export * from './SiteQuickLinks';
 export * from './SubdomainInput';

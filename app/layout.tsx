@@ -1,7 +1,6 @@
-import { Analytics } from '@vercel/analytics/react';
 import { Metadata } from 'next';
 
-import { Providers } from './providers';
+import { Providers } from './components';
 
 const title = 'Website Sieutoc – Thiet ke website sieu toc';
 const description = 'Create modern website in minutes!';
@@ -28,12 +27,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body>
-        <Providers>
-          {children}
-          <Analytics />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

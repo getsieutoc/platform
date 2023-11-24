@@ -1,8 +1,6 @@
 'use server';
 
-import { revalidateTag } from 'next/cache';
 import crypto from 'crypto';
-
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import type { Site } from '@/types';
@@ -10,10 +8,10 @@ import type { Site } from '@/types';
 export type CreateSiteDto = {
   name: string;
   description: string;
-  subdomain: string;
+  slug: string;
 };
 
-export const createSite = async ({ name, description, subdomain }: CreateSiteDto) => {
+export const createSite = async ({ name, description, slug }: CreateSiteDto) => {
   const session = await getSession();
 
   if (!session?.user.id) {
@@ -25,10 +23,12 @@ export const createSite = async ({ name, description, subdomain }: CreateSiteDto
       production: {
         NEXTAUTH_SECRET: crypto.randomBytes(32).toString('hex'),
         ARGON_SECRET: crypto.randomBytes(32).toString('hex'),
+        POSTGRES_PASSWORD: crypto.randomBytes(32).toString('hex'),
       },
       preview: {
         NEXTAUTH_SECRET: crypto.randomBytes(32).toString('hex'),
         ARGON_SECRET: crypto.randomBytes(32).toString('hex'),
+        POSTGRES_PASSWORD: crypto.randomBytes(32).toString('hex'),
       },
     };
 
@@ -36,7 +36,7 @@ export const createSite = async ({ name, description, subdomain }: CreateSiteDto
       data: {
         name,
         description,
-        subdomain,
+        slug,
         environmentVariables,
         user: {
           connect: {
@@ -46,7 +46,6 @@ export const createSite = async ({ name, description, subdomain }: CreateSiteDto
       },
     });
 
-    revalidateTag(`${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`);
     return response;
   } catch (error: any) {
     if (error.code === 'P2002') {
@@ -61,7 +60,7 @@ export type UpdateSiteDto = Partial<Site>;
 
 export const updateSiteSimple = async (
   siteId: string,
-  { name, description, subdomain, customDomain }: UpdateSiteDto
+  { name, description, slug, customDomain }: UpdateSiteDto
 ) => {
   const session = await getSession();
 
@@ -84,15 +83,10 @@ export const updateSiteSimple = async (
     data: {
       name,
       description,
-      subdomain,
+      slug,
       customDomain: customDomain === '' ? null : customDomain,
     },
   });
-
-  // TODO: WHY?
-  if (subdomain) {
-    revalidateTag(`${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`);
-  }
 
   return response;
 };
@@ -111,8 +105,7 @@ export const deleteSite = async (site: Site) => {
         id: site.id,
       },
     });
-    revalidateTag(`${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`);
-    response.customDomain && revalidateTag(`${site.customDomain}-metadata`);
+
     return response;
   } catch (error: any) {
     return {

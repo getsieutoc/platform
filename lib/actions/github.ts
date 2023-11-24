@@ -1,13 +1,11 @@
 'use server';
 
 import { RequestParameters, Site } from '@/types';
-
-import { GITHUB_API_VERSION } from '../constants';
 import { octokit } from '../octokit';
 
 const defaultOptions: Partial<RequestParameters> = {
   headers: {
-    'X-GitHub-Api-Version': GITHUB_API_VERSION,
+    'X-GitHub-Api-Version': '2022-11-28',
   },
 };
 
@@ -27,18 +25,19 @@ export const checkRepoExisting = async (idAsName: string) => {
   }
 };
 
-export type CreateRepoDto = Pick<Site, 'id' | 'subdomain'> & {
+export type CreateRepoDto = Pick<Site, 'id' | 'slug'> & {
   homepage?: string;
   private?: boolean;
+  template: string;
 } & RequestParameters;
 
 export const createRepo = async (data: CreateRepoDto) => {
   const response = await octokit.request(
-    'POST /repos/websitesieutoc/nextjs-template/generate',
+    `POST /repos/websitesieutoc/${data.template}/generate`,
     {
       owner: 'sieutoc-customers',
       name: data.id,
-      description: data.subdomain ?? '',
+      description: data.slug ?? '',
       private: data.private ?? true,
       include_all_branches: false,
       ...defaultOptions,

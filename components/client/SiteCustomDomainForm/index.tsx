@@ -1,10 +1,5 @@
 'use client';
 
-import {
-  removeDomainFromProject,
-  addDomainToProject,
-  findProject,
-} from '@/lib/actions/vercel';
 import { useColorModeValue, useState } from '@/hooks';
 import { updateSiteSimple } from '@/lib/actions/site';
 import { validDomainRegex } from '@/lib/domains';
@@ -21,16 +16,14 @@ import {
   FormLabel,
   Heading,
   Input,
-  Skeleton,
   Stack,
   Text,
 } from '@/components/chakra';
 import { Site } from '@/types';
-
-import { DomainConfiguration } from '../DomainConfiguration';
+import { RepeatIcon, SaveIcon } from '@/icons';
 
 type SiteCustomDomainFormProps = {
-  site: Site | null;
+  site: Site;
 };
 
 export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
@@ -50,24 +43,12 @@ export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
 
       setIsLoading(true);
 
-      const response = await updateSiteSimple(site.id, { customDomain });
-
-      const project = await findProject(site.id);
-
-      if (response && project) {
-        await removeDomainFromProject(project.id, customDomain);
-
-        await addDomainToProject(project.id, customDomain);
-      }
+      await updateSiteSimple(site.id, { customDomain });
     } catch (error) {
     } finally {
       setIsLoading(false);
     }
   };
-
-  if (!site) {
-    return <Skeleton height="40px" />;
-  }
 
   return (
     <>
@@ -87,10 +68,6 @@ export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
                 onChange={(event) => setCustomDomain(event.target.value)}
               />
             </FormControl>
-
-            {hasChanged && validDomain && (
-              <DomainConfiguration siteId={site.id} domain={customDomain} />
-            )}
           </Stack>
         </CardBody>
 
@@ -100,14 +77,27 @@ export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
           <Flex width="100%" direction="row" justify="space-between" align="center">
             <Text fontSize="sm">Use 64 characters maximum.</Text>
 
-            <Button
-              colorScheme={hasChanged && validDomain ? 'green' : 'gray'}
-              isDisabled={!hasChanged || !validDomain || isLoading}
-              isLoading={isLoading}
-              onClick={handleSave}
-            >
-              Save
-            </Button>
+            <Stack direction="row">
+              {hasChanged && (
+                <Button
+                  aria-label="Reset"
+                  leftIcon={<RepeatIcon />}
+                  onClick={() => setCustomDomain(site.customDomain ?? '')}
+                >
+                  Reset
+                </Button>
+              )}
+
+              <Button
+                colorScheme={hasChanged && validDomain ? 'green' : 'gray'}
+                isDisabled={!hasChanged || !validDomain || isLoading}
+                isLoading={isLoading}
+                leftIcon={<SaveIcon />}
+                onClick={handleSave}
+              >
+                Save
+              </Button>
+            </Stack>
           </Flex>
         </CardFooter>
       </Card>

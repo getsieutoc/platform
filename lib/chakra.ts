@@ -1,4 +1,6 @@
 import { extendTheme, UseToastOptions } from '@/components/chakra';
+import { StyleFunctionProps } from '@chakra-ui/styled-system';
+import { mode } from '@chakra-ui/theme-tools';
 
 export const toastOptions: UseToastOptions = {
   position: 'top',
@@ -48,7 +50,10 @@ const colors = {
 };
 
 const styles = {
-  global: {
+  global: (props: StyleFunctionProps) => ({
+    body: {
+      bg: mode('gray.100', 'gray.800')(props),
+    },
     '.some-global-class': {
       paddingY: 2,
     },
@@ -57,7 +62,7 @@ const styles = {
       // Fix issue links wrap outside of button have ugly sharp corners
       borderRadius: 'md',
     },
-  },
+  }),
 };
 
 const components = {
