@@ -35,12 +35,7 @@ export const Sites = async ({ limit }: { limit?: number }) => {
         No Sites Yet
       </Heading>
 
-      <NextImage
-        alt="missing site"
-        src="https://illustrations.popsy.co/gray/web-design.svg"
-        width={400}
-        height={400}
-      />
+      <NextImage alt="missing site" src="/web-design.svg" width={400} height={400} />
 
       <Text className="text-lg text-stone-500">
         You do not have any sites yet. Create one to get started.

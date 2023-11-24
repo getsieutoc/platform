@@ -3,7 +3,7 @@
 import { Box, Button, Flex, Stack, useColorModeValue } from '@/components/chakra';
 import { useParams, useSelectedLayoutSegments } from 'next/navigation';
 import { ReactNode, useMemo } from 'react';
-import { ArrowBackIcon, BarChartIcon, DashboardIcon, GlobeIcon, LinkIcon } from '@/icons';
+import { ArrowBackIcon, BarChartIcon, DashboardIcon, GlobeIcon } from '@/icons';
 
 import { NextLink } from '../NextLink';
 import { NextImage } from '../NextImage';
@@ -26,12 +26,6 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
           href: `/sites/${id}`,
           icon: <DashboardIcon boxSize={4} />,
           isActive: !segments[2],
-        },
-        {
-          name: 'Domains',
-          href: `/sites/${id}/domains`,
-          icon: <LinkIcon boxSize={4} />,
-          isActive: segments.includes('domains'),
         },
       ];
     }

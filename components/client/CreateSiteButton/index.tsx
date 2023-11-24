@@ -141,17 +141,6 @@ export const CreateSiteButton = () => {
               </FormControl>
 
               <FormControl isDisabled={isLoading}>
-                <FormLabel>Description</FormLabel>
-                <Input
-                  placeholder="Optional but recommended"
-                  value={data.description}
-                  onChange={(event) =>
-                    setData((prev) => ({ ...prev, description: event.target.value }))
-                  }
-                />
-              </FormControl>
-
-              <FormControl isDisabled={isLoading}>
                 <FormLabel>Slug</FormLabel>
                 <Input
                   isDisabled={isLoading}
@@ -162,6 +151,17 @@ export const CreateSiteButton = () => {
                       ...prev,
                       slug: event.target.value.toLowerCase(),
                     }))
+                  }
+                />
+              </FormControl>
+
+              <FormControl isDisabled={isLoading}>
+                <FormLabel>Description</FormLabel>
+                <Input
+                  placeholder="Optional but recommended"
+                  value={data.description}
+                  onChange={(event) =>
+                    setData((prev) => ({ ...prev, description: event.target.value }))
                   }
                 />
               </FormControl>

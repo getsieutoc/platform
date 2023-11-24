@@ -1,4 +1,5 @@
 import { Flex, Heading } from '@/components/chakra';
+import { NextImage } from '@/components/client';
 
 export default function Overview() {
   return (
@@ -16,13 +17,13 @@ export default function Overview() {
         </Heading>
       </Flex>
 
-      <div className="flex flex-col space-y-6">
-        <div className="flex items-center justify-between">
-          <Heading as="h3" size="md">
-            Under Construction
-          </Heading>
-        </div>
-      </div>
+      <Flex direction="column" alignItems="center">
+        <Heading as="h1" size="3xl" color="gray">
+          Under Construction
+        </Heading>
+
+        <NextImage alt="missing site" src="/web-design.svg" width={400} height={400} />
+      </Flex>
     </Flex>
   );
 }
