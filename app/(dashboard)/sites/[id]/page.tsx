@@ -1,18 +1,18 @@
+import { checkRepoExisting } from '@/lib/actions/github';
+import { redirect } from 'next/navigation';
+import { getSession } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+
+import { Stack } from '@/components/chakra';
+import { UserRole } from '@prisma/client';
 import {
   SiteCustomDomainForm,
   SiteDeleteForm,
   SiteGeneralSettingsForm,
   SiteQuickLinks,
-} from '@/components/client';
-import { Stack } from '@/components/chakra';
+} from './components';
 
-import { checkRepoExisting } from '@/lib/actions/github';
-import { redirect } from 'next/navigation';
-import { getSession } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
-import { UserRole } from '@prisma/client';
-
-type SingleSitePageProps = {
+export type SingleSitePageProps = {
   params: {
     id: string;
   };
