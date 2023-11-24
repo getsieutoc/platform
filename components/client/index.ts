@@ -4,7 +4,6 @@ export * from './CreateSiteButton';
 export * from './ColorModeSwitcher';
 export * from './NextImage';
 export * from './NextLink';
-export * from './Providers';
 export * from './SimpleTable';
 export * from './SiteCustomDomainForm';
 export * from './SiteDeleteForm';

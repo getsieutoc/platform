@@ -1,7 +1,8 @@
 import { Flex, Heading, Skeleton, Wrap, WrapItem } from '@/components/chakra';
 import { CreateSiteButton } from '@/components/client';
-import { Sites } from '@/components/server';
 import { Suspense } from 'react';
+
+import { Sites } from './components';
 
 export default function AllSites() {
   return (

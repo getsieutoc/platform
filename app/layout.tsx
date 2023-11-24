@@ -1,5 +1,6 @@
-import { Providers } from '@/components/client';
 import { Metadata } from 'next';
+
+import { Providers } from './components';
 
 const title = 'Website Sieutoc – Thiet ke website sieu toc';
 const description = 'Create modern website in minutes!';

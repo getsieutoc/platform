@@ -6,7 +6,7 @@ import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { UserRole } from '@/types';
 
-import { SiteCard } from '../SiteCard';
+import { SiteCard } from './SiteCard';
 
 export const Sites = async ({ limit }: { limit?: number }) => {
   const session = await getSession();

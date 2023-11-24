@@ -1,3 +1,2 @@
-'use client';
-
 export * from './Navbar';
+export * from './Profile';
