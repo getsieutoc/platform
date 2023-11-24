@@ -19,6 +19,8 @@ import {
 } from '@/components/chakra';
 import { useAuth, useColorModeValue, useDebounce, useState } from '@/hooks';
 import { updateSiteSimple } from '@/lib/actions/site';
+import { isEqual } from '@/lib/utils';
+import { RepeatIcon, SaveIcon } from '@/icons';
 import { Site } from '@/types';
 
 export type SiteGeneralSettingsFormProps = {
@@ -30,23 +32,27 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [data, setData] = useState({
-    name: site?.name ?? '',
-    slug: site?.slug ?? '',
-    description: site?.description ?? '',
-  });
+  const initialData = {
+    name: site.name ?? '',
+    slug: site.slug ?? '',
+    description: site.description ?? '',
+  };
 
-  const siteId = site?.id ?? '';
+  const [formValues, setFormValues] = useState(initialData);
+
+  const siteId = site.id ?? '';
 
   useDebounce(
     () => {
-      setData((prev) => ({
-        ...prev,
-        slug: slugify(prev.name).toLowerCase(),
-      }));
+      if (initialData.name !== formValues.name) {
+        setFormValues((prev) => ({
+          ...prev,
+          slug: slugify(prev.name).toLowerCase(),
+        }));
+      }
     },
     200,
-    [data.name]
+    [formValues.name]
   );
 
   const handleSave = async () => {
@@ -55,7 +61,7 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
 
       setIsLoading(true);
 
-      const res = await updateSiteSimple(siteId, data);
+      const res = await updateSiteSimple(siteId, formValues);
 
       if (res) {
         update();
@@ -66,11 +72,9 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
     }
   };
 
-  const borderColor = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
+  const hasChanged = !isEqual(formValues, initialData);
 
-  if (!data) {
-    return <Skeleton height="40px" />;
-  }
+  const borderColor = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
 
   return (
     <Card direction="column" width="100%">
@@ -83,8 +87,10 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
             <FormLabel>Name</FormLabel>
             <Input
               placeholder="Site name"
-              value={data.name ?? ''}
-              onChange={(event) => setData(() => ({ ...data, name: event.target.value }))}
+              value={formValues.name ?? ''}
+              onChange={(event) =>
+                setFormValues(() => ({ ...formValues, name: event.target.value }))
+              }
             />
           </FormControl>
 
@@ -92,8 +98,10 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
             <FormLabel>Slug</FormLabel>
             <Input
               placeholder="Slug"
-              value={data.slug ?? ''}
-              onChange={(event) => setData(() => ({ ...data, slug: event.target.value }))}
+              value={formValues.slug ?? ''}
+              onChange={(event) =>
+                setFormValues(() => ({ ...formValues, slug: event.target.value }))
+              }
             />
           </FormControl>
 
@@ -102,9 +110,9 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
             <Textarea
               placeholder="Site description"
               rows={3}
-              value={data.description ?? ''}
+              value={formValues.description ?? ''}
               onChange={(event) =>
-                setData(() => ({ ...data, description: event.target.value }))
+                setFormValues(() => ({ ...formValues, description: event.target.value }))
               }
             />
           </FormControl>
@@ -114,18 +122,29 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
       <CardFooter>
         <Flex width="100%" direction="row" justify="space-between" align="center">
           <Text fontSize="sm">
-            The information here mostly used for management, the site real data might be
-            different.
+            The info here only used for management, the real data might be different.
           </Text>
 
-          <Button
-            colorScheme="green"
-            isDisabled={isLoading}
-            isLoading={isLoading}
-            onClick={handleSave}
-          >
-            Save
-          </Button>
+          <Stack direction="row">
+            {hasChanged && (
+              <Button
+                aria-label="Reset"
+                leftIcon={<RepeatIcon />}
+                onClick={() => setFormValues(initialData)}
+              >
+                Reset
+              </Button>
+            )}
+            <Button
+              colorScheme={hasChanged ? 'green' : 'gray'}
+              isDisabled={!hasChanged || isLoading}
+              isLoading={isLoading}
+              leftIcon={<SaveIcon />}
+              onClick={handleSave}
+            >
+              Save
+            </Button>
+          </Stack>
         </Flex>
       </CardFooter>
     </Card>

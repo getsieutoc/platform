@@ -5,8 +5,6 @@ import { AdapterUser } from 'next-auth/adapters';
 import { prisma } from '@/lib/prisma';
 import { UserRole } from '@prisma/client';
 
-const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
-
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 

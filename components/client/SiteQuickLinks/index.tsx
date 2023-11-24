@@ -50,7 +50,7 @@ export const SiteQuickLinks = ({ repo, site }: SiteGithubInfoProps) => {
           <Stack spacing={6} minW="240px">
             <Stack direction="row" align="center">
               <Box>
-                <Code padding={2} fontSize="xs">
+                <Code padding={3} fontSize="xs" borderRadius="md">
                   {gitCloneText}
                 </Code>
               </Box>
@@ -58,7 +58,6 @@ export const SiteQuickLinks = ({ repo, site }: SiteGithubInfoProps) => {
                 aria-label="Copy"
                 colorScheme={hasCopied ? 'green' : 'gray'}
                 icon={hasCopied ? <CheckCircleIcon color="green" /> : <CopyIcon />}
-                size="sm"
                 variant="outline"
                 onClick={onCopy}
               />
@@ -72,7 +71,6 @@ export const SiteQuickLinks = ({ repo, site }: SiteGithubInfoProps) => {
                 as={Link}
                 href={repo.html_url}
                 variant="outline"
-                size="xs"
               >
                 Go to GitHub repo
               </Button>
@@ -85,7 +83,6 @@ export const SiteQuickLinks = ({ repo, site }: SiteGithubInfoProps) => {
                   as={Link}
                   href={`https://panel.sieutoc.website/projects/${site.id}`}
                   variant="outline"
-                  size="xs"
                 >
                   Go to EasyPanel project
                 </Button>
@@ -102,7 +99,6 @@ export const SiteQuickLinks = ({ repo, site }: SiteGithubInfoProps) => {
                     : `https://${site.slug}.sieutoc.website`
                 }
                 variant="outline"
-                size="xs"
               >
                 Go to website
               </Button>

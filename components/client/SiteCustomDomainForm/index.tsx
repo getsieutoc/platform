@@ -16,14 +16,14 @@ import {
   FormLabel,
   Heading,
   Input,
-  Skeleton,
   Stack,
   Text,
 } from '@/components/chakra';
 import { Site } from '@/types';
+import { RepeatIcon, SaveIcon } from '@/icons';
 
 type SiteCustomDomainFormProps = {
-  site: Site | null;
+  site: Site;
 };
 
 export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
@@ -49,10 +49,6 @@ export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
       setIsLoading(false);
     }
   };
-
-  if (!site) {
-    return <Skeleton height="40px" />;
-  }
 
   return (
     <>
@@ -81,14 +77,27 @@ export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
           <Flex width="100%" direction="row" justify="space-between" align="center">
             <Text fontSize="sm">Use 64 characters maximum.</Text>
 
-            <Button
-              colorScheme={hasChanged && validDomain ? 'green' : 'gray'}
-              isDisabled={!hasChanged || !validDomain || isLoading}
-              isLoading={isLoading}
-              onClick={handleSave}
-            >
-              Save
-            </Button>
+            <Stack direction="row">
+              {hasChanged && (
+                <Button
+                  aria-label="Reset"
+                  leftIcon={<RepeatIcon />}
+                  onClick={() => setCustomDomain(site.customDomain ?? '')}
+                >
+                  Reset
+                </Button>
+              )}
+
+              <Button
+                colorScheme={hasChanged && validDomain ? 'green' : 'gray'}
+                isDisabled={!hasChanged || !validDomain || isLoading}
+                isLoading={isLoading}
+                leftIcon={<SaveIcon />}
+                onClick={handleSave}
+              >
+                Save
+              </Button>
+            </Stack>
           </Flex>
         </CardFooter>
       </Card>

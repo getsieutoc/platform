@@ -1,6 +1,8 @@
 import { format, formatRelative as formatRelativeFn } from 'date-fns';
 import deepmerge from 'deepmerge';
 
+export { default as isEqual } from 'fast-deep-equal';
+
 export async function fetcher<JSON = unknown>(
   input: RequestInfo,
   init: RequestInit = {}

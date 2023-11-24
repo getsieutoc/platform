@@ -30,6 +30,7 @@ import {
   useState,
   useToast,
 } from '@/hooks';
+import { DeleteIcon } from '@/icons';
 import { deleteRepo } from '@/lib/actions/github';
 import { deleteSite } from '@/lib/actions/site';
 import { delayAsync } from '@/lib/utils';
@@ -118,6 +119,7 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
               variant="outline"
               isDisabled={isLoading}
               isLoading={isLoading}
+              leftIcon={<DeleteIcon />}
               onClick={onOpen}
             >
               Delete
