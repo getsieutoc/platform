@@ -1,8 +1,6 @@
 'use server';
 
-import { revalidateTag } from 'next/cache';
 import crypto from 'crypto';
-
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import type { Site } from '@/types';
@@ -25,10 +23,12 @@ export const createSite = async ({ name, description, slug }: CreateSiteDto) => 
       production: {
         NEXTAUTH_SECRET: crypto.randomBytes(32).toString('hex'),
         ARGON_SECRET: crypto.randomBytes(32).toString('hex'),
+        POSTGRES_PASSWORD: crypto.randomBytes(32).toString('hex'),
       },
       preview: {
         NEXTAUTH_SECRET: crypto.randomBytes(32).toString('hex'),
         ARGON_SECRET: crypto.randomBytes(32).toString('hex'),
+        POSTGRES_PASSWORD: crypto.randomBytes(32).toString('hex'),
       },
     };
 
@@ -46,7 +46,6 @@ export const createSite = async ({ name, description, slug }: CreateSiteDto) => 
       },
     });
 
-    revalidateTag(`${slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`);
     return response;
   } catch (error: any) {
     if (error.code === 'P2002') {
@@ -89,11 +88,6 @@ export const updateSiteSimple = async (
     },
   });
 
-  // TODO: WHY?
-  if (slug) {
-    revalidateTag(`${site.slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`);
-  }
-
   return response;
 };
 
@@ -111,8 +105,7 @@ export const deleteSite = async (site: Site) => {
         id: site.id,
       },
     });
-    revalidateTag(`${site.slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`);
-    response.customDomain && revalidateTag(`${site.customDomain}-metadata`);
+
     return response;
   } catch (error: any) {
     return {

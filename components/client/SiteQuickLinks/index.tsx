@@ -29,16 +29,12 @@ export type SiteGithubInfoProps = {
 
 // We will continue to work on this soon
 export const SiteQuickLinks = ({ repo, site }: SiteGithubInfoProps) => {
-  const gitCloneText = `git clone ${repo.ssh_url}`;
+  const gitCloneText = `git clone ${repo?.ssh_url}`;
 
   const { session } = useAuth();
   const { onCopy, hasCopied } = useClipboard(gitCloneText);
 
   const footerBorder = useColorModeValue('gray.200', 'gray.600');
-
-  if (!repo) {
-    return <Skeleton height="40px" />;
-  }
 
   return (
     <>
@@ -64,16 +60,18 @@ export const SiteQuickLinks = ({ repo, site }: SiteGithubInfoProps) => {
             </Stack>
 
             <Stack direction="row" spacing={3}>
-              <Button
-                rightIcon={<ExternalLinkIcon />}
-                colorScheme="purple"
-                target="_blank"
-                as={Link}
-                href={repo.html_url}
-                variant="outline"
-              >
-                Go to GitHub repo
-              </Button>
+              {repo && (
+                <Button
+                  rightIcon={<ExternalLinkIcon />}
+                  colorScheme="purple"
+                  target="_blank"
+                  as={Link}
+                  href={repo.html_url}
+                  variant="outline"
+                >
+                  Go to GitHub repo
+                </Button>
+              )}
 
               {session?.user.role === UserRole.ADMIN && (
                 <Button
