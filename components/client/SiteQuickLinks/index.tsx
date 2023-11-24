@@ -1,9 +1,5 @@
 'use client';
 
-import { CheckCircleIcon, CopyIcon, ExternalLinkIcon } from '@/icons';
-import { useAuth, useClipboard, useColorModeValue } from '@/hooks';
-import { UserRole, type ReposResponse, type Site } from '@/types';
-
 import {
   Box,
   Button,
@@ -17,10 +13,12 @@ import {
   Heading,
   IconButton,
   Link,
-  Skeleton,
   Stack,
   Text,
 } from '@/components/chakra';
+import { CheckCircleIcon, CopyIcon, ExternalLinkIcon } from '@/icons';
+import { UserRole, ReposResponse, Site } from '@/types';
+import { useAuth, useClipboard, useColorModeValue } from '@/hooks';
 
 export type SiteGithubInfoProps = {
   repo: ReposResponse['data'];
@@ -108,7 +106,9 @@ export const SiteQuickLinks = ({ repo, site }: SiteGithubInfoProps) => {
 
         <CardFooter>
           <Flex width="100%" direction="row" justify="start" align="center">
-            <Text fontSize="sm">For now we support only GitHub</Text>
+            <Text fontSize="sm" color="gray">
+              For now we support only GitHub
+            </Text>
           </Flex>
         </CardFooter>
       </Card>

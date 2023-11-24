@@ -28,7 +28,7 @@ export default async function SingleSitePage({ params }: SingleSitePageProps) {
   const repo = await checkRepoExisting(params.id);
 
   const site = await prisma.site.findUnique({
-    where: { id: params.id },
+    where: { id: decodeURIComponent(params.id) },
   });
 
   if (session.user.role !== UserRole.ADMIN && site?.userId !== session.user.id) {

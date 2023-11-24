@@ -12,7 +12,6 @@ import {
   FormLabel,
   Heading,
   Input,
-  Skeleton,
   Stack,
   Text,
   Textarea,
@@ -121,7 +120,7 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
 
       <CardFooter>
         <Flex width="100%" direction="row" justify="space-between" align="center">
-          <Text fontSize="sm">
+          <Text fontSize="sm" color="gray">
             The info here only used for management, the real data might be different.
           </Text>
 

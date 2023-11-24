@@ -19,8 +19,8 @@ import {
   Stack,
   Text,
 } from '@/components/chakra';
-import { Site } from '@/types';
 import { RepeatIcon, SaveIcon } from '@/icons';
+import { Site } from '@/types';
 
 type SiteCustomDomainFormProps = {
   site: Site;
@@ -75,7 +75,9 @@ export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
 
         <CardFooter>
           <Flex width="100%" direction="row" justify="space-between" align="center">
-            <Text fontSize="sm">Use 64 characters maximum.</Text>
+            <Text fontSize="sm" color="gray">
+              Use 64 characters maximum.
+            </Text>
 
             <Stack direction="row">
               {hasChanged && (
