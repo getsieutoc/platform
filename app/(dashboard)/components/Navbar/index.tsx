@@ -69,14 +69,13 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
           {tabs.map(({ name, href, icon, isActive }) => (
             <Button
               key={name}
-              colorScheme={isActive ? 'green' : 'gray'}
-              variant={isActive ? 'solid' : 'ghost'}
+              colorScheme={isActive ? 'brand' : 'gray'}
+              variant={isActive ? 'outline' : 'ghost'}
               justifyContent="start"
-              leftIcon={icon}
               width="100%"
+              leftIcon={icon}
               as={NextLink}
               href={href}
-              size="sm"
             >
               {name}
             </Button>

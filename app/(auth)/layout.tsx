@@ -1,4 +1,4 @@
-import { Box } from '@/components/chakra';
+import { ColorModeBox } from '@/components/client';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
@@ -7,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
-  return <Box>{children}</Box>;
+  return (
+    <ColorModeBox pt={5} pb={10} h="100vh">
+      {children}
+    </ColorModeBox>
+  );
 }

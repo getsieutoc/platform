@@ -1,7 +1,9 @@
 'use client';
 
-export * from './CreateSiteButton';
+export * from './ColorModeBox';
 export * from './ColorModeSwitcher';
+export * from './CreateSiteButton';
+export * from './Logo';
 export * from './NextImage';
 export * from './NextLink';
 export * from './SimpleTable';

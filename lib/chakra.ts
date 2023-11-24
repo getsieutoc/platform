@@ -24,16 +24,16 @@ const config = {
 
 const colors = {
   brand: {
-    50: '#F78DA7',
-    100: '#F57393',
-    200: '#F3597F',
-    300: '#F23F6C',
-    400: '#F02558',
-    500: '#E91046',
-    600: '#CF0E3F',
-    700: '#B50D37',
-    800: '#9B0B2F',
-    900: '#810927',
+    50: '#fff7db',
+    100: '#ffeaae',
+    200: '#fde17e',
+    300: '#fdda4d',
+    400: '#fcd81d',
+    500: '#e2af03',
+    600: '#b07d00',
+    700: '#7e5100',
+    800: '#4b2b00',
+    900: '#1b0c00',
   },
   yellowAlpha: {
     50: 'rgba(236, 201, 75, 0.04)',
@@ -47,10 +47,18 @@ const colors = {
     800: 'rgba(236, 201, 75, 0.80)',
     900: 'rgba(236, 201, 75, 0.92)',
   },
+  special: (props: StyleFunctionProps) => ({
+    100: 'red',
+    200: 'green',
+    300: mode('white', 'black')(props),
+  }),
 };
 
 const styles = {
   global: (props: StyleFunctionProps) => ({
+    special: {
+      bg: mode('gray.50', 'gray.500')(props),
+    },
     body: {
       bg: mode('gray.100', 'gray.800')(props),
     },
