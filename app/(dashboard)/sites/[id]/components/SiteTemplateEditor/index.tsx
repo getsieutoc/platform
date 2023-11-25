@@ -74,7 +74,7 @@ export const SiteTemplateEditor = ({ site }: SiteTemplateEditorProps) => {
                   className={fira_mono.className}
                   spellCheck={false}
                   bg={codeBg}
-                  rows={10}
+                  rows={16}
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                 />
