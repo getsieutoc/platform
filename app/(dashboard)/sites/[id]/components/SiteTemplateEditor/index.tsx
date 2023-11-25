@@ -1,8 +1,7 @@
 'use client';
 
-import { useColorModeValue, useState } from '@/hooks';
+import { useColorModeValue, useState, useClipboard } from '@/hooks';
 import { updateSiteSimple } from '@/lib/actions/site';
-import { validDomainRegex } from '@/lib/domains';
 import { Fira_Mono } from 'next/font/google';
 
 import {
@@ -16,11 +15,12 @@ import {
   FormControl,
   FormLabel,
   Heading,
+  IconButton,
   Stack,
   Text,
   Textarea,
 } from '@/components/chakra';
-import { RepeatIcon, SaveIcon } from '@/icons';
+import { CheckCircleIcon, CopyIcon, RepeatIcon, SaveIcon } from '@/icons';
 import { Site } from '@/types';
 
 export const fira_mono = Fira_Mono({
@@ -36,24 +36,23 @@ type SiteTemplateEditorProps = {
 export const SiteTemplateEditor = ({ site }: SiteTemplateEditorProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const [inputValue, setInputValue] = useState<string>('');
-  const [customDomain, setCustomDomain] = useState(site?.customDomain ?? '');
+  const [inputValue, setInputValue] = useState<string>(site.template ?? '');
 
-  const validDomain = validDomainRegex.test(customDomain);
-
-  const hasChanged = customDomain.length > 0 && customDomain !== site?.customDomain;
+  const { onCopy, hasCopied } = useClipboard(inputValue);
 
   const footerBorder = useColorModeValue('gray.200', 'gray.600');
 
   const codeBg = useColorModeValue('gray.100', 'gray.800');
 
+  const hasChanged = inputValue !== (site.template ?? '');
+
   const handleSave = async () => {
     try {
-      if (!site || !validDomain) return;
+      if (!site || !inputValue) return;
 
       setIsLoading(true);
 
-      await updateSiteSimple(site.id, { customDomain });
+      await updateSiteSimple(site.id, { template: inputValue });
     } catch (error) {
     } finally {
       setIsLoading(false);
@@ -70,14 +69,28 @@ export const SiteTemplateEditor = ({ site }: SiteTemplateEditorProps) => {
           <Stack spacing={6}>
             <FormControl isDisabled={isLoading} w="100%" minW="240px">
               <FormLabel>EasyPanel template</FormLabel>
-              <Textarea
-                className={fira_mono.className}
-                spellcheck="false"
-                bg={codeBg}
-                rows={10}
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-              />
+              <Flex position="relative">
+                <Textarea
+                  className={fira_mono.className}
+                  spellCheck={false}
+                  bg={codeBg}
+                  rows={10}
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                />
+
+                <IconButton
+                  icon={hasCopied ? <CheckCircleIcon color="green" /> : <CopyIcon />}
+                  colorScheme={hasCopied ? 'green' : 'gray'}
+                  variant="outline"
+                  aria-label="Copy"
+                  position="absolute"
+                  zIndex={3}
+                  right={2}
+                  top={2}
+                  onClick={onCopy}
+                />
+              </Flex>
             </FormControl>
           </Stack>
         </CardBody>
@@ -95,15 +108,15 @@ export const SiteTemplateEditor = ({ site }: SiteTemplateEditorProps) => {
                 <Button
                   aria-label="Reset"
                   leftIcon={<RepeatIcon />}
-                  onClick={() => setCustomDomain(site.customDomain ?? '')}
+                  onClick={() => setInputValue(site.template ?? '')}
                 >
                   Reset
                 </Button>
               )}
 
               <Button
-                colorScheme={hasChanged && validDomain ? 'green' : 'gray'}
-                isDisabled={!hasChanged || !validDomain || isLoading}
+                colorScheme={hasChanged ? 'green' : 'gray'}
+                isDisabled={!hasChanged || isLoading}
                 isLoading={isLoading}
                 leftIcon={<SaveIcon />}
                 onClick={handleSave}

@@ -60,7 +60,7 @@ export type UpdateSiteDto = Partial<Site>;
 
 export const updateSiteSimple = async (
   siteId: string,
-  { name, description, slug, customDomain }: UpdateSiteDto
+  { name, description, slug, customDomain, template }: UpdateSiteDto
 ) => {
   const session = await getSession();
 
@@ -85,6 +85,7 @@ export const updateSiteSimple = async (
       description,
       slug,
       customDomain: customDomain === '' ? null : customDomain,
+      template,
     },
   });
 
