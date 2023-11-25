@@ -24,16 +24,16 @@ const config = {
 
 const colors = {
   brand: {
-    50: '#F78DA7',
-    100: '#F57393',
-    200: '#F3597F',
-    300: '#F23F6C',
-    400: '#F02558',
-    500: '#E91046',
-    600: '#CF0E3F',
-    700: '#B50D37',
-    800: '#9B0B2F',
-    900: '#810927',
+    50: '#fff7db',
+    100: '#ffeaae',
+    200: '#fde17e',
+    300: '#fdda4d',
+    400: '#fcd81d',
+    500: '#e2af03',
+    600: '#b07d00',
+    700: '#7e5100',
+    800: '#4b2b00',
+    900: '#1b0c00',
   },
   yellowAlpha: {
     50: 'rgba(236, 201, 75, 0.04)',
@@ -51,6 +51,41 @@ const colors = {
 
 const styles = {
   global: (props: StyleFunctionProps) => ({
+    '.text-editor-inner > div': {
+      height: '100%',
+    },
+
+    '.text-editor': {
+      height: '100%',
+      width: '100%',
+      paddingY: 2,
+      paddingX: 4,
+      borderWidth: '1px',
+      borderRadius: 'md',
+      borderColor: 'inherit',
+      fontSize: 'md',
+    },
+
+    '.raf-activity': {
+      paddingY: 2,
+
+      'div:first-of-type': {
+        padding: '0 !important',
+      },
+
+      '.raf-user-bar': {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+
+        '.raf-user-bar__username': {
+          fontWeight: 'bold',
+        },
+        '.raf-user-bar__extra': {
+          fontSize: 'unset',
+        },
+      },
+    },
     body: {
       bg: mode('gray.100', 'gray.800')(props),
     },

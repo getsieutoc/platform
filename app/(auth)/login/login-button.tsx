@@ -34,7 +34,7 @@ export default function LoginButton() {
       isLoading={isLoading}
       leftIcon={<GithubIcon />}
       size="lg"
-      colorScheme="yellow"
+      colorScheme="brand"
       loadingText="Login with GitHub"
       onClick={() => {
         setLoading(true);

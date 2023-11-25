@@ -1,4 +1,4 @@
-'>puse client';
+'use client';
 
 import {
   AlertDialog,

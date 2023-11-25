@@ -1,18 +1,19 @@
+import { checkRepoExisting } from '@/lib/actions/github';
+import { redirect } from 'next/navigation';
+import { getSession } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+
+import { Stack } from '@/components/chakra';
+import { UserRole } from '@prisma/client';
 import {
   SiteCustomDomainForm,
   SiteDeleteForm,
   SiteGeneralSettingsForm,
   SiteQuickLinks,
-} from '@/components/client';
-import { Stack } from '@/components/chakra';
+  SiteTemplateEditor,
+} from './components';
 
-import { checkRepoExisting } from '@/lib/actions/github';
-import { redirect } from 'next/navigation';
-import { getSession } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
-import { UserRole } from '@prisma/client';
-
-type SingleSitePageProps = {
+export type SingleSitePageProps = {
   params: {
     id: string;
   };
@@ -28,7 +29,7 @@ export default async function SingleSitePage({ params }: SingleSitePageProps) {
   const repo = await checkRepoExisting(params.id);
 
   const site = await prisma.site.findUnique({
-    where: { id: params.id },
+    where: { id: decodeURIComponent(params.id) },
   });
 
   if (session.user.role !== UserRole.ADMIN && site?.userId !== session.user.id) {
@@ -42,6 +43,8 @@ export default async function SingleSitePage({ params }: SingleSitePageProps) {
       {site && <SiteGeneralSettingsForm site={site} />}
 
       {site && <SiteCustomDomainForm site={site} />}
+
+      {site && <SiteTemplateEditor site={site} />}
 
       {site && <SiteDeleteForm site={site} />}
     </Stack>

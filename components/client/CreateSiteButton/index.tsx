@@ -174,9 +174,10 @@ export const CreateSiteButton = () => {
 
               <Button
                 colorScheme="green"
-                isDisabled={isLoading}
-                isLoading={isLoading}
                 loadingText="Creating..."
+                isLoading={isLoading}
+                isDisabled={isLoading}
+                leftIcon={<AddIcon />}
                 onClick={handleSubmit}
               >
                 Create Site
