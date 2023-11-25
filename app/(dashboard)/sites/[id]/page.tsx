@@ -10,6 +10,7 @@ import {
   SiteDeleteForm,
   SiteGeneralSettingsForm,
   SiteQuickLinks,
+  SiteTemplateEditor,
 } from './components';
 
 export type SingleSitePageProps = {
@@ -42,6 +43,8 @@ export default async function SingleSitePage({ params }: SingleSitePageProps) {
       {site && <SiteGeneralSettingsForm site={site} />}
 
       {site && <SiteCustomDomainForm site={site} />}
+
+      {site && <SiteTemplateEditor site={site} />}
 
       {site && <SiteDeleteForm site={site} />}
     </Stack>

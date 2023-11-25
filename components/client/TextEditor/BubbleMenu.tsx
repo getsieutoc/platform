@@ -56,7 +56,7 @@ export const EditorBubbleMenu = ({ editor, ...rest }: EditorBubbleMenuProps) => 
     <BubbleMenu editor={editor} {...bubbleMenuProps}>
       {items.map((item, index) => (
         <button key={index} onClick={item.command} type="button">
-          <item.icon boxSize={16}>{item.name}</item.icon>
+          <item.icon boxSize={6}>{item.name}</item.icon>
         </button>
       ))}
     </BubbleMenu>

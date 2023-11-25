@@ -1,13 +1,17 @@
+import { useEffect, useDebouncedCallback, useLocalStorage } from '@/hooks';
 import { useEditor, EditorContent, JSONContent } from '@tiptap/react';
 import { Editor, Extensions } from '@tiptap/core';
-import { useDebouncedCallback } from 'use-debounce';
+import { Box, Flex, FlexProps } from '@/components/chakra';
 import { EditorProps } from '@tiptap/pm/view';
 import StarterKit from '@tiptap/starter-kit';
-import { useEffect, useState } from 'react';
 
 import { EditorBubbleMenu } from './BubbleMenu';
 
 export type TextEditorProps = {
+  wrapperProps?: FlexProps;
+
+  language?: string;
+
   /**
    * The default value to use for the editor.
    * Defaults to defaultEditorContent.
@@ -41,6 +45,8 @@ export type TextEditorProps = {
 };
 
 export const TextEditor = ({
+  wrapperProps,
+  language,
   content: initialContent,
   extensions = [],
   editorProps = {},
@@ -48,18 +54,17 @@ export const TextEditor = ({
   onDebouncedUpdate,
   debounceDuration = 100,
 }: TextEditorProps) => {
-  const [content, setContent] = useState(initialContent);
+  const [content, setContent] = useLocalStorage('text-editor', initialContent);
 
   const debouncedUpdates = useDebouncedCallback(
     async ({ editor }: { editor: Editor }) => {
-      // const json = editor.getJSON();
-      const text = editor.getText();
+      const json = editor.getJSON();
 
       if (typeof onDebouncedUpdate === 'function') {
         onDebouncedUpdate(editor);
       }
 
-      setContent(text);
+      setContent(json);
     },
     debounceDuration
   );
@@ -68,7 +73,7 @@ export const TextEditor = ({
     extensions: [StarterKit, ...extensions],
     editorProps: {
       attributes: {
-        class: 'lakihelppi-text-editor',
+        class: 'text-editor',
       },
       handleDOMEvents: {
         keydown: (_view, event) => {
@@ -96,9 +101,16 @@ export const TextEditor = ({
   }, [initialContent, content, editor]);
 
   return (
-    <div onClick={() => editor?.chain().focus().run()}>
-      {editor && <EditorBubbleMenu editor={editor} />}
-      <EditorContent editor={editor} />
-    </div>
+    <Flex className="text-editor-wrapper" {...wrapperProps}>
+      {editor && !language && <EditorBubbleMenu editor={editor} />}
+      <Box
+        className="text-editor-inner"
+        overflowX="hidden"
+        overflowY="auto"
+        flex="1 1 auto"
+      >
+        <EditorContent editor={editor} />
+      </Box>
+    </Flex>
   );
 };
