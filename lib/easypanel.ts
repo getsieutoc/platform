@@ -1,9 +1,9 @@
 import { Client as EasyPanelClient } from 'easypanel.js';
 
-// @ts-ignore
 const easypanel = new EasyPanelClient({
   endpoint: process.env.EASYPANEL_URL ?? '',
   token: process.env.EASYPANEL_API_TOKEN ?? '',
+  credentials: { email: '', password: '' }, // to silent the TypeScript error
 });
 
 easypanel.on('ready', async () => {
