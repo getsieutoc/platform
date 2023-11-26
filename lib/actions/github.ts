@@ -1,7 +1,7 @@
 'use server';
 
 import { RequestParameters, Site } from '@/types';
-import { easypanel } from '@/lib/easypanel';
+// import { easypanel } from '@/lib/easypanel';
 
 import { octokit } from '../octokit';
 
@@ -13,8 +13,8 @@ const defaultOptions: Partial<RequestParameters> = {
 
 export const checkRepoExisting = async (idAsName: string) => {
   try {
-    const respose = await easypanel.login();
-    console.log('### respose: ', { respose });
+    // const respose = await easypanel.login();
+    // console.log('### respose: ', { respose });
 
     const response = await octokit.request(
       `GET /repos/sieutoc-customers/${idAsName}`,

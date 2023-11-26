@@ -1,5 +1,5 @@
 import { Flex, Heading } from '@/components/chakra';
-import { redirect } from 'next/navigation';
+// import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth';
 
 import { ProfileCard } from './components';
@@ -8,7 +8,7 @@ export default async function ProfileSettingsPage() {
   const session = await getSession();
 
   if (!session) {
-    redirect('/login');
+    return null;
   }
 
   return (

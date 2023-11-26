@@ -12,7 +12,7 @@ export const Sites = async ({ limit }: { limit?: number }) => {
   const session = await getSession();
 
   if (!session) {
-    redirect('/login');
+    return null;
   }
 
   const sites = await prisma.site.findMany({

@@ -10,7 +10,7 @@ export const Profile = async () => {
   const session = await getSession();
 
   if (!session?.user) {
-    redirect('/login');
+    return null;
   }
 
   const { name, image, email } = session.user;

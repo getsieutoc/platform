@@ -23,7 +23,7 @@ export default async function SingleSitePage({ params }: SingleSitePageProps) {
   const session = await getSession();
 
   if (!session) {
-    redirect('/login');
+    return null;
   }
 
   const repo = await checkRepoExisting(params.id);
