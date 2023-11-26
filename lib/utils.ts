@@ -1,6 +1,7 @@
 import { format, formatRelative as formatRelativeFn } from 'date-fns';
-import deepmerge from 'deepmerge';
 import { HttpMethod } from '@/types';
+import deepmerge from 'deepmerge';
+import crypto from 'crypto';
 
 export { default as isEqual } from 'fast-deep-equal';
 
@@ -132,3 +133,5 @@ export const delayAsync = async (amountMs = 500): Promise<void> => {
     }, amountMs);
   });
 };
+
+export const generateSecret = (l = 32) => crypto.randomBytes(l).toString('base64');

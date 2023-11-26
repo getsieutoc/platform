@@ -1,9 +1,9 @@
 'use server';
 
-import crypto from 'crypto';
+import { generateSecret } from '@/lib/utils';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import type { Site } from '@/types';
+import { Site } from '@/types';
 
 export type CreateSiteDto = {
   name: string;
@@ -21,14 +21,14 @@ export const createSite = async ({ name, description, slug }: CreateSiteDto) => 
   try {
     const environmentVariables = {
       production: {
-        NEXTAUTH_SECRET: crypto.randomBytes(32).toString('hex'),
-        ARGON_SECRET: crypto.randomBytes(32).toString('hex'),
-        POSTGRES_PASSWORD: crypto.randomBytes(32).toString('hex'),
+        NEXTAUTH_SECRET: generateSecret(),
+        ARGON_SECRET: generateSecret(),
+        POSTGRES_PASSWORD: generateSecret(),
       },
       preview: {
-        NEXTAUTH_SECRET: crypto.randomBytes(32).toString('hex'),
-        ARGON_SECRET: crypto.randomBytes(32).toString('hex'),
-        POSTGRES_PASSWORD: crypto.randomBytes(32).toString('hex'),
+        NEXTAUTH_SECRET: generateSecret(),
+        ARGON_SECRET: generateSecret(),
+        POSTGRES_PASSWORD: generateSecret(),
       },
     };
 
