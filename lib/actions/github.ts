@@ -14,6 +14,7 @@ const defaultOptions: Partial<RequestParameters> = {
 export const checkRepoExisting = async (idAsName: string) => {
   try {
     const respose = await easypanel.login();
+
     console.log('### respose: ', { respose });
 
     const response = await octokit.request(
