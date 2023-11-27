@@ -84,20 +84,18 @@ export const SiteQuickLinks = ({ repo, site }: SiteGithubInfoProps) => {
                 </Button>
               )}
 
-              <Button
-                rightIcon={<ExternalLinkIcon />}
-                colorScheme="blue"
-                target="_blank"
-                as={Link}
-                href={
-                  site.customDomain
-                    ? site.customDomain
-                    : `https://${site.slug}.sieutoc.website`
-                }
-                variant="outline"
-              >
-                Go to website
-              </Button>
+              {site.customDomain && (
+                <Button
+                  as={Link}
+                  target="_blank"
+                  variant="outline"
+                  colorScheme="blue"
+                  rightIcon={<ExternalLinkIcon />}
+                  href={`https://${site.customDomain}`}
+                >
+                  Go to website
+                </Button>
+              )}
             </Stack>
           </Stack>
         </CardBody>
