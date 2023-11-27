@@ -28,7 +28,7 @@ import {
 } from '@/hooks';
 import { addCollaborator, createRepo } from '@/lib/actions/github';
 import { createSite } from '@/lib/actions/site';
-import { createProject } from '@/lib/actions/easypanel';
+import { createProject, createService } from '@/lib/actions/easypanel';
 import { UserRole } from '@prisma/client';
 import { AddIcon } from '@/icons';
 
@@ -85,15 +85,15 @@ export const CreateSiteButton = () => {
         toast({ title: 'Creating your site...' });
 
         await createRepo({ ...newSite, template });
-        toast({ title: 'GitHub repo is cloned successfully...' });
-
-        toast({ title: 'adding you as collaborator...' });
+        toast({ title: '...GitHub repo is cloned successfully' });
 
         if (session.user.role !== UserRole.ADMIN) {
+          toast({ title: '...adding you as collaborator' });
           await addCollaborator(newSite.id, session.user.username);
         }
 
-        await createProject({ name: newSite.id });
+        toast({ title: '...creating services on EasyPanel' });
+        await createProject(newSite);
 
         toast({ title: 'Done!' });
 
@@ -103,6 +103,7 @@ export const CreateSiteButton = () => {
         router.push(`/sites/${newSite.id}`);
       }
     } catch (error: any) {
+      console.log('### error: ', { error });
       toast({ status: 'error', title: error.message });
     }
   };

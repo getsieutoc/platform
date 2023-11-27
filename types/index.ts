@@ -28,9 +28,10 @@ export enum HttpMethod {
 
 export type JsonObject = Prisma.JsonObject;
 
-export interface EnvironmentVariables extends Prisma.JsonObject {
-  production: Record<string, string>;
-  preview: Record<string, string>;
-}
-
 export type ReposResponse = Endpoints['GET /repos/{owner}/{repo}']['response'];
+
+export type EnvironmentType = 'production' | 'preview';
+
+export type EnvironmentVariables = {
+  [key in EnvironmentType]: Record<string, string | undefined>;
+};

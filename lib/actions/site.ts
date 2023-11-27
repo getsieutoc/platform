@@ -3,7 +3,7 @@
 import { generateSecret } from '@/lib/utils';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { Site } from '@/types';
+import { EnvironmentVariables, Site } from '@/types';
 
 export type CreateSiteDto = Pick<Site, 'name' | 'description' | 'slug'>;
 
@@ -15,7 +15,7 @@ export const createSite = async ({ name, description, slug }: CreateSiteDto) => 
   }
 
   try {
-    const environmentVariables = {
+    const environmentVariables: EnvironmentVariables = {
       production: {
         NEXTAUTH_SECRET: generateSecret(),
         ARGON_SECRET: generateSecret(),

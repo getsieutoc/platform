@@ -10,8 +10,8 @@ import {
   SiteDeleteForm,
   SiteGeneralSettingsForm,
   SiteQuickLinks,
-  SiteTemplateEditor,
 } from './components';
+// import { getProject } from '@/lib/actions/easypanel';
 
 export type SingleSitePageProps = {
   params: {
@@ -26,10 +26,14 @@ export default async function SingleSitePage({ params }: SingleSitePageProps) {
     return null;
   }
 
-  const repo = await checkRepoExisting(params.id);
+  const id = decodeURIComponent(params.id);
+
+  const repo = await checkRepoExisting(id);
+
+  // const project = await getProject({ projectName: id });
 
   const site = await prisma.site.findUnique({
-    where: { id: decodeURIComponent(params.id) },
+    where: { id },
   });
 
   if (session.user.role !== UserRole.ADMIN && site?.userId !== session.user.id) {
@@ -43,8 +47,6 @@ export default async function SingleSitePage({ params }: SingleSitePageProps) {
       {site && <SiteGeneralSettingsForm site={site} />}
 
       {site && <SiteCustomDomainForm site={site} />}
-
-      {site && <SiteTemplateEditor site={site} />}
 
       {site && <SiteDeleteForm site={site} />}
     </Stack>

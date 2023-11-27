@@ -31,9 +31,9 @@ import {
   useToast,
 } from '@/hooks';
 import { DeleteIcon } from '@/icons';
+import { deleteProject } from '@/lib/actions/easypanel';
 import { deleteRepo } from '@/lib/actions/github';
 import { deleteSite } from '@/lib/actions/site';
-import { delayAsync } from '@/lib/utils';
 import type { Site } from '@/types';
 
 export type SiteDeleteFormProps = {
@@ -59,20 +59,24 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
 
   const handleDelete = async () => {
     try {
+      // if (!session || !session.user) {
+      //   toast({ title: 'Authentication issue', status: 'error' });
+
+      //   return;
+      // }
       if (!site) return;
 
       setIsLoading(true);
 
       toast({ title: 'Start deleting...' });
 
-      await delayAsync();
-
       await deleteRepo(siteId);
       toast({ title: 'Deleted GitHub repo...' });
 
-      await delayAsync();
+      await deleteProject({ name: site.id });
 
       const deletedSite = await deleteSite(site);
+
       toast({ title: 'Finally, deleted site!' });
 
       setIsLoading(false);
