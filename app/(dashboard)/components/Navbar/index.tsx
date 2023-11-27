@@ -59,7 +59,14 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
       <Box>
         <Flex direction="row" justify="space-between" align="end">
           <NextLink href="/">
-            <NextImage priority src={logoPath} width={128} height={37} alt="Logo" />
+            <NextImage
+              priority
+              src={logoPath}
+              width={128}
+              height={37}
+              alt="Sieutoc Logo"
+              placeholder="empty"
+            />
           </NextLink>
 
           <ColorModeSwitcher size="sm" />

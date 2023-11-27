@@ -1,4 +1,5 @@
 import { checkRepoExisting } from '@/lib/actions/github';
+import { getProject } from '@/lib/actions/easypanel';
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
@@ -11,7 +12,6 @@ import {
   SiteGeneralSettingsForm,
   SiteQuickLinks,
 } from './components';
-// import { getProject } from '@/lib/actions/easypanel';
 
 export type SingleSitePageProps = {
   params: {
@@ -30,7 +30,11 @@ export default async function SingleSitePage({ params }: SingleSitePageProps) {
 
   const repo = await checkRepoExisting(id);
 
-  // const project = await getProject({ projectName: id });
+  const projectRes = await getProject({ projectName: id });
+  const nextjsService = projectRes.result.data.json.services.find(
+    // @ts-expect-error service.name is wrong typed
+    (o) => o.name === 'nextjs'
+  );
 
   const site = await prisma.site.findUnique({
     where: { id },
@@ -46,7 +50,9 @@ export default async function SingleSitePage({ params }: SingleSitePageProps) {
 
       {site && <SiteGeneralSettingsForm site={site} />}
 
-      {site && <SiteCustomDomainForm site={site} />}
+      {site && nextjsService && (
+        <SiteCustomDomainForm site={site} service={nextjsService} />
+      )}
 
       {site && <SiteDeleteForm site={site} />}
     </Stack>

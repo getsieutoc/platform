@@ -27,8 +27,8 @@ import {
   useToast,
 } from '@/hooks';
 import { addCollaborator, createRepo } from '@/lib/actions/github';
+import { createProject } from '@/lib/actions/easypanel';
 import { createSite } from '@/lib/actions/site';
-import { createProject, createService } from '@/lib/actions/easypanel';
 import { UserRole } from '@prisma/client';
 import { AddIcon } from '@/icons';
 
@@ -103,7 +103,6 @@ export const CreateSiteButton = () => {
         router.push(`/sites/${newSite.id}`);
       }
     } catch (error: any) {
-      console.log('### error: ', { error });
       toast({ status: 'error', title: error.message });
     }
   };

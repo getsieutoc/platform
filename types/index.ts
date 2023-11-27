@@ -3,6 +3,8 @@ import { Endpoints } from '@octokit/types';
 
 export type { ChangeEvent } from 'react';
 
+export type { Service, Project } from 'easypanel-sdk';
+
 export * from './github';
 
 // Do not know why export * will make nextjs complain about
