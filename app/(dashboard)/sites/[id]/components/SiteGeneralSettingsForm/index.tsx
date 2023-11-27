@@ -17,7 +17,7 @@ import {
   Textarea,
 } from '@/components/chakra';
 import { useAuth, useColorModeValue, useDebounce, useState } from '@/hooks';
-import { updateSiteSimple } from '@/lib/actions/site';
+import { updateSite } from '@/lib/actions/site';
 import { isEqual } from '@/lib/utils';
 import { RepeatIcon, SaveIcon } from '@/icons';
 import { Site } from '@/types';
@@ -60,7 +60,7 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
 
       setIsLoading(true);
 
-      const res = await updateSiteSimple(siteId, formValues);
+      const res = await updateSite(siteId, formValues);
 
       if (res) {
         update();

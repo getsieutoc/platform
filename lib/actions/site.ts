@@ -5,11 +5,7 @@ import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { Site } from '@/types';
 
-export type CreateSiteDto = {
-  name: string;
-  description: string;
-  slug: string;
-};
+export type CreateSiteDto = Pick<Site, 'name' | 'description' | 'slug'>;
 
 export const createSite = async ({ name, description, slug }: CreateSiteDto) => {
   const session = await getSession();
@@ -58,7 +54,7 @@ export const createSite = async ({ name, description, slug }: CreateSiteDto) => 
 
 export type UpdateSiteDto = Partial<Site>;
 
-export const updateSiteSimple = async (
+export const updateSite = async (
   siteId: string,
   { name, description, slug, customDomain, template }: UpdateSiteDto
 ) => {

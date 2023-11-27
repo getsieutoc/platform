@@ -1,7 +1,7 @@
 'use client';
 
 import { useColorModeValue, useState } from '@/hooks';
-import { updateSiteSimple } from '@/lib/actions/site';
+import { updateSite } from '@/lib/actions/site';
 import { validDomainRegex } from '@/lib/domains';
 
 import {
@@ -43,7 +43,7 @@ export const SiteCustomDomainForm = ({ site }: SiteCustomDomainFormProps) => {
 
       setIsLoading(true);
 
-      await updateSiteSimple(site.id, { customDomain });
+      await updateSite(site.id, { customDomain });
     } catch (error) {
     } finally {
       setIsLoading(false);

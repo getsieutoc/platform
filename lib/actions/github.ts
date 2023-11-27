@@ -1,9 +1,18 @@
 'use server';
 
 import { RequestParameters, Site } from '@/types';
-import { easypanel } from '@/lib/easypanel';
+import { Octokit } from '@octokit/core';
 
-import { octokit } from '../octokit';
+declare global {
+  // eslint-disable-next-line no-var, vars-on-top
+  var octokit: Octokit | undefined; // declare needs var
+}
+
+const octokit = global.octokit ?? new Octokit({ auth: process.env.GITHUB_TOKEN });
+
+if (process.env.NODE_ENV === 'development') {
+  global.octokit = octokit;
+}
 
 const defaultOptions: Partial<RequestParameters> = {
   headers: {
@@ -13,10 +22,6 @@ const defaultOptions: Partial<RequestParameters> = {
 
 export const checkRepoExisting = async (idAsName: string) => {
   try {
-    const respose = await easypanel.login();
-
-    console.log('### respose: ', { respose });
-
     const response = await octokit.request(
       `GET /repos/sieutoc-customers/${idAsName}`,
       defaultOptions
@@ -24,7 +29,6 @@ export const checkRepoExisting = async (idAsName: string) => {
 
     return response.data;
   } catch (error: any) {
-    console.log('### error: ', { error });
     if (error.status === 404) {
       return null;
     }

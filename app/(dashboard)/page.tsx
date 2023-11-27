@@ -22,7 +22,13 @@ export default function Overview() {
           Under Construction
         </Heading>
 
-        <NextImage alt="missing site" src="/web-design.svg" width={400} height={400} />
+        <NextImage
+          priority
+          src="/web-design.svg"
+          alt="missing site"
+          height={400}
+          width={400}
+        />
       </Flex>
     </Flex>
   );

@@ -28,6 +28,7 @@ import {
 } from '@/hooks';
 import { addCollaborator, createRepo } from '@/lib/actions/github';
 import { createSite } from '@/lib/actions/site';
+import { createProject } from '@/lib/actions/easypanel';
 import { UserRole } from '@prisma/client';
 import { AddIcon } from '@/icons';
 
@@ -70,11 +71,17 @@ export const CreateSiteButton = () => {
 
   const handleSubmit = async () => {
     try {
+      if (!session || !session.user) {
+        toast({ title: 'Authentication issue', status: 'error' });
+
+        return;
+      }
+
       setIsLoading(true);
 
       const newSite = await createSite(data);
 
-      if (newSite && session) {
+      if (newSite) {
         toast({ title: 'Creating your site...' });
 
         await createRepo({ ...newSite, template });
@@ -85,6 +92,8 @@ export const CreateSiteButton = () => {
         if (session.user.role !== UserRole.ADMIN) {
           await addCollaborator(newSite.id, session.user.username);
         }
+
+        await createProject({ name: newSite.id });
 
         toast({ title: 'Done!' });
 

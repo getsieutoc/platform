@@ -1,7 +1,7 @@
 'use client';
 
 import { useColorModeValue, useState, useClipboard } from '@/hooks';
-import { updateSiteSimple } from '@/lib/actions/site';
+import { updateSite } from '@/lib/actions/site';
 import { Fira_Mono } from 'next/font/google';
 
 import {
@@ -52,7 +52,7 @@ export const SiteTemplateEditor = ({ site }: SiteTemplateEditorProps) => {
 
       setIsLoading(true);
 
-      await updateSiteSimple(site.id, { template: inputValue });
+      await updateSite(site.id, { template: inputValue });
     } catch (error) {
     } finally {
       setIsLoading(false);
