@@ -1,10 +1,9 @@
 import { Flex, Heading, Skeleton, Wrap, WrapItem } from '@/components/chakra';
-import { CreateSiteButton } from '@/components/client';
 import { Suspense } from 'react';
 
-import { Sites } from './components';
+import { CreateNewButton, Projects } from './components';
 
-export default function AllSites() {
+export default function AllProjects() {
   return (
     <Flex width="100%" direction="column" gap={6}>
       <Flex
@@ -16,10 +15,10 @@ export default function AllSites() {
         gap={6}
       >
         <Heading as="h1" size="lg">
-          All Sites
+          All Projects
         </Heading>
 
-        <CreateSiteButton />
+        <CreateNewButton />
       </Flex>
       <Suspense
         fallback={
@@ -32,7 +31,7 @@ export default function AllSites() {
           </Wrap>
         }
       >
-        <Sites limit={9} />
+        <Projects limit={9} />
       </Suspense>
     </Flex>
   );

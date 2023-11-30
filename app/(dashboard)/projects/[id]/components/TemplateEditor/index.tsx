@@ -1,7 +1,7 @@
 'use client';
 
 import { useColorModeValue, useState, useClipboard } from '@/hooks';
-import { updateSite } from '@/lib/actions/site';
+import { updateProject } from '@/lib/actions/project';
 import { Fira_Mono } from 'next/font/google';
 
 import {
@@ -21,7 +21,7 @@ import {
   Textarea,
 } from '@/components/chakra';
 import { CheckCircleIcon, CopyIcon, RepeatIcon, SaveIcon } from '@/icons';
-import { Site } from '@/types';
+import { Project } from '@/types';
 
 export const fira_mono = Fira_Mono({
   subsets: ['latin'],
@@ -29,14 +29,14 @@ export const fira_mono = Fira_Mono({
   weight: '400',
 });
 
-type SiteTemplateEditorProps = {
-  site: Site;
+type TemplateEditorProps = {
+  data: Project;
 };
 
-export const SiteTemplateEditor = ({ site }: SiteTemplateEditorProps) => {
+export const ProjectTemplateEditor = ({ data }: TemplateEditorProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const [inputValue, setInputValue] = useState<string>(site.template ?? '');
+  const [inputValue, setInputValue] = useState<string>(data.template ?? '');
 
   const { onCopy, hasCopied } = useClipboard(inputValue);
 
@@ -44,15 +44,15 @@ export const SiteTemplateEditor = ({ site }: SiteTemplateEditorProps) => {
 
   const codeBg = useColorModeValue('gray.100', 'gray.800');
 
-  const hasChanged = inputValue !== (site.template ?? '');
+  const hasChanged = inputValue !== (data.template ?? '');
 
   const handleSave = async () => {
     try {
-      if (!site || !inputValue) return;
+      if (!data || !inputValue) return;
 
       setIsLoading(true);
 
-      await updateSite(site.id, { template: inputValue });
+      await updateProject(data.id, { template: inputValue });
     } catch (error) {
     } finally {
       setIsLoading(false);
@@ -108,7 +108,7 @@ export const SiteTemplateEditor = ({ site }: SiteTemplateEditorProps) => {
                 <Button
                   aria-label="Reset"
                   leftIcon={<RepeatIcon />}
-                  onClick={() => setInputValue(site.template ?? '')}
+                  onClick={() => setInputValue(data.template ?? '')}
                 >
                   Reset
                 </Button>

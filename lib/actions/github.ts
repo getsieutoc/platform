@@ -1,6 +1,6 @@
 'use server';
 
-import { RequestParameters, Site } from '@/types';
+import { RequestParameters, Project } from '@/types';
 import { Octokit } from '@octokit/core';
 
 declare global {
@@ -36,7 +36,7 @@ export const checkRepoExisting = async (idAsName: string) => {
   }
 };
 
-export type CreateRepoDto = Pick<Site, 'id' | 'slug'> & {
+export type CreateRepoDto = Pick<Project, 'id' | 'slug'> & {
   homepage?: string;
   private?: boolean;
   template: string;

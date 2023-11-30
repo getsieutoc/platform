@@ -1,6 +1,6 @@
 <a href="https://sieutoc.website">
   <img alt="Sieutoc" src="/public/thumbnail.png">
-  <h1 align="center">Website Sieutoc</h1>
+  <h1 align="center">Sieutoc</h1>
 </a>
 
 <p align="center">

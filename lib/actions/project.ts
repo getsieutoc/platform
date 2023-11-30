@@ -1,13 +1,13 @@
 'use server';
 
+import { EnvironmentVariables, Project } from '@/types';
 import { generateSecret } from '@/lib/utils';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { EnvironmentVariables, Site } from '@/types';
 
-export type CreateSiteDto = Pick<Site, 'name' | 'description' | 'slug'>;
+export type CreateProjectDto = Pick<Project, 'name' | 'description' | 'slug'>;
 
-export const createSite = async ({ name, description, slug }: CreateSiteDto) => {
+export const createProject = async ({ name, description, slug }: CreateProjectDto) => {
   const session = await getSession();
 
   if (!session?.user.id) {
@@ -28,7 +28,7 @@ export const createSite = async ({ name, description, slug }: CreateSiteDto) => 
       },
     };
 
-    const response = await prisma.site.create({
+    const response = await prisma.project.create({
       data: {
         name,
         description,
@@ -52,30 +52,27 @@ export const createSite = async ({ name, description, slug }: CreateSiteDto) => 
   }
 };
 
-export type UpdateSiteDto = Partial<Site>;
+export type UpdateProjectDto = Partial<Project>;
 
-export const updateSite = async (
-  siteId: string,
-  { name, description, slug, customDomain, template }: UpdateSiteDto
-) => {
+export const updateProject = async (id: string, data: UpdateProjectDto) => {
   const session = await getSession();
 
   if (!session) {
     throw new Error('Unauthorized');
   }
 
-  const site = await prisma.site.findUnique({
-    where: {
-      id: siteId,
-    },
+  const { name, description, slug, customDomain, template } = data;
+
+  const Project = await prisma.project.findUnique({
+    where: { id },
   });
 
-  if (!site || site.userId !== session.user.id) {
-    throw new Error('You do not have permission to update this site');
+  if (!Project || Project.userId !== session.user.id) {
+    throw new Error('You do not have permission to update this Project');
   }
 
-  const response = await prisma.site.update({
-    where: { id: siteId },
+  const response = await prisma.project.update({
+    where: { id: id },
     data: {
       name,
       description,
@@ -88,7 +85,7 @@ export const updateSite = async (
   return response;
 };
 
-export const deleteSite = async (site: Site) => {
+export const deleteProject = async (project: Project) => {
   try {
     const session = await getSession();
     if (!session?.user.id) {
@@ -97,9 +94,9 @@ export const deleteSite = async (site: Site) => {
       };
     }
 
-    const response = await prisma.site.delete({
+    const response = await prisma.project.delete({
       where: {
-        id: site.id,
+        id: project.id,
       },
     });
 

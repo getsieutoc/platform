@@ -6,20 +6,21 @@ import { prisma } from '@/lib/prisma';
 
 import { Stack } from '@/components/chakra';
 import { UserRole } from '@prisma/client';
+
 import {
-  SiteCustomDomainForm,
-  SiteDeleteForm,
-  SiteGeneralSettingsForm,
-  SiteQuickLinks,
+  CustomDomainForm,
+  DeleteForm,
+  GeneralSettingsForm,
+  QuickLinks,
 } from './components';
 
-export type SingleSitePageProps = {
+export type SingleProjectPageProps = {
   params: {
     id: string;
   };
 };
 
-export default async function SingleSitePage({ params }: SingleSitePageProps) {
+export default async function SingleProjectPage({ params }: SingleProjectPageProps) {
   const session = await getSession();
 
   if (!session) {
@@ -36,25 +37,25 @@ export default async function SingleSitePage({ params }: SingleSitePageProps) {
     (o) => o.name === 'nextjs'
   );
 
-  const site = await prisma.site.findUnique({
+  const project = await prisma.project.findUnique({
     where: { id },
   });
 
-  if (session.user.role !== UserRole.ADMIN && site?.userId !== session.user.id) {
-    redirect('/sites');
+  if (session.user.role !== UserRole.ADMIN && project?.userId !== session.user.id) {
+    redirect('/projects');
   }
 
   return (
     <Stack width="100%" spacing={6}>
-      {site && <SiteQuickLinks repo={repo} site={site} />}
+      {project && <QuickLinks repo={repo} data={project} />}
 
-      {site && <SiteGeneralSettingsForm site={site} />}
+      {project && <GeneralSettingsForm data={project} />}
 
-      {site && nextjsService && (
-        <SiteCustomDomainForm site={site} service={nextjsService} />
+      {project && nextjsService && (
+        <CustomDomainForm data={project} service={nextjsService} />
       )}
 
-      {site && <SiteDeleteForm site={site} />}
+      {project && <DeleteForm data={project} />}
     </Stack>
   );
 }

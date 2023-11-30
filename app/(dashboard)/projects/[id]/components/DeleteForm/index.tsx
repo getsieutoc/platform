@@ -31,16 +31,16 @@ import {
   useToast,
 } from '@/hooks';
 import { DeleteIcon } from '@/icons';
-import { deleteProject } from '@/lib/actions/easypanel';
+import { deleteEasyPanelProject } from '@/lib/actions/easypanel';
 import { deleteRepo } from '@/lib/actions/github';
-import { deleteSite } from '@/lib/actions/site';
-import type { Site } from '@/types';
+import { deleteProject } from '@/lib/actions/project';
+import type { Project } from '@/types';
 
-export type SiteDeleteFormProps = {
-  site: Site;
+export type DeleteFormProps = {
+  data: Project;
 };
 
-export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
+export const DeleteForm = ({ data }: DeleteFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const toast = useToast();
@@ -50,7 +50,7 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
 
   const [confirmName, setConfirmName] = useState('');
 
-  const siteId = site?.id ?? '';
+  const id = data?.id ?? '';
 
   const handleCancel = () => {
     setConfirmName('');
@@ -64,27 +64,27 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
 
       //   return;
       // }
-      if (!site) return;
+      if (!data) return;
 
       setIsLoading(true);
 
       toast({ title: 'Start deleting...' });
 
-      await deleteRepo(siteId);
+      await deleteRepo(id);
       toast({ title: 'Deleted GitHub repo...' });
 
-      await deleteProject({ name: site.id });
+      await deleteEasyPanelProject({ name: id });
 
-      const deletedSite = await deleteSite(site);
+      const deletedProject = await deleteProject(data);
 
-      toast({ title: 'Finally, deleted site!' });
+      toast({ title: 'Finally, deleted project!' });
 
       setIsLoading(false);
 
       onClose();
 
-      if (deletedSite) {
-        router.push('/sites');
+      if (deletedProject) {
+        router.push('/projects');
       }
     } catch (error: any) {
       toast({ status: 'error', title: `Error: ${error.message}` });
@@ -94,7 +94,7 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
   const borderColor = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
   const dangerColor = useColorModeValue('red.600', 'red.400');
 
-  if (!siteId) {
+  if (!id) {
     return <Skeleton height="40px" />;
   }
 
@@ -103,7 +103,7 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
       <Card direction="column" width="100%">
         <CardHeader>
           <Heading size="md" color={dangerColor}>
-            Delete Site
+            Delete Project
           </Heading>
         </CardHeader>
 
@@ -147,13 +147,13 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
           <AlertDialogBody>
             <FormControl>
               <FormLabel>
-                Confirm by typing site name:{' '}
+                Confirm by typing project name:{' '}
                 <Text as="span" fontWeight="bold">
-                  {site?.name}
+                  {data?.name}
                 </Text>
               </FormLabel>
               <Input
-                placeholder="Site name"
+                placeholder="Project name"
                 value={confirmName ?? ''}
                 onChange={(event) => setConfirmName(event.target.value)}
               />
@@ -166,7 +166,7 @@ export const SiteDeleteForm = ({ site }: SiteDeleteFormProps) => {
               </Button>
               <Button
                 isLoading={isLoading}
-                isDisabled={confirmName !== site?.name || isLoading}
+                isDisabled={confirmName !== data?.name || isLoading}
                 colorScheme="red"
                 onClick={handleDelete}
               >

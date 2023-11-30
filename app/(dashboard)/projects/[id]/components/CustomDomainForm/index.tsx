@@ -1,7 +1,7 @@
 'use client';
 
 import { useColorModeValue, useState } from '@/hooks';
-import { updateSite } from '@/lib/actions/site';
+import { updateProject } from '@/lib/actions/project';
 import { validDomainRegex } from '@/lib/domains';
 
 import {
@@ -31,23 +31,23 @@ import {
   SaveIcon,
   SmallAddIcon,
 } from '@/icons';
-import { Service, Site } from '@/types';
+import { Service, Project } from '@/types';
 import { updateDomains } from '@/lib/actions/easypanel';
 import { Copyable } from '@/components/client';
 
-type SiteCustomDomainFormProps = {
-  site: Site;
+type CustomDomainFormProps = {
+  data: Project;
   service: Service;
 };
 
-export const SiteCustomDomainForm = ({ site, service }: SiteCustomDomainFormProps) => {
+export const CustomDomainForm = ({ data, service }: CustomDomainFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const cleanDomains = (service.domains ?? []).filter(
     (d) => !d.host.includes('easypanel.host')
   );
 
-  const [customDomain, setCustomDomain] = useState(site.customDomain);
+  const [customDomain, setCustomDomain] = useState(data.customDomain);
 
   const validDomain =
     customDomain !== null &&
@@ -55,7 +55,7 @@ export const SiteCustomDomainForm = ({ site, service }: SiteCustomDomainFormProp
     validDomainRegex.test(customDomain);
 
   const hasChanged =
-    site.customDomain === null ? validDomain : customDomain !== site.customDomain;
+    data.customDomain === null ? validDomain : customDomain !== data.customDomain;
 
   const validChanged = hasChanged && (validDomain || customDomain === '');
 
@@ -69,7 +69,7 @@ export const SiteCustomDomainForm = ({ site, service }: SiteCustomDomainFormProp
 
       const finalDomains =
         customDomain === ''
-          ? (service.domains ?? []).filter((d) => d.host !== site.customDomain)
+          ? (service.domains ?? []).filter((d) => d.host !== data.customDomain)
           : [
               {
                 host: customDomain,
@@ -80,10 +80,10 @@ export const SiteCustomDomainForm = ({ site, service }: SiteCustomDomainFormProp
               ...(service.domains ?? []),
             ];
 
-      await updateSite(site.id, { customDomain });
+      await updateProject(data.id, { customDomain });
 
       await updateDomains({
-        id: site.id,
+        id: data.id,
         domains: finalDomains,
       });
     } catch (error) {
@@ -94,10 +94,10 @@ export const SiteCustomDomainForm = ({ site, service }: SiteCustomDomainFormProp
 
   const generateSubdomain = async () => {
     await updateDomains({
-      id: site.id,
+      id: data.id,
       domains: [
         {
-          host: `${site.slug}.sieutoc.website`,
+          host: `${data.slug}.sieutoc.website`,
           https: true,
           path: '/',
           port: 80,
@@ -112,7 +112,7 @@ export const SiteCustomDomainForm = ({ site, service }: SiteCustomDomainFormProp
     const remained = (service.domains ?? []).filter((d) => d.host !== host);
 
     await updateDomains({
-      id: site.id,
+      id: data.id,
       domains: remained,
     });
   };
@@ -181,7 +181,7 @@ export const SiteCustomDomainForm = ({ site, service }: SiteCustomDomainFormProp
                     Add custom domain
                   </Button>
                 )}
-                {customDomain !== null && site.customDomain === null && (
+                {customDomain !== null && data.customDomain === null && (
                   <Button onClick={() => setCustomDomain(null)}>Cancel</Button>
                 )}
               </ButtonGroup>
@@ -202,7 +202,7 @@ export const SiteCustomDomainForm = ({ site, service }: SiteCustomDomainFormProp
                 <Button
                   aria-label="Reset"
                   leftIcon={<RepeatIcon />}
-                  onClick={() => setCustomDomain(site.customDomain ?? '')}
+                  onClick={() => setCustomDomain(data.customDomain ?? '')}
                 >
                   Reset
                 </Button>

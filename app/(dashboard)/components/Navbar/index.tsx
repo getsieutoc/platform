@@ -12,16 +12,16 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
   const { id } = useParams() as { id?: string };
 
   const tabs = useMemo(() => {
-    if (segments[0] === 'sites' && id) {
+    if (segments[0] === 'projects' && id) {
       return [
         {
-          name: 'Back to All Sites',
-          href: '/sites',
+          name: 'Back to All Projects',
+          href: '/projects',
           icon: <ArrowBackIcon boxSize={4} />,
         },
         {
           name: 'General',
-          href: `/sites/${id}`,
+          href: `/projects/${id}`,
           icon: <DashboardIcon boxSize={4} />,
           isActive: !segments[2],
         },
@@ -36,9 +36,9 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
         icon: <BarChartIcon boxSize={4} />,
       },
       {
-        name: 'Sites',
-        href: '/sites',
-        isActive: segments[0] === 'sites',
+        name: 'Projects',
+        href: '/projects',
+        isActive: segments[0] === 'projects',
         icon: <GlobeIcon boxSize={4} />,
       },
     ];

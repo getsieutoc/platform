@@ -4,14 +4,14 @@ import type { ReactNode } from 'react';
 
 import { prisma } from '@/lib/prisma';
 
-export default async function SingleSiteLayout({
+export default async function SingleProjectLayout({
   params,
   children,
 }: {
   params: { id: string };
   children: ReactNode;
 }) {
-  const data = await prisma.site.findUnique({
+  const data = await prisma.project.findUnique({
     where: { id: params.id },
     include: { user: true },
   });

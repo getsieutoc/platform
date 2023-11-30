@@ -3,7 +3,7 @@ import { Endpoints } from '@octokit/types';
 
 export type { ChangeEvent } from 'react';
 
-export type { Service, Project } from 'easypanel-sdk';
+export type { Service, Project as EasyPanelProject } from 'easypanel-sdk';
 
 export * from './github';
 
@@ -13,8 +13,6 @@ export type { RequestParameters } from '@octokit/types';
 export type { ToastId } from '@/components/chakra';
 
 export * from '@prisma/client';
-
-export * from './vercel';
 
 export enum HttpMethod {
   CONNECT = 'CONNECT',

@@ -27,8 +27,8 @@ import {
   useToast,
 } from '@/hooks';
 import { addCollaborator, createRepo } from '@/lib/actions/github';
-import { createProject } from '@/lib/actions/easypanel';
-import { createSite } from '@/lib/actions/site';
+import { createEasyPanelProject } from '@/lib/actions/easypanel';
+import { createProject } from '@/lib/actions/project';
 import { UserRole } from '@prisma/client';
 import { AddIcon } from '@/icons';
 
@@ -39,7 +39,7 @@ const initialValues = {
   template: '',
 };
 
-export const CreateSiteButton = () => {
+export const CreateNewButton = () => {
   const { session } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
@@ -79,28 +79,28 @@ export const CreateSiteButton = () => {
 
       setIsLoading(true);
 
-      const newSite = await createSite(data);
+      const newProject = await createProject(data);
 
-      if (newSite) {
-        toast({ title: 'Creating your site...' });
+      if (newProject) {
+        toast({ title: 'Creating your project...' });
 
-        await createRepo({ ...newSite, template });
+        await createRepo({ ...newProject, template });
         toast({ title: '...GitHub repo is cloned successfully' });
 
         if (session.user.role !== UserRole.ADMIN) {
           toast({ title: '...adding you as collaborator' });
-          await addCollaborator(newSite.id, session.user.username);
+          await addCollaborator(newProject.id, session.user.username);
         }
 
         toast({ title: '...creating services on EasyPanel' });
-        await createProject(newSite);
+        await createEasyPanelProject(newProject);
 
         toast({ title: 'Done!' });
 
         onClose();
 
         router.refresh();
-        router.push(`/sites/${newSite.id}`);
+        router.push(`/projects/${newProject.id}`);
       }
     } catch (error: any) {
       toast({ status: 'error', title: error.message });
@@ -110,7 +110,7 @@ export const CreateSiteButton = () => {
   return (
     <>
       <Button ref={finalRef} leftIcon={<AddIcon />} colorScheme="green" onClick={onOpen}>
-        Create New Site
+        Create New Project
       </Button>
 
       <Modal
@@ -121,7 +121,7 @@ export const CreateSiteButton = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create New Site</ModalHeader>
+          <ModalHeader>Create New Project</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody pb={6}>
@@ -141,7 +141,7 @@ export const CreateSiteButton = () => {
                 <FormLabel>Name</FormLabel>
                 <Input
                   ref={initialRef}
-                  placeholder="Site name"
+                  placeholder="Project name"
                   value={data.name}
                   onChange={(event) =>
                     setData((prev) => ({ ...prev, name: event.target.value }))
@@ -189,7 +189,7 @@ export const CreateSiteButton = () => {
                 leftIcon={<AddIcon />}
                 onClick={handleSubmit}
               >
-                Create Site
+                Create Project
               </Button>
             </Stack>
           </ModalFooter>

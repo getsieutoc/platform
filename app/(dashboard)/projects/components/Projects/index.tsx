@@ -1,50 +1,43 @@
 import { Flex, Heading, Text, Wrap, WrapItem } from '@/components/chakra';
 import { NextImage } from '@/components/client';
-import { redirect } from 'next/navigation';
 import { parseQuery } from '@/lib/utils';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { UserRole } from '@/types';
 
-import { SiteCard } from './SiteCard';
+import { ProjectCard } from './ProjectCard';
 
-export const Sites = async ({ limit }: { limit?: number }) => {
+export const Projects = async ({ limit }: { limit?: number }) => {
   const session = await getSession();
 
   if (!session) {
     return null;
   }
 
-  const sites = await prisma.site.findMany({
+  const projects = await prisma.project.findMany({
     take: parseQuery(limit),
     where: session.user.role === UserRole.ADMIN ? {} : { user: { id: session.user.id } },
     orderBy: { createdAt: 'asc' },
   });
 
-  return sites.length > 0 ? (
+  return projects.length > 0 ? (
     <Wrap spacing={6}>
-      {sites.map((site) => (
-        <WrapItem key={site.id}>
-          <SiteCard data={site} />
+      {projects.map((project) => (
+        <WrapItem key={project.id}>
+          <ProjectCard data={project} />
         </WrapItem>
       ))}
     </Wrap>
   ) : (
     <Flex direction="column" alignItems="center">
       <Heading as="h1" size="3xl" color="gray">
-        No Sites Yet
+        No Projects Yet
       </Heading>
 
-      <NextImage
-        priority
-        alt="missing site"
-        src="/web-design.svg"
-        width={400}
-        height={400}
-      />
+      <NextImage priority alt="missing" src="/web-design.svg" width={400} height={400} />
 
       <Text className="text-lg text-stone-500">
-        You do not have any sites yet. Create one to get started.
+        You do not have any projects yet. Create one to get started.
       </Text>
     </Flex>
   );

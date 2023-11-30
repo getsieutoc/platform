@@ -17,29 +17,29 @@ import {
   Textarea,
 } from '@/components/chakra';
 import { useAuth, useColorModeValue, useDebounce, useState } from '@/hooks';
-import { updateSite } from '@/lib/actions/site';
+import { updateProject } from '@/lib/actions/project';
 import { isEqual } from '@/lib/utils';
 import { RepeatIcon, SaveIcon } from '@/icons';
-import { Site } from '@/types';
+import { Project } from '@/types';
 
-export type SiteGeneralSettingsFormProps = {
-  site: Site;
+export type GeneralSettingsFormProps = {
+  data: Project;
 };
 
-export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) => {
+export const GeneralSettingsForm = ({ data }: GeneralSettingsFormProps) => {
   const { update } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const initialData = {
-    name: site.name ?? '',
-    slug: site.slug ?? '',
-    description: site.description ?? '',
+    name: data.name ?? '',
+    slug: data.slug ?? '',
+    description: data.description ?? '',
   };
 
   const [formValues, setFormValues] = useState(initialData);
 
-  const siteId = site.id ?? '';
+  const id = data.id ?? '';
 
   useDebounce(
     () => {
@@ -56,11 +56,11 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
 
   const handleSave = async () => {
     try {
-      if (!siteId) return;
+      if (!id) return;
 
       setIsLoading(true);
 
-      const res = await updateSite(siteId, formValues);
+      const res = await updateProject(id, formValues);
 
       if (res) {
         update();
@@ -85,7 +85,7 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
           <FormControl isDisabled={isLoading}>
             <FormLabel>Name</FormLabel>
             <Input
-              placeholder="Site name"
+              placeholder="Project name"
               value={formValues.name ?? ''}
               onChange={(event) =>
                 setFormValues(() => ({ ...formValues, name: event.target.value }))
@@ -107,7 +107,7 @@ export const SiteGeneralSettingsForm = ({ site }: SiteGeneralSettingsFormProps) 
           <FormControl isDisabled={isLoading}>
             <FormLabel>Description</FormLabel>
             <Textarea
-              placeholder="Site description"
+              placeholder="Project description"
               rows={3}
               value={formValues.description ?? ''}
               onChange={(event) =>

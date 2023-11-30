@@ -2,14 +2,14 @@ import { Metadata } from 'next';
 
 import { Providers } from './components';
 
-const title = 'Website Sieutoc – Thiet ke website sieu toc';
-const description = 'Create modern website in minutes!';
-const image = 'https://vercel.pub/thumbnail.png';
+const title = 'Sieutoc';
+const description = 'Create modern apps in minutes!';
+const image = '';
 
 export const metadata: Metadata = {
   title,
   description,
-  icons: ['https://vercel.pub/favicon.ico'],
+  icons: [''],
   openGraph: {
     title,
     description,

@@ -17,16 +17,16 @@ import {
   Text,
 } from '@/components/chakra';
 import { CheckCircleIcon, CopyIcon, ExternalLinkIcon } from '@/icons';
-import { UserRole, ReposResponse, Site } from '@/types';
+import { UserRole, ReposResponse, Project } from '@/types';
 import { useAuth, useClipboard, useColorModeValue } from '@/hooks';
 
-export type SiteGithubInfoProps = {
+export type QuickLinksProps = {
   repo: ReposResponse['data'];
-  site: Site;
+  data: Project;
 };
 
 // We will continue to work on this soon
-export const SiteQuickLinks = ({ repo, site }: SiteGithubInfoProps) => {
+export const QuickLinks = ({ repo, data }: QuickLinksProps) => {
   const gitCloneText = `git clone ${repo?.ssh_url}`;
 
   const { session } = useAuth();
@@ -77,21 +77,21 @@ export const SiteQuickLinks = ({ repo, site }: SiteGithubInfoProps) => {
                   colorScheme="green"
                   target="_blank"
                   as={Link}
-                  href={`https://panel.sieutoc.website/projects/${site.id}`}
+                  href={`https://panel.sieutoc.website/projects/${data.id}`}
                   variant="outline"
                 >
                   Go to EasyPanel project
                 </Button>
               )}
 
-              {site.customDomain && (
+              {data.customDomain && (
                 <Button
                   as={Link}
                   target="_blank"
                   variant="outline"
                   colorScheme="blue"
                   rightIcon={<ExternalLinkIcon />}
-                  href={`https://${site.customDomain}`}
+                  href={`https://${data.customDomain}`}
                 >
                   Go to website
                 </Button>

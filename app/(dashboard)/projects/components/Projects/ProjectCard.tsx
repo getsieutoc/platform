@@ -1,14 +1,14 @@
 import { formatRelative } from '@/lib/utils';
-import type { Site } from '@/types';
+import type { Project } from '@/types';
 
 import { Heading, Text, Card, CardBody, Stack, CardFooter } from '@/components/chakra';
 import { NextLink } from '@/components/client';
 
-export const SiteCard = ({ data }: { data: Site }) => {
+export const ProjectCard = ({ data }: { data: Project }) => {
   return (
     <Card
       as={NextLink}
-      href={`/sites/${data.id}`}
+      href={`/projects/${data.id}`}
       maxW="md"
       minW="sm"
       minH="173px" // I know it's magic number, but it works for now

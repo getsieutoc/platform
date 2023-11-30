@@ -8,7 +8,7 @@ import {
 } from 'easypanel-sdk';
 import { getSession } from '@/lib/auth';
 import { delayAsync } from '@/lib/utils';
-import { EnvironmentVariables, Site } from '@/types';
+import { EnvironmentVariables, Project } from '@/types';
 
 declare global {
   // eslint-disable-next-line no-var, vars-on-top
@@ -26,23 +26,23 @@ if (process.env.NODE_ENV === 'development') {
   global.easypanel = easypanel;
 }
 
-export const createProject = async (site: Site) => {
+export const createEasyPanelProject = async (project: Project) => {
   const session = await getSession();
 
   if (!session?.user.id) {
     throw new Error('Unauthorized');
   }
 
-  const { production } = site.environmentVariables as EnvironmentVariables;
+  const { production } = project.environmentVariables as EnvironmentVariables;
 
-  const response = await easypanel.projects.create({ name: site.id });
+  const response = await easypanel.projects.create({ name: project.id });
 
-  const databaseUrl = `postgres://postgres:${production.POSTGRES_PASSWORD}@${site.id}_postgres:5432/${site.id}`;
+  const databaseUrl = `postgres://postgres:${production.POSTGRES_PASSWORD}@${project.id}_postgres:5432/${project.id}`;
 
   await delayAsync(500);
 
   await easypanel.services.create('app', {
-    projectName: site.id,
+    projectName: project.id,
     serviceName: 'nextjs',
     domains: [{ host: '$(EASYPANEL_DOMAIN)' }],
   });
@@ -51,7 +51,7 @@ export const createProject = async (site: Site) => {
 
   // @ts-expect-error // postgres typo name
   await easypanel.services.create('postgres', {
-    projectName: site.id,
+    projectName: project.id,
     serviceName: 'postgres',
     domains: [{ host: '$(EASYPANEL_DOMAIN)' }],
     image: 'postgres:16',
@@ -61,10 +61,10 @@ export const createProject = async (site: Site) => {
   await delayAsync(500);
 
   await easypanel.services.updateSourceGithub('app', {
-    projectName: site.id,
+    projectName: project.id,
     serviceName: 'nextjs',
     owner: 'sieutoc-customers',
-    repo: site.id,
+    repo: project.id,
     ref: 'master',
     path: '/',
   });
@@ -72,7 +72,7 @@ export const createProject = async (site: Site) => {
   await delayAsync(1000);
 
   await easypanel.services.updateEnv('app', {
-    projectName: site.id,
+    projectName: project.id,
     serviceName: 'nextjs',
     env: Object.entries({
       ...production,
@@ -86,7 +86,7 @@ export const createProject = async (site: Site) => {
   await delayAsync(500);
 
   await easypanel.services.updateBuild('app', {
-    projectName: site.id,
+    projectName: project.id,
     serviceName: 'nextjs',
     build: { type: 'nixpacks' },
   });
@@ -95,7 +95,7 @@ export const createProject = async (site: Site) => {
 
   // do the deploy later, it takes too long
   // const deployed = await easypanel.services.deploy('app', {
-  //   projectName: site.id,
+  //   projectName: project.id,
   //   serviceName: 'nextjs',
   // });
 
@@ -116,7 +116,7 @@ export const getProject = async ({ projectName }: ProjectQueryConf) => {
   return response;
 };
 
-export const deleteProject = async ({ name }: ProjectName) => {
+export const deleteEasyPanelProject = async ({ name }: ProjectName) => {
   const session = await getSession();
 
   if (!session?.user.id) {
@@ -142,7 +142,7 @@ export const deleteProject = async ({ name }: ProjectName) => {
 };
 
 export const updateDomains = async (
-  input: Pick<CreateService, 'domains'> & Pick<Site, 'id'>
+  input: Pick<CreateService, 'domains'> & Pick<Project, 'id'>
 ) => {
   const session = await getSession();
 
