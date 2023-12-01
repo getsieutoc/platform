@@ -4,7 +4,7 @@
 </a>
 
 <p align="center">
-Create modern website sieu toc!
+Create modern apps in minutes
 </p>
 
 <br/>
