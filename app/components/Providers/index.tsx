@@ -2,10 +2,11 @@
 
 import { SessionProvider } from 'next-auth/react';
 import { ChakraProvider } from '@/components/chakra';
+import { Provider as JotaiProvider } from 'jotai';
 import { SWRConfig } from 'swr';
 
 import { theme, toastOptions } from '@/lib/chakra';
-import { fetcher } from '@/lib/utils';
+import { swrConfigs } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 
 const ColorModeScript = dynamic(
@@ -15,12 +16,14 @@ const ColorModeScript = dynamic(
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <SWRConfig value={{ fetcher }}>
+    <SWRConfig value={swrConfigs}>
       <SessionProvider>
-        <ChakraProvider theme={theme} toastOptions={{ defaultOptions: toastOptions }}>
-          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-          {children}
-        </ChakraProvider>
+        <JotaiProvider>
+          <ChakraProvider theme={theme} toastOptions={{ defaultOptions: toastOptions }}>
+            <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+            {children}
+          </ChakraProvider>
+        </JotaiProvider>
       </SessionProvider>
     </SWRConfig>
   );

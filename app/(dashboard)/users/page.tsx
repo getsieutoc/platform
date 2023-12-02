@@ -1,9 +1,9 @@
 import { Flex, Heading, Skeleton, Wrap, WrapItem } from '@/components/chakra';
 import { Suspense } from 'react';
 
-import { CreateNewButton, Projects } from './components';
+import { UserTable } from './components';
 
-export default function ProjectsPageView() {
+export default function UserPageView() {
   return (
     <Flex width="100%" direction="column" gap={6}>
       <Flex
@@ -15,10 +15,8 @@ export default function ProjectsPageView() {
         gap={6}
       >
         <Heading as="h1" size="lg">
-          Projects
+          Users
         </Heading>
-
-        <CreateNewButton />
       </Flex>
       <Suspense
         fallback={
@@ -31,7 +29,7 @@ export default function ProjectsPageView() {
           </Wrap>
         }
       >
-        <Projects limit={9} />
+        <UserTable />
       </Suspense>
     </Flex>
   );

@@ -3,7 +3,13 @@
 import { Box, Button, Flex, Stack, useColorModeValue } from '@/components/chakra';
 import { useParams, useSelectedLayoutSegments } from 'next/navigation';
 import { ReactNode, useMemo } from 'react';
-import { ArrowBackIcon, BarChartIcon, DashboardIcon, GlobeIcon } from '@/icons';
+import {
+  ArrowBackIcon,
+  BarChartIcon,
+  DashboardIcon,
+  GlobeIcon,
+  UsersIcon,
+} from '@/icons';
 
 import { ColorModeSwitcher, NextLink, NextImage } from '@/components/client';
 
@@ -40,6 +46,12 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
         href: '/projects',
         isActive: segments[0] === 'projects',
         icon: <GlobeIcon boxSize={4} />,
+      },
+      {
+        name: 'Users',
+        href: '/users',
+        isActive: segments[0] === 'users',
+        icon: <UsersIcon boxSize={4} />,
       },
     ];
   }, [segments, id]);

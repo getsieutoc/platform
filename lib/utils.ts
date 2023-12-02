@@ -4,6 +4,11 @@ import deepmerge from 'deepmerge';
 
 export { default as isEqual } from 'fast-deep-equal';
 
+export const swrConfigs = {
+  fetcher,
+  suspend: true,
+};
+
 export async function fetcher<JSON = unknown>(
   input: RequestInfo,
   init: RequestInit = {}
@@ -26,18 +31,18 @@ export async function fetcher<JSON = unknown>(
   return await response.json();
 }
 
-export const capitalize = (s: string) => {
+export function capitalize(s: string) {
   if (typeof s !== 'string') return '';
   return s.charAt(0).toUpperCase() + s.slice(1);
-};
+}
 
-export const truncate = (str: string, num: number) => {
+export function truncate(str: string, num: number) {
   if (!str) return '';
   if (str.length <= num) {
     return str;
   }
   return str.slice(0, num) + '...';
-};
+}
 
 export const getBlurDataURL = async (url: string | null) => {
   if (!url) {

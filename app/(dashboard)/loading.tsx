@@ -1,9 +1,15 @@
-import { Box, Spinner } from '@/components/chakra';
+import { Center, Spinner } from '@/components/chakra';
 
 export default function Loading() {
   return (
-    <Box>
-      <Spinner />
-    </Box>
+    <Center width="100%" height="100%">
+      <Spinner
+        thickness="4px"
+        speed="0.45s"
+        emptyColor="white"
+        color="yellow.400"
+        size="xl"
+      />
+    </Center>
   );
 }
