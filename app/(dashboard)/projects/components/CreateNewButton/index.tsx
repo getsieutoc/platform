@@ -30,7 +30,9 @@ import { addCollaborator, createRepo } from '@/lib/actions/github';
 import { createEasyPanelProject } from '@/lib/actions/easypanel';
 import { createProject } from '@/lib/actions/project';
 import { UserRole } from '@prisma/client';
+import { templates } from '@/templates';
 import { AddIcon } from '@/icons';
+import { isEqual } from '@/lib/utils';
 
 const initialValues = {
   name: '',
@@ -49,9 +51,9 @@ export const CreateNewButton = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [template, setTemplate] = useState('taijutsu');
-
   const [data, setData] = useState(initialValues);
+
+  const isValid = data.template && !isEqual(data, initialValues);
 
   useDebounce(
     () => {
@@ -84,12 +86,14 @@ export const CreateNewButton = () => {
       if (newProject) {
         toast({ title: 'Creating your project...' });
 
-        await createRepo({ ...newProject, template });
-        toast({ title: '...GitHub repo is cloned successfully' });
+        if (data.template === 'taijutsu') {
+          await createRepo(newProject);
+          toast({ title: '...GitHub repo is cloned successfully' });
 
-        if (session.user.role !== UserRole.ADMIN) {
-          toast({ title: '...adding you as collaborator' });
-          await addCollaborator(newProject.id, session.user.username);
+          if (session.user.role !== UserRole.ADMIN) {
+            toast({ title: '...adding you as collaborator' });
+            await addCollaborator(newProject.id, session.user.username);
+          }
         }
 
         toast({ title: '...creating services on EasyPanel' });
@@ -130,11 +134,14 @@ export const CreateNewButton = () => {
                 <FormLabel>Template</FormLabel>
                 <Select
                   placeholder="Generate from template"
-                  value={template}
-                  onChange={(e) => setTemplate(e.target.value)}
+                  value={data.template}
+                  onChange={(e) => setData({ ...data, template: e.target.value })}
                 >
-                  <option value="taijutsu">Taijutsu (TailwindCSS)</option>
-                  <option value="ninjutsu">Ninjutsu (Chakra UI)</option>
+                  {templates.map(({ slug, title }) => (
+                    <option key={slug} value={slug}>
+                      {title}
+                    </option>
+                  ))}
                 </Select>
               </FormControl>
               <FormControl isDisabled={isLoading}>
@@ -182,10 +189,10 @@ export const CreateNewButton = () => {
               <Button onClick={handleCancel}>Cancel</Button>
 
               <Button
-                colorScheme="green"
+                colorScheme={isValid ? 'green' : 'gray'}
                 loadingText="Creating..."
                 isLoading={isLoading}
-                isDisabled={isLoading}
+                isDisabled={!isValid || isLoading}
                 leftIcon={<AddIcon />}
                 onClick={handleSubmit}
               >

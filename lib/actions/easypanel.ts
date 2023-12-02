@@ -6,9 +6,10 @@ import {
   ProjectQueryConf,
   CreateService,
 } from 'easypanel-sdk';
-import { getSession } from '@/lib/auth';
+import { Project } from '@/types';
 import { delayAsync } from '@/lib/utils';
-import { EnvironmentVariables, Project } from '@/types';
+import { getSession } from '@/lib/auth';
+import { templates } from '@/templates';
 
 declare global {
   // eslint-disable-next-line no-var, vars-on-top
@@ -33,73 +34,28 @@ export const createEasyPanelProject = async (project: Project) => {
     throw new Error('Unauthorized');
   }
 
-  const { production } = project.environmentVariables as EnvironmentVariables;
-
   const response = await easypanel.projects.create({ name: project.id });
 
-  const databaseUrl = `postgres://postgres:${production.POSTGRES_PASSWORD}@${project.id}_postgres:5432/${project.id}`;
-
   await delayAsync(500);
 
-  await easypanel.services.create('app', {
-    projectName: project.id,
-    serviceName: 'nextjs',
-    domains: [{ host: '$(EASYPANEL_DOMAIN)' }],
-  });
+  const template = templates.find((t) => t.slug === project.template);
 
-  await delayAsync(500);
+  if (template) {
+    const { services } = template.generate({ projectName: project.id });
 
-  // @ts-expect-error // postgres typo name
-  await easypanel.services.create('postgres', {
-    projectName: project.id,
-    serviceName: 'postgres',
-    domains: [{ host: '$(EASYPANEL_DOMAIN)' }],
-    image: 'postgres:16',
-    password: production.POSTGRES_PASSWORD,
-  });
+    const requests = services.map(({ type, data }) => [
+      easypanel.services.create(type, data),
+      delayAsync(500),
+    ]);
 
-  await delayAsync(500);
-
-  await easypanel.services.updateSourceGithub('app', {
-    projectName: project.id,
-    serviceName: 'nextjs',
-    owner: 'sieutoc-customers',
-    repo: project.id,
-    ref: 'master',
-    path: '/',
-  });
-
-  await delayAsync(1000);
-
-  await easypanel.services.updateEnv('app', {
-    projectName: project.id,
-    serviceName: 'nextjs',
-    env: Object.entries({
-      ...production,
-      NEXTAUTH_URL: '$(PRIMARY_DOMAIN)',
-      DATABASE_URL: databaseUrl,
-    })
-      .map(([k, v]) => `${k}=${v}`)
-      .join('\n'),
-  });
-
-  await delayAsync(500);
-
-  await easypanel.services.updateBuild('app', {
-    projectName: project.id,
-    serviceName: 'nextjs',
-    build: { type: 'nixpacks' },
-  });
-
-  await delayAsync(500);
+    await Promise.all(requests.flat());
+  }
 
   // do the deploy later, it takes too long
   // const deployed = await easypanel.services.deploy('app', {
   //   projectName: project.id,
   //   serviceName: 'nextjs',
   // });
-
-  await delayAsync(500);
 
   return response;
 };

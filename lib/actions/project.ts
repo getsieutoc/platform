@@ -1,13 +1,13 @@
 'use server';
 
 import { EnvironmentVariables, Project } from '@/types';
-import { generateSecret } from '@/lib/utils';
+import { generateSecret } from '@/lib/generators';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 export type CreateProjectDto = Pick<Project, 'name' | 'description' | 'slug'>;
 
-export const createProject = async ({ name, description, slug }: CreateProjectDto) => {
+export const createProject = async (input: CreateProjectDto) => {
   const session = await getSession();
 
   if (!session?.user.id) {
@@ -30,9 +30,7 @@ export const createProject = async ({ name, description, slug }: CreateProjectDt
 
     const response = await prisma.project.create({
       data: {
-        name,
-        description,
-        slug,
+        ...input,
         environmentVariables,
         user: {
           connect: {

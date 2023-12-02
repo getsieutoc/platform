@@ -4,7 +4,7 @@ import GitHubProvider from 'next-auth/providers/github';
 import { AdapterUser } from 'next-auth/adapters';
 import { UserRole } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
-import { fetcher } from './utils';
+import { fetcher } from '@/lib/utils';
 import { Organization } from '@/types';
 
 export const authOptions: NextAuthOptions = {
