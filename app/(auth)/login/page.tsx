@@ -1,7 +1,10 @@
 import { Divider, Heading, Stack, Text } from '@/components/chakra';
 import { Logo } from '@/components/client';
 
-import LoginButton from './login-button';
+import { LoginByEmail, LoginByGithub } from './components';
+
+const hasGithubProvider = !!process.env.GITHUB_ID && !!process.env.GITHUB_SECRET;
+const hasEmailProvider = !!process.env.EMAIL_SERVER && !!process.env.EMAIL_FROM;
 
 export default function LoginPage() {
   return (
@@ -14,11 +17,9 @@ export default function LoginPage() {
 
       <Divider />
 
-      <LoginButton />
+      {hasGithubProvider && <LoginByGithub org={process.env.GITHUB_ORG} />}
 
-      <Text fontSize="small" color="gray">
-        Only for members of @websitesieutoc at this time.
-      </Text>
+      {hasEmailProvider && <LoginByEmail />}
     </Stack>
   );
 }

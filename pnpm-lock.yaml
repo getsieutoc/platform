@@ -103,7 +103,10 @@ dependencies:
     version: 14.0.3(react-dom@18.2.0)(react@18.2.0)
   next-auth:
     specifier: 4.24.5
-    version: 4.24.5(next@14.0.3)(react-dom@18.2.0)(react@18.2.0)
+    version: 4.24.5(next@14.0.3)(nodemailer@6.9.7)(react-dom@18.2.0)(react@18.2.0)
+  nodemailer:
+    specifier: 6.9.7
+    version: 6.9.7
   octokit:
     specifier: 3.1.2
     version: 3.1.2
@@ -1650,7 +1653,7 @@ packages:
       next-auth: ^4
     dependencies:
       '@prisma/client': 5.6.0(prisma@5.6.0)
-      next-auth: 4.24.5(next@14.0.3)(react-dom@18.2.0)(react@18.2.0)
+      next-auth: 4.24.5(next@14.0.3)(nodemailer@6.9.7)(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
   /@next/env@14.0.3:
@@ -5006,7 +5009,7 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
-  /next-auth@4.24.5(next@14.0.3)(react-dom@18.2.0)(react@18.2.0):
+  /next-auth@4.24.5(next@14.0.3)(nodemailer@6.9.7)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-3RafV3XbfIKk6rF6GlLE4/KxjTcuMCifqrmD+98ejFq73SRoj2rmzoca8u764977lH/Q7jo6Xu6yM+Re1Mz/Og==}
     peerDependencies:
       next: ^12.2.5 || ^13 || ^14
@@ -5022,6 +5025,7 @@ packages:
       cookie: 0.5.0
       jose: 4.14.5
       next: 14.0.3(react-dom@18.2.0)(react@18.2.0)
+      nodemailer: 6.9.7
       oauth: 0.9.15
       openid-client: 5.4.3
       preact: 10.17.1
@@ -5096,6 +5100,11 @@ packages:
   /node-gyp-build@4.6.1:
     resolution: {integrity: sha512-24vnklJmyRS8ViBNI8KbtK/r/DmXQMRiOMXTNz2nrTnAYUwjmEEbnnpB/+kt+yWRv73bPsSPRFddrcIbAxSiMQ==}
     hasBin: true
+    dev: false
+
+  /nodemailer@6.9.7:
+    resolution: {integrity: sha512-rUtR77ksqex/eZRLmQ21LKVH5nAAsVicAtAYudK7JgwenEDZ0UIQ1adUGqErz7sMkWYxWTTU1aeP2Jga6WQyJw==}
+    engines: {node: '>=6.0.0'}
     dev: false
 
   /nwsapi@2.2.7:

@@ -50,8 +50,9 @@ export const UserTable = () => {
       },
       {
         header: 'Name',
-        cell(props) {
-          return <Text>{props.row.original.name}</Text>;
+        cell({ row }) {
+          const displayName = row.original.name ?? row.original.email;
+          return <Text>{displayName}</Text>;
         },
       },
       {

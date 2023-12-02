@@ -73,7 +73,7 @@ export const VirtualTable = <TData extends RowData, TValue = unknown>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useAtom(globalFilterAtom);
 
-  const borderColor = useColorModeValue('gray.200', 'gray.800');
+  const borderColor = useColorModeValue('gray.100', 'whiteAlpha.100');
 
   const table = useReactTable({
     data,
@@ -108,7 +108,8 @@ export const VirtualTable = <TData extends RowData, TValue = unknown>({
             <Th
               key={header.id}
               colSpan={header.colSpan}
-              style={{ width: size, height: ROW_HEIGHT, borderColor }}
+              borderColor={borderColor}
+              style={{ width: size, height: ROW_HEIGHT }}
             >
               {flexRender(header.column.columnDef.header, header.getContext())}
             </Th>

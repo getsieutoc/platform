@@ -1,11 +1,15 @@
 'use client';
 
 import { useState, useEffect, useSearchParams, useToast } from '@/hooks';
-import { Button } from '@/components/chakra';
+import { Button, Stack, Text } from '@/components/chakra';
 import { signIn } from 'next-auth/react';
 import { GithubIcon } from '@/icons';
 
-export default function LoginButton() {
+export type LoginByGithubProps = {
+  org?: string;
+};
+
+export const LoginByGithub = ({ org }: LoginByGithubProps) => {
   const toast = useToast();
   const [isLoading, setLoading] = useState(false);
 
@@ -29,22 +33,30 @@ export default function LoginButton() {
   };
 
   return (
-    <Button
-      isDisabled={isLoading}
-      isLoading={isLoading}
-      leftIcon={<GithubIcon />}
-      size="lg"
-      colorScheme="brand"
-      loadingText="Login with GitHub"
-      onClick={() => {
-        setLoading(true);
-        signIn('github', {
-          redirect: true,
-          callbackUrl: getCallbackUrl(),
-        });
-      }}
-    >
-      Login with GitHub
-    </Button>
+    <Stack gap={2}>
+      <Button
+        isDisabled={isLoading}
+        isLoading={isLoading}
+        leftIcon={<GithubIcon />}
+        size="lg"
+        colorScheme="brand"
+        loadingText="Login with GitHub"
+        onClick={() => {
+          setLoading(true);
+          signIn('github', {
+            redirect: true,
+            callbackUrl: getCallbackUrl(),
+          });
+        }}
+      >
+        Login with GitHub
+      </Button>
+
+      {org && (
+        <Text fontSize="small" color="gray">
+          Only for members of @{org} at this time.
+        </Text>
+      )}
+    </Stack>
   );
-}
+};

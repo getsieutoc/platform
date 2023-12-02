@@ -26,7 +26,7 @@ import {
 import {
   DeleteIcon,
   ExternalLinkIcon,
-  FlashIcon,
+  YellowFlashIcon,
   RepeatIcon,
   SaveIcon,
   SmallAddIcon,
@@ -132,7 +132,7 @@ export const CustomDomainForm = ({ data, service }: CustomDomainFormProps) => {
                   size="sm"
                   variant="outline"
                   colorScheme="purple"
-                  leftIcon={<FlashIcon />}
+                  leftIcon={<YellowFlashIcon />}
                   onClick={generateSubdomain}
                 >
                   Generate subdomain
