@@ -8,7 +8,6 @@ import {
   Flex,
   Select,
   Skeleton,
-  Stack,
   Text,
 } from '@/components/chakra';
 import { ArrowBackIcon, ArrowForwardIcon, DeleteIcon, EditIcon, ViewIcon } from '@/icons';

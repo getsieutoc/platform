@@ -129,7 +129,6 @@ export const CustomDomainForm = ({ data, service }: CustomDomainFormProps) => {
             <Box>
               {cleanDomains.length === 0 && (
                 <Button
-                  size="sm"
                   variant="outline"
                   colorScheme="purple"
                   leftIcon={<YellowFlashIcon />}
@@ -171,7 +170,7 @@ export const CustomDomainForm = ({ data, service }: CustomDomainFormProps) => {
                   />
                 </FormControl>
               )}
-              <ButtonGroup as={Box} size="sm" variant="outline">
+              <ButtonGroup as={Box} variant="outline">
                 {customDomain === null && (
                   <Button
                     colorScheme="green"
