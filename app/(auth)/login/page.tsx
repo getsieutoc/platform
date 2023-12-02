@@ -1,10 +1,10 @@
-import { Divider, Heading, Stack, Text } from '@/components/chakra';
+import { Divider, Heading, Stack } from '@/components/chakra';
 import { Logo } from '@/components/client';
 
 import { LoginByEmail, LoginByGithub } from './components';
 
 const hasGithubProvider = !!process.env.GITHUB_ID && !!process.env.GITHUB_SECRET;
-const hasEmailProvider = !!process.env.EMAIL_SERVER && !!process.env.EMAIL_FROM;
+const hasEmailProvider = !!process.env.SMTP_USER && !!process.env.SMTP_PASSWORD;
 
 export default function LoginPage() {
   return (
@@ -17,9 +17,14 @@ export default function LoginPage() {
 
       <Divider />
 
-      {hasGithubProvider && <LoginByGithub org={process.env.GITHUB_ORG} />}
-
       {hasEmailProvider && <LoginByEmail />}
+
+      {hasGithubProvider && (
+        <>
+          <Divider />
+          <LoginByGithub org={process.env.GITHUB_ORG} />
+        </>
+      )}
     </Stack>
   );
 }

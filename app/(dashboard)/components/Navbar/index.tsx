@@ -1,8 +1,12 @@
 'use client';
 
-import { Box, Button, Flex, Stack, useColorModeValue } from '@/components/chakra';
-import { useParams, useSelectedLayoutSegments } from 'next/navigation';
-import { ReactNode, useMemo } from 'react';
+import {
+  useColorModeValue,
+  useMemo,
+  useParams,
+  useSelectedLayoutSegments,
+} from '@/hooks';
+import { Box, Button, Flex, Stack } from '@/components/chakra';
 import {
   ArrowBackIcon,
   BarChartIcon,
@@ -12,8 +16,15 @@ import {
 } from '@/icons';
 
 import { ColorModeSwitcher, NextLink, NextImage } from '@/components/client';
+import { ReactNode, UserRole } from '@/types';
+import { Session } from 'next-auth';
 
-export const Navbar = ({ children }: { children: ReactNode }) => {
+export type NavbarProps = {
+  children: ReactNode;
+  session: Session;
+};
+
+export const Navbar = ({ children, session }: NavbarProps) => {
   const segments = useSelectedLayoutSegments();
   const { id } = useParams() as { id?: string };
 
@@ -24,12 +35,21 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
           name: 'Back to All Projects',
           href: '/projects',
           icon: <ArrowBackIcon boxSize={4} />,
+          isActive: false,
+          visible: {
+            [UserRole.ADMIN]: true,
+            [UserRole.USER]: true,
+          },
         },
         {
           name: 'General',
           href: `/projects/${id}`,
           icon: <DashboardIcon boxSize={4} />,
           isActive: !segments[2],
+          visible: {
+            [UserRole.ADMIN]: true,
+            [UserRole.USER]: true,
+          },
         },
       ];
     }
@@ -38,20 +58,32 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
       {
         name: 'Overview',
         href: '/',
-        isActive: segments.length === 0,
         icon: <BarChartIcon boxSize={4} />,
+        isActive: segments.length === 0,
+        visible: {
+          [UserRole.ADMIN]: true,
+          [UserRole.USER]: true,
+        },
       },
       {
         name: 'Projects',
         href: '/projects',
-        isActive: segments[0] === 'projects',
         icon: <GlobeIcon boxSize={4} />,
+        isActive: segments[0] === 'projects',
+        visible: {
+          [UserRole.ADMIN]: true,
+          [UserRole.USER]: true,
+        },
       },
       {
         name: 'Users',
         href: '/users',
-        isActive: segments[0] === 'users',
         icon: <UsersIcon boxSize={4} />,
+        isActive: segments[0] === 'users',
+        visible: {
+          [UserRole.ADMIN]: true,
+          [UserRole.USER]: false,
+        },
       },
     ];
   }, [segments, id]);
@@ -85,20 +117,22 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
         </Flex>
 
         <Stack marginTop={6} spacing={1}>
-          {tabs.map(({ name, href, icon, isActive }) => (
-            <Button
-              key={name}
-              colorScheme={isActive ? 'brand' : 'gray'}
-              variant={isActive ? 'outline' : 'ghost'}
-              justifyContent="start"
-              width="100%"
-              leftIcon={icon}
-              as={NextLink}
-              href={href}
-            >
-              {name}
-            </Button>
-          ))}
+          {tabs
+            .filter(({ visible }) => visible[session.user.role])
+            .map(({ name, href, icon, isActive }) => (
+              <Button
+                key={name}
+                colorScheme={isActive ? 'brand' : 'gray'}
+                variant={isActive ? 'outline' : 'ghost'}
+                justifyContent="start"
+                width="100%"
+                leftIcon={icon}
+                as={NextLink}
+                href={href}
+              >
+                {name}
+              </Button>
+            ))}
         </Stack>
       </Box>
 

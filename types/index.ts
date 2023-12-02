@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { Endpoints } from '@octokit/types';
 
-export type { ChangeEvent } from 'react';
+export type { ChangeEvent, ReactNode } from 'react';
 
 import type {
   Service,

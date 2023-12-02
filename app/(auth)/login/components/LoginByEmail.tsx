@@ -44,7 +44,7 @@ export const LoginByEmail = () => {
       <Button
         isDisabled={isLoading}
         isLoading={isLoading}
-        leftIcon={<FlashIcon color="white" />}
+        leftIcon={<FlashIcon />}
         size="lg"
         colorScheme="brand"
         onClick={() => {

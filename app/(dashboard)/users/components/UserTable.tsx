@@ -67,32 +67,32 @@ export const UserTable = () => {
           return <Text>{formatRelative(props.row.original.createdAt)}</Text>;
         },
       },
-      {
-        header: 'Actions',
-        cell({ row }) {
-          return (
-            <ButtonGroup as={Stack} size="xs" variant="outline" direction="row">
-              <Button
-              // onClick={() =>
-              //   router.push('/blog/post-management?postId=' + row.original.id)
-              // }
-              >
-                <EditIcon color="orange.400" />
-              </Button>
-              <Button
-              // onClick={() => deleteUser(row.original.id)}
-              >
-                <DeleteIcon color="red.400" />
-              </Button>
-              <Button
-              // onClick={() => router.push('/blog/' + row.original.id)}
-              >
-                <ViewIcon />
-              </Button>
-            </ButtonGroup>
-          );
-        },
-      },
+      // {
+      //   header: 'Actions',
+      // cell({ row }) {
+      //   return (
+      //     <ButtonGroup as={Stack} size="xs" variant="outline" direction="row">
+      //       <Button
+      //       // onClick={() =>
+      //       //   router.push('/blog/post-management?postId=' + row.original.id)
+      //       // }
+      //       >
+      //         <EditIcon color="orange.400" />
+      //       </Button>
+      //       <Button
+      //       // onClick={() => deleteUser(row.original.id)}
+      //       >
+      //         <DeleteIcon color="red.400" />
+      //       </Button>
+      //       <Button
+      //       // onClick={() => router.push('/blog/' + row.original.id)}
+      //       >
+      //         <ViewIcon />
+      //       </Button>
+      //     </ButtonGroup>
+      //   );
+      // },
+      // },
     ],
     []
   );

@@ -169,9 +169,8 @@ export const VirtualTable = <TData extends RowData, TValue = unknown>({
     ...components,
   };
   return (
-    <Box className="box-wrapper" flexGrow="1" bg={bgColor} borderRadius="md">
+    <Box flexGrow="1" borderRadius="md" bg={bgColor}>
       <TableVirtuoso
-        className="virtuoso-wrapper"
         style={wrapperStyles}
         context={{ clickable: !!onRowClick }}
         totalCount={rows.length}

@@ -1,12 +1,20 @@
 import { ReactNode, Suspense } from 'react';
 
-import { Box, Flex, Skeleton } from '@/components/chakra';
+import { Box, Flex, Skeleton, Spinner } from '@/components/chakra';
+import { getSession } from '@/lib/auth';
+
 import { Navbar, Profile } from './components';
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+export default async function DashboardLayout({ children }: { children: ReactNode }) {
+  const session = await getSession();
+
+  if (!session) {
+    return <Spinner />;
+  }
+
   return (
     <Flex>
-      <Navbar>
+      <Navbar session={session}>
         <Suspense fallback={<Skeleton height="24px" />}>
           <Profile />
         </Suspense>

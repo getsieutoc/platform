@@ -33,7 +33,7 @@ export const LoginByGithub = ({ org }: LoginByGithubProps) => {
   };
 
   return (
-    <Stack gap={2}>
+    <Stack gap={1} textAlign="center">
       <Button
         isDisabled={isLoading}
         isLoading={isLoading}
