@@ -17,6 +17,7 @@ export { useDebounce, useLocalStorage } from 'react-use';
 export { default as useSWRInfinite } from 'swr/infinite';
 export { useDebouncedCallback } from 'use-debounce';
 export { useSession } from 'next-auth/react';
+export { useKeyPressEvent } from 'react-use';
 export { default as useSWR } from 'swr';
 
 export * from './use-auth';
