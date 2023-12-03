@@ -4,4 +4,4 @@ export const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? '';
 export const NEXT_PUBLIC_ROOT_DOMAIN = process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? '';
 
 export const ROW_HEIGHT = 53;
-export const MAX_PROJECTS = 1;
+export const MAX_PROJECTS = Number(process.env.MAX_PROJECTS ?? 1);

@@ -1,4 +1,4 @@
-import { Account, NextAuthOptions, Session, getServerSession } from 'next-auth';
+import { Account, NextAuthOptions, getServerSession } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GitHubProvider from 'next-auth/providers/github';
 import EmailProvider from 'next-auth/providers/email';
@@ -11,7 +11,21 @@ import { Organization } from '@/types';
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
-  adapter: PrismaAdapter(prisma),
+  adapter: {
+    ...PrismaAdapter(prisma),
+    createUser: async (data) => {
+      if (!data.email) throw new Error('Email is required when sign up');
+
+      const numOfUsers = await prisma.user.count({});
+
+      return (await prisma.user.create({
+        data: {
+          ...data,
+          role: numOfUsers === 0 ? UserRole.ADMIN : UserRole.USER,
+        },
+      })) as AdapterUser;
+    },
+  },
 
   providers: [
     GitHubProvider({
@@ -100,6 +114,6 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export function getSession(): Promise<Session | null> {
+export function getSession() {
   return getServerSession(authOptions);
 }

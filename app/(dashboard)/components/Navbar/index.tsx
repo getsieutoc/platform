@@ -1,12 +1,12 @@
 'use client';
 
 import {
+  useAuth,
   useColorModeValue,
   useMemo,
   useParams,
   useSelectedLayoutSegments,
 } from '@/hooks';
-import { Box, Button, Flex, Stack } from '@/components/chakra';
 import {
   ArrowBackIcon,
   BarChartIcon,
@@ -14,19 +14,19 @@ import {
   GlobeIcon,
   UsersIcon,
 } from '@/icons';
-
 import { ColorModeSwitcher, NextLink, NextImage } from '@/components/client';
+import { Box, Button, Flex, Stack } from '@/components/chakra';
 import { ReactNode, UserRole } from '@/types';
-import { Session } from 'next-auth';
 
 export type NavbarProps = {
   children: ReactNode;
-  session: Session;
 };
 
-export const Navbar = ({ children, session }: NavbarProps) => {
-  const segments = useSelectedLayoutSegments();
+export const Navbar = ({ children }: NavbarProps) => {
+  const { session } = useAuth();
   const { id } = useParams() as { id?: string };
+
+  const segments = useSelectedLayoutSegments();
 
   const tabs = useMemo(() => {
     if (segments[0] === 'projects' && id) {
@@ -116,24 +116,26 @@ export const Navbar = ({ children, session }: NavbarProps) => {
           <ColorModeSwitcher size="sm" />
         </Flex>
 
-        <Stack marginTop={6} spacing={1}>
-          {tabs
-            .filter(({ visible }) => visible[session.user.role])
-            .map(({ name, href, icon, isActive }) => (
-              <Button
-                key={name}
-                colorScheme={isActive ? 'brand' : 'gray'}
-                variant={isActive ? 'outline' : 'ghost'}
-                justifyContent="start"
-                width="100%"
-                leftIcon={icon}
-                as={NextLink}
-                href={href}
-              >
-                {name}
-              </Button>
-            ))}
-        </Stack>
+        {session && (
+          <Stack marginTop={6} spacing={1}>
+            {tabs
+              .filter(({ visible }) => visible[session?.user.role])
+              .map(({ name, href, icon, isActive }) => (
+                <Button
+                  key={name}
+                  colorScheme={isActive ? 'brand' : 'gray'}
+                  variant={isActive ? 'outline' : 'ghost'}
+                  justifyContent="start"
+                  width="100%"
+                  leftIcon={icon}
+                  as={NextLink}
+                  href={href}
+                >
+                  {name}
+                </Button>
+              ))}
+          </Stack>
+        )}
       </Box>
 
       <Box>{children}</Box>

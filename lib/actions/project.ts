@@ -18,12 +18,10 @@ export const createProject = async (input: CreateProjectDto) => {
     const environmentVariables: EnvironmentVariables = {
       production: {
         NEXTAUTH_SECRET: generateSecret(),
-        ARGON_SECRET: generateSecret(),
         POSTGRES_PASSWORD: generateSecret(),
       },
       preview: {
         NEXTAUTH_SECRET: generateSecret(),
-        ARGON_SECRET: generateSecret(),
         POSTGRES_PASSWORD: generateSecret(),
       },
     };

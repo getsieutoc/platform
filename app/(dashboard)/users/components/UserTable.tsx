@@ -1,16 +1,17 @@
 'use client';
 
-import { useMemo, useToast, useRouter, useSWR, useState } from '@/hooks';
 import {
   Box,
   Button,
   ButtonGroup,
+  Center,
   Flex,
   Select,
   Skeleton,
   Text,
 } from '@/components/chakra';
-import { ArrowBackIcon, ArrowForwardIcon, DeleteIcon, EditIcon, ViewIcon } from '@/icons';
+import { useAuth, useMemo, useSWR, useState } from '@/hooks';
+import { ArrowBackIcon, ArrowForwardIcon } from '@/icons';
 import { VirtualTable } from '@/components/client';
 import { ColumnDef } from '@tanstack/react-table';
 import { queryStringify } from '@/lib/parsers';
@@ -21,9 +22,7 @@ import { User } from '@/types';
 const rowsPerPageOptions = [20, 50, 100];
 
 export const UserTable = () => {
-  const toast = useToast();
-  const router = useRouter();
-
+  const { isAdmin } = useAuth();
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[1]);
 
   const [index, setIndex] = useState(0);
@@ -31,12 +30,12 @@ export const UserTable = () => {
   const queryString = queryStringify({
     skip: index * rowsPerPage,
     take: rowsPerPage,
-    // where: filters,
     orderBy: [{ createdAt: 'desc' }],
   });
 
-  const { data: userData } = useSWR(`/api/users?${queryString}`);
-  console.log('### userData: ', { userData });
+  const { data: userData, isLoading } = useSWR<User[]>(
+    isAdmin ? `/api/users?${queryString}` : null
+  );
 
   const userTableColumns: ColumnDef<User>[] = useMemo(
     () => [
@@ -66,47 +65,27 @@ export const UserTable = () => {
           return <Text>{formatRelative(props.row.original.createdAt)}</Text>;
         },
       },
-      // {
-      //   header: 'Actions',
-      // cell({ row }) {
-      //   return (
-      //     <ButtonGroup as={Stack} size="xs" variant="outline" direction="row">
-      //       <Button
-      //       // onClick={() =>
-      //       //   router.push('/blog/post-management?postId=' + row.original.id)
-      //       // }
-      //       >
-      //         <EditIcon color="orange.400" />
-      //       </Button>
-      //       <Button
-      //       // onClick={() => deleteUser(row.original.id)}
-      //       >
-      //         <DeleteIcon color="red.400" />
-      //       </Button>
-      //       <Button
-      //       // onClick={() => router.push('/blog/' + row.original.id)}
-      //       >
-      //         <ViewIcon />
-      //       </Button>
-      //     </ButtonGroup>
-      //   );
-      // },
-      // },
     ],
     []
   );
 
-  if (!userData) {
-    return <Skeleton height={ROW_HEIGHT} />;
+  if (isLoading) {
+    return <Skeleton borderRadius="md" height={ROW_HEIGHT} />;
   }
 
   return (
     <Box width="100%">
-      <VirtualTable
-        height={Math.min(rowsPerPage, userData.length + 1) * ROW_HEIGHT}
-        data={userData}
-        columns={userTableColumns}
-      />
+      {userData && userData.length > 0 ? (
+        <VirtualTable
+          height={Math.min(rowsPerPage, userData.length + 1) * ROW_HEIGHT}
+          data={userData}
+          columns={userTableColumns}
+        />
+      ) : (
+        <Center width="100%" height="50%">
+          <Text>No users found</Text>
+        </Center>
+      )}
       <Flex justify="space-between" align="center" marginY={2}>
         <ButtonGroup size="sm" variant="outline">
           <Button
@@ -119,7 +98,7 @@ export const UserTable = () => {
             Previous
           </Button>
           <Button
-            isDisabled={userData.length === 0}
+            isDisabled={!userData || userData.length === 0}
             rightIcon={<ArrowForwardIcon />}
             onClick={() => {
               setIndex((prev) => prev + 1);

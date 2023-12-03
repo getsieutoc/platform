@@ -1,5 +1,5 @@
 import { Divider, Heading, Stack } from '@/components/chakra';
-import { Logo } from '@/components/client';
+import { Logo, NextLink } from '@/components/client';
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth';
 
@@ -12,12 +12,14 @@ export default async function LoginPage() {
   const session = await getSession();
 
   if (session) {
-    redirect('/');
+    redirect('/projects');
   }
 
   return (
     <Stack gap={4} maxWidth="sm" marginX="auto" marginTop="10vh">
-      <Logo width={256} height={74} />
+      <NextLink href="/">
+        <Logo width={256} height={74} />
+      </NextLink>
 
       <Heading as="h1" size="lg">
         Login

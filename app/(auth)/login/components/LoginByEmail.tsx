@@ -31,7 +31,7 @@ export const LoginByEmail = () => {
   };
 
   return (
-    <Stack gap={2}>
+    <Stack gap={4}>
       <Input
         size="lg"
         borderWidth="2px"
@@ -42,17 +42,16 @@ export const LoginByEmail = () => {
       />
 
       <Button
-        isDisabled={isLoading}
-        isLoading={isLoading}
-        leftIcon={<FlashIcon />}
         size="lg"
         colorScheme="brand"
+        isLoading={isLoading}
+        isDisabled={isLoading}
+        leftIcon={<FlashIcon />}
         onClick={() => {
           setLoading(true);
           signIn('email', {
             email,
             callbackUrl: getCallbackUrl(),
-            // redirect: true,
           });
         }}
       >

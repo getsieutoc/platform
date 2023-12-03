@@ -35,11 +35,11 @@ export const LoginByGithub = ({ org }: LoginByGithubProps) => {
   return (
     <Stack gap={1} textAlign="center">
       <Button
-        isDisabled={isLoading}
-        isLoading={isLoading}
-        leftIcon={<GithubIcon />}
         size="lg"
         colorScheme="brand"
+        isLoading={isLoading}
+        isDisabled={isLoading}
+        leftIcon={<GithubIcon />}
         loadingText="Login with GitHub"
         onClick={() => {
           setLoading(true);
