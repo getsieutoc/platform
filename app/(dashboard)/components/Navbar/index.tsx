@@ -7,13 +7,7 @@ import {
   useParams,
   useSelectedLayoutSegments,
 } from '@/hooks';
-import {
-  ArrowBackIcon,
-  BarChartIcon,
-  DashboardIcon,
-  GlobeIcon,
-  UsersIcon,
-} from '@/icons';
+import { ArrowBackIcon, DashboardIcon, GlobeIcon, UsersIcon } from '@/icons';
 import { ColorModeSwitcher, NextLink, NextImage } from '@/components/client';
 import { Box, Button, Flex, Stack } from '@/components/chakra';
 import { ReactNode, UserRole } from '@/types';
@@ -55,16 +49,6 @@ export const Navbar = ({ children }: NavbarProps) => {
     }
 
     return [
-      {
-        name: 'Overview',
-        href: '/',
-        icon: <BarChartIcon boxSize={4} />,
-        isActive: segments.length === 0,
-        visible: {
-          [UserRole.ADMIN]: true,
-          [UserRole.USER]: true,
-        },
-      },
       {
         name: 'Projects',
         href: '/projects',

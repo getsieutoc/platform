@@ -7,11 +7,24 @@ import {
   useState,
   useToast,
 } from '@/hooks';
-import { Button, Input, Stack } from '@/components/chakra';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Button,
+  Input,
+  Stack,
+} from '@/components/chakra';
 import { signIn } from 'next-auth/react';
 import { FlashIcon } from '@/icons';
 
-export const LoginByEmail = () => {
+export type LoginByEmailProps = {
+  isRequested: boolean;
+};
+
+export const LoginByEmail = ({ isRequested }: LoginByEmailProps) => {
   const toast = useToast();
   const [isFocused, setFocused] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -47,6 +60,19 @@ export const LoginByEmail = () => {
 
   return (
     <Stack gap={4}>
+      {isRequested && (
+        <Alert status="success" variant="subtle" borderRadius="md" pb={4}>
+          <AlertIcon boxSize="20px" />
+          <Box>
+            <AlertTitle mt={2}>Check your email!</AlertTitle>
+            <AlertDescription fontSize="sm">
+              We sent an email to you with a magic link that will sign you in. You can
+              close this window.
+            </AlertDescription>
+          </Box>
+        </Alert>
+      )}
+
       <Input
         size="lg"
         value={email}

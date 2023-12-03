@@ -3,10 +3,10 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GitHubProvider from 'next-auth/providers/github';
 import EmailProvider from 'next-auth/providers/email';
 import { AdapterUser } from 'next-auth/adapters';
-import { UserRole } from '@prisma/client';
+import { Organization, UserRole } from '@/types';
 import { prisma } from '@/lib/prisma';
 import { fetcher } from '@/lib/utils';
-import { Organization } from '@/types';
+import { cookies } from 'next/headers';
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -65,7 +65,7 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
 
   callbacks: {
-    signIn: async ({ profile, account }) => {
+    signIn: async ({ profile, account, email }) => {
       if (profile && account && account.provider === 'github') {
         const orgs = await fetcher<Organization[]>((profile as any).organizations_url);
 
@@ -78,6 +78,9 @@ export const authOptions: NextAuthOptions = {
       }
 
       if (account && account.provider === 'email') {
+        const cookieStore = cookies();
+        cookieStore.set('verificationRequest', `${!!email}`);
+
         // TODO: Make the check for org domain
         return true;
       }

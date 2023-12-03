@@ -2,6 +2,7 @@ import { Divider, Heading, Stack } from '@/components/chakra';
 import { Logo, NextLink } from '@/components/client';
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth';
+import { cookies } from 'next/headers';
 
 import { LoginByEmail, LoginByGithub } from './components';
 
@@ -15,6 +16,10 @@ export default async function LoginPage() {
     redirect('/projects');
   }
 
+  const cookieStore = cookies();
+  const requestCookie = cookieStore.get('verificationRequest');
+  const isRequested = !!requestCookie && requestCookie.value === 'true';
+
   return (
     <Stack gap={4} maxWidth="sm" marginX="auto" marginTop="10vh">
       <NextLink href="/">
@@ -27,7 +32,7 @@ export default async function LoginPage() {
 
       <Divider />
 
-      {hasEmailProvider && <LoginByEmail />}
+      {hasEmailProvider && <LoginByEmail isRequested={isRequested} />}
 
       {hasGithubProvider && (
         <>
