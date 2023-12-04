@@ -1,9 +1,8 @@
-import { Box, Button, Container, Heading } from '@/components/chakra';
-import { NextLink } from '@/components/client';
+import { Box } from '@/components/chakra';
 import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 
-import { Features, HeroSection, Highlights, Navbar, PricingSection } from './components';
+import { Features, HeroSection, Highlights, PricingSection } from './components';
 
 export default async function HomePage() {
   const session = await getSession();
@@ -13,16 +12,14 @@ export default async function HomePage() {
   }
 
   return (
-    <Box>
-      <Navbar />
-
+    <Box maxW="full">
       <HeroSection />
 
       <Features />
 
-      <Highlights />
-
       <PricingSection />
+
+      <Highlights />
     </Box>
   );
 }

@@ -1,5 +1,16 @@
-import { Box, Button, Center, Container, Stack, Text, VStack } from '@/components/chakra';
-import { NextImage } from '@/components/client';
+'use client';
+
+import {
+  Box,
+  Button,
+  Center,
+  Container,
+  Heading,
+  Stack,
+  Text,
+  VStack,
+  useColorModeValue,
+} from '@/components/chakra';
 
 const features = [
   {
@@ -26,13 +37,22 @@ const features = [
 ];
 
 export const Features = () => {
+  const popColor = useColorModeValue('gray.200', 'gray.900');
+
   return (
     <VStack w="full" id="features" spacing={16} py={[16, 0]}>
       {features.map(({ title, description /* image */ }, i: number) => {
-        const rowDirection = i % 2 === 1 ? 'row-reverse' : 'row';
+        const isOdd = i % 2 === 1;
+
+        const rowDirection = isOdd ? 'row-reverse' : 'row';
 
         return (
-          <Center key={`feature_${i}`} w="full" minH={[null, '90vh']}>
+          <Center
+            key={`feature_${i}`}
+            w="full"
+            minH={[null, '90vh']}
+            bg={!isOdd ? popColor : undefined}
+          >
             <Container maxW="container.xl" rounded="lg">
               <Stack
                 spacing={[4, 16]}
@@ -52,9 +72,9 @@ export const Features = () => {
 
                 <VStack maxW={500} spacing={4} align={['center', 'flex-start']}>
                   <Box>
-                    <Text fontSize="3xl" fontWeight={600} align={['center', 'left']}>
+                    <Heading as="h3" fontSize="2xl" fontWeight="bold">
                       {title}
-                    </Text>
+                    </Heading>
                   </Box>
 
                   <Text fontSize="md" color="gray.500" textAlign={['center', 'left']}>

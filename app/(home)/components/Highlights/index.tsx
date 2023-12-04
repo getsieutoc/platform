@@ -1,4 +1,4 @@
-import { Box, Container, SimpleGrid, Text } from '@/components/chakra';
+import { Box, Container, Heading, SimpleGrid, Text } from '@/components/chakra';
 
 const highlights = [
   {
@@ -29,13 +29,19 @@ const highlights = [
 
 export const Highlights = () => {
   return (
-    <Container maxW="container.md" centerContent py={[8, 28]}>
-      <SimpleGrid spacingX={10} spacingY={20} minChildWidth="300px">
+    <Container id="highlights" maxW="container.md" centerContent py={[8, 28]}>
+      <Heading as="h2" size="xl" textAlign="center" maxW="container.md" mb={10}>
+        Why use Sieutoc?
+      </Heading>
+
+      <SimpleGrid spacingX={10} spacingY={10} minChildWidth="300px">
         {highlights.map(({ title, description, icon }, i: number) => (
           <Box p={4} rounded="md" key={`highlight_${i}`}>
-            <Text fontSize="4xl">{icon}</Text>
+            <Text fontSize="xl">{icon}</Text>
 
-            <Text fontWeight={500}>{title}</Text>
+            <Heading as="h4" fontSize="lg" fontWeight="bold">
+              {title}
+            </Heading>
 
             <Text color="gray.500" mt={4}>
               {description}

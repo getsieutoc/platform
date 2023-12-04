@@ -8,7 +8,7 @@ import {
   Stack,
   useColorModeValue,
 } from '@/components/chakra';
-import { NextLink, Logo } from '@/components/client';
+import { NextLink, Logo, ColorModeSwitcher } from '@/components/client';
 
 export const Navbar = () => {
   const backgroundColor = useColorModeValue('white', 'black');
@@ -44,6 +44,9 @@ export const Navbar = () => {
             <Button as={NextLink} href="/about-us">
               About us
             </Button>
+            <Button as={NextLink} href="/#pricing">
+              Pricing
+            </Button>
             <Button as={NextLink} href="/blog">
               Blogs
             </Button>
@@ -51,6 +54,8 @@ export const Navbar = () => {
         </Flex>
 
         <Flex align="center" gap={16}>
+          <ColorModeSwitcher />
+
           <ButtonGroup
             as={Flex}
             align="center"
@@ -62,7 +67,7 @@ export const Navbar = () => {
             <Button as={NextLink} href="/login">
               Login
             </Button>
-            <Button as={NextLink} href="/blog">
+            <Button as={NextLink} variant="solid" colorScheme="brand" href="/login">
               Get Started
             </Button>
           </ButtonGroup>

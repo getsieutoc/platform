@@ -3,10 +3,14 @@
 import { NextImage, NextImageProps, NextLink } from '@/components/client';
 import { useColorModeValue } from '@/hooks';
 
-export type LogoProps = Pick<NextImageProps, 'width' | 'height'>;
+export type LogoProps = Pick<NextImageProps, 'width' | 'height'> & {
+  revert?: boolean;
+};
 
-export const Logo = (props: LogoProps) => {
-  const logoPath = useColorModeValue('/light.png', '/dark.png');
+export const Logo = ({ revert, ...rest }: LogoProps) => {
+  const lightPath = revert ? '/dark.png' : '/light.png';
+  const darkPath = revert ? '/light.png' : '/dark.png';
+  const logoPath = useColorModeValue(lightPath, darkPath);
 
   return (
     <NextLink href="/">
@@ -15,7 +19,7 @@ export const Logo = (props: LogoProps) => {
         src={logoPath}
         alt="Sieutoc Logo"
         placeholder="empty"
-        {...props}
+        {...rest}
       />
     </NextLink>
   );

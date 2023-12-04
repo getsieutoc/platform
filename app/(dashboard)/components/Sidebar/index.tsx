@@ -8,7 +8,7 @@ import {
   useSelectedLayoutSegments,
 } from '@/hooks';
 import { ArrowBackIcon, DashboardIcon, GlobeIcon, UsersIcon } from '@/icons';
-import { ColorModeSwitcher, NextLink, NextImage, Logo } from '@/components/client';
+import { ColorModeSwitcher, NextLink, Logo } from '@/components/client';
 import { Box, Button, Flex, Stack } from '@/components/chakra';
 import { ReactNode, UserRole } from '@/types';
 

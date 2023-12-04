@@ -51,6 +51,9 @@ const colors = {
 
 const styles = {
   global: (props: StyleFunctionProps) => ({
+    html: {
+      scrollBehavior: 'smooth',
+    },
     '.text-editor-inner > div': {
       height: '100%',
     },
@@ -99,6 +102,7 @@ const styles = {
       textDecoration: 'none',
 
       '&:hover': {
+        color: 'brand.500',
         textDecoration: 'none',
       },
     },
