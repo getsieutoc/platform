@@ -1,16 +1,31 @@
 import { Account, NextAuthOptions, getServerSession } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GitHubProvider from 'next-auth/providers/github';
+import EmailProvider from 'next-auth/providers/email';
 import { AdapterUser } from 'next-auth/adapters';
-import { UserRole } from '@prisma/client';
+import { Organization, UserRole } from '@/types';
 import { prisma } from '@/lib/prisma';
-import { fetcher } from './utils';
-import { Organization } from '@/types';
+import { fetcher } from '@/lib/utils';
+import { cookies } from 'next/headers';
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
-  adapter: PrismaAdapter(prisma),
+  adapter: {
+    ...PrismaAdapter(prisma),
+    createUser: async (data) => {
+      if (!data.email) throw new Error('Email is required when sign up');
+
+      const numOfUsers = await prisma.user.count({});
+
+      return (await prisma.user.create({
+        data: {
+          ...data,
+          role: numOfUsers === 0 ? UserRole.ADMIN : UserRole.USER,
+        },
+      })) as AdapterUser;
+    },
+  },
 
   providers: [
     GitHubProvider({
@@ -27,6 +42,18 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
+
+    EmailProvider({
+      server: {
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT),
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASSWORD,
+        },
+      },
+      from: process.env.EMAIL_FROM ?? 'noreply@sieutoc.website',
+    }),
   ],
 
   pages: {
@@ -38,12 +65,24 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
 
   callbacks: {
-    signIn: async ({ profile }) => {
-      if (profile && 'organizations_url' in profile) {
-        const organizations = await fetcher<Organization[]>(
-          (profile as any).organizations_url
-        );
-        return organizations.some((org) => org.login === 'websitesieutoc');
+    signIn: async ({ profile, account, email }) => {
+      if (profile && account && account.provider === 'github') {
+        const orgs = await fetcher<Organization[]>((profile as any).organizations_url);
+
+        if (process.env.GITHUB_ORG) {
+          // Allow only people inside the organization
+          return orgs.some((org) => org.login === process.env.GITHUB_ORG);
+        }
+
+        return true;
+      }
+
+      if (account && account.provider === 'email') {
+        const cookieStore = cookies();
+        cookieStore.set('verificationRequest', `${!!email}`);
+
+        // TODO: Make the check for org domain
+        return true;
       }
 
       return false;

@@ -1,9 +1,25 @@
-import { Divider, Heading, Stack, Text } from '@/components/chakra';
+import { Divider, Heading, Stack } from '@/components/chakra';
 import { Logo } from '@/components/client';
+import { redirect } from 'next/navigation';
+import { getSession } from '@/lib/auth';
+import { cookies } from 'next/headers';
 
-import LoginButton from './login-button';
+import { LoginByEmail, LoginByGithub } from './components';
 
-export default function LoginPage() {
+const hasGithubProvider = !!process.env.GITHUB_ID && !!process.env.GITHUB_SECRET;
+const hasEmailProvider = !!process.env.SMTP_USER && !!process.env.SMTP_PASSWORD;
+
+export default async function LoginPage() {
+  const session = await getSession();
+
+  if (session) {
+    redirect('/projects');
+  }
+
+  const cookieStore = cookies();
+  const requestCookie = cookieStore.get('verificationRequest');
+  const isRequested = !!requestCookie && requestCookie.value === 'true';
+
   return (
     <Stack gap={4} maxWidth="sm" marginX="auto" marginTop="10vh">
       <Logo width={256} height={74} />
@@ -14,11 +30,14 @@ export default function LoginPage() {
 
       <Divider />
 
-      <LoginButton />
+      {hasEmailProvider && <LoginByEmail isRequested={isRequested} />}
 
-      <Text fontSize="small" color="gray">
-        Only for members of @websitesieutoc at this time.
-      </Text>
+      {hasGithubProvider && (
+        <>
+          <Divider />
+          <LoginByGithub org={process.env.GITHUB_ORG} />
+        </>
+      )}
     </Stack>
   );
 }

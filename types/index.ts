@@ -1,11 +1,18 @@
 import { Prisma } from '@prisma/client';
 import { Endpoints } from '@octokit/types';
 
-export type { ChangeEvent } from 'react';
+export type { ChangeEvent, ReactNode } from 'react';
 
-export type { Service, Project } from 'easypanel-sdk';
+import type {
+  Service,
+  ServiceType,
+  CreateService,
+  Project as EasyPanelProject,
+} from 'easypanel-sdk';
 
-export * from './github';
+export type { Service, ServiceType, CreateService, EasyPanelProject };
+
+export type * from './github';
 
 // Do not know why export * will make nextjs complain about
 // can not find module '@octokit/types'
@@ -13,8 +20,6 @@ export type { RequestParameters } from '@octokit/types';
 export type { ToastId } from '@/components/chakra';
 
 export * from '@prisma/client';
-
-export * from './vercel';
 
 export enum HttpMethod {
   CONNECT = 'CONNECT',
@@ -36,4 +41,13 @@ export type EnvironmentType = 'production' | 'preview';
 
 export type EnvironmentVariables = {
   [key in EnvironmentType]: Record<string, string | undefined>;
+};
+
+export type Input = {
+  projectName: string;
+};
+
+export type ServiceTemplate = {
+  type: ServiceType;
+  data: any;
 };

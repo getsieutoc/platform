@@ -6,9 +6,10 @@ import {
   ProjectQueryConf,
   CreateService,
 } from 'easypanel-sdk';
-import { getSession } from '@/lib/auth';
+import { Project } from '@/types';
 import { delayAsync } from '@/lib/utils';
-import { EnvironmentVariables, Site } from '@/types';
+import { getSession } from '@/lib/auth';
+import { templates } from '@/templates';
 
 declare global {
   // eslint-disable-next-line no-var, vars-on-top
@@ -26,80 +27,35 @@ if (process.env.NODE_ENV === 'development') {
   global.easypanel = easypanel;
 }
 
-export const createProject = async (site: Site) => {
+export const createEasyPanelProject = async (project: Project) => {
   const session = await getSession();
 
   if (!session?.user.id) {
     throw new Error('Unauthorized');
   }
 
-  const { production } = site.environmentVariables as EnvironmentVariables;
-
-  const response = await easypanel.projects.create({ name: site.id });
-
-  const databaseUrl = `postgres://postgres:${production.POSTGRES_PASSWORD}@${site.id}_postgres:5432/${site.id}`;
+  const response = await easypanel.projects.create({ name: project.id });
 
   await delayAsync(500);
 
-  await easypanel.services.create('app', {
-    projectName: site.id,
-    serviceName: 'nextjs',
-    domains: [{ host: '$(EASYPANEL_DOMAIN)' }],
-  });
+  const template = templates.find((t) => t.slug === project.template);
 
-  await delayAsync(500);
+  if (template) {
+    const { services } = template.generate({ projectName: project.id });
 
-  // @ts-expect-error // postgres typo name
-  await easypanel.services.create('postgres', {
-    projectName: site.id,
-    serviceName: 'postgres',
-    domains: [{ host: '$(EASYPANEL_DOMAIN)' }],
-    image: 'postgres:16',
-    password: production.POSTGRES_PASSWORD,
-  });
+    const requests = services.map(({ type, data }) => [
+      easypanel.services.create(type, data),
+      delayAsync(500),
+    ]);
 
-  await delayAsync(500);
-
-  await easypanel.services.updateSourceGithub('app', {
-    projectName: site.id,
-    serviceName: 'nextjs',
-    owner: 'sieutoc-customers',
-    repo: site.id,
-    ref: 'master',
-    path: '/',
-  });
-
-  await delayAsync(1000);
-
-  await easypanel.services.updateEnv('app', {
-    projectName: site.id,
-    serviceName: 'nextjs',
-    env: Object.entries({
-      ...production,
-      NEXTAUTH_URL: '$(PRIMARY_DOMAIN)',
-      DATABASE_URL: databaseUrl,
-    })
-      .map(([k, v]) => `${k}=${v}`)
-      .join('\n'),
-  });
-
-  await delayAsync(500);
-
-  await easypanel.services.updateBuild('app', {
-    projectName: site.id,
-    serviceName: 'nextjs',
-    build: { type: 'nixpacks' },
-  });
-
-  await delayAsync(500);
+    await Promise.all(requests.flat());
+  }
 
   // do the deploy later, it takes too long
   // const deployed = await easypanel.services.deploy('app', {
-  //   projectName: site.id,
+  //   projectName: project.id,
   //   serviceName: 'nextjs',
   // });
-
-  await delayAsync(500);
 
   return response;
 };
@@ -116,7 +72,7 @@ export const getProject = async ({ projectName }: ProjectQueryConf) => {
   return response;
 };
 
-export const deleteProject = async ({ name }: ProjectName) => {
+export const deleteEasyPanelProject = async ({ name }: ProjectName) => {
   const session = await getSession();
 
   if (!session?.user.id) {
@@ -142,7 +98,7 @@ export const deleteProject = async ({ name }: ProjectName) => {
 };
 
 export const updateDomains = async (
-  input: Pick<CreateService, 'domains'> & Pick<Site, 'id'>
+  input: Pick<CreateService, 'domains'> & Pick<Project, 'id'>
 ) => {
   const session = await getSession();
 

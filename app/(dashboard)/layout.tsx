@@ -1,16 +1,16 @@
+import { Box, Flex, Skeleton } from '@/components/chakra';
 import { ReactNode, Suspense } from 'react';
 
-import { Box, Flex, Skeleton } from '@/components/chakra';
-import { Navbar, Profile } from './components';
+import { Sidebar, Profile } from './components';
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+export default async function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <Flex>
-      <Navbar>
+      <Sidebar>
         <Suspense fallback={<Skeleton height="24px" />}>
           <Profile />
         </Suspense>
-      </Navbar>
+      </Sidebar>
 
       <Box padding={6} width="100%" height="100vh" overflowY="scroll">
         {children}

@@ -1,9 +1,13 @@
 import { format, formatRelative as formatRelativeFn } from 'date-fns';
 import { HttpMethod } from '@/types';
 import deepmerge from 'deepmerge';
-import crypto from 'crypto';
 
 export { default as isEqual } from 'fast-deep-equal';
+
+export const swrConfigs = {
+  fetcher,
+  suspend: true,
+};
 
 export async function fetcher<JSON = unknown>(
   input: RequestInfo,
@@ -27,18 +31,18 @@ export async function fetcher<JSON = unknown>(
   return await response.json();
 }
 
-export const capitalize = (s: string) => {
+export function capitalize(s: string) {
   if (typeof s !== 'string') return '';
   return s.charAt(0).toUpperCase() + s.slice(1);
-};
+}
 
-export const truncate = (str: string, num: number) => {
+export function truncate(str: string, num: number) {
   if (!str) return '';
   if (str.length <= num) {
     return str;
   }
   return str.slice(0, num) + '...';
-};
+}
 
 export const getBlurDataURL = async (url: string | null) => {
   if (!url) {
@@ -64,10 +68,6 @@ export const toDateString = (date: Date) => {
     day: 'numeric',
     year: 'numeric',
   });
-};
-
-export const random = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
 // This helper mostly uses for pagination query: skip, take etc
@@ -133,5 +133,3 @@ export const delayAsync = async (amountMs = 500): Promise<void> => {
     }, amountMs);
   });
 };
-
-export const generateSecret = (l = 32) => crypto.randomBytes(l).toString('base64');
