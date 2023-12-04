@@ -96,11 +96,26 @@ const styles = {
     a: {
       // Fix issue links wrap outside of button have ugly sharp corners
       borderRadius: 'md',
+      textDecoration: 'none',
+
+      '&:hover': {
+        textDecoration: 'none',
+      },
     },
   }),
 };
 
 const components = {
+  Button: {
+    variants: {
+      link: {
+        _hover: {
+          color: 'brand.500',
+          textDecoration: 'none',
+        },
+      },
+    },
+  },
   Input: {
     variants: {
       expanding: () => ({
