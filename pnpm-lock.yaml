@@ -38,6 +38,12 @@ dependencies:
   '@prisma/client':
     specifier: 5.6.0
     version: 5.6.0(prisma@5.6.0)
+  '@stripe/react-stripe-js':
+    specifier: 2.4.0
+    version: 2.4.0(@stripe/stripe-js@2.2.0)(react-dom@18.2.0)(react@18.2.0)
+  '@stripe/stripe-js':
+    specifier: 2.2.0
+    version: 2.2.0
   '@tanstack/react-table':
     specifier: 8.10.7
     version: 8.10.7(react-dom@18.2.0)(react@18.2.0)
@@ -137,6 +143,9 @@ dependencies:
   slugify:
     specifier: 1.6.6
     version: 1.6.6
+  stripe:
+    specifier: 14.7.0
+    version: 14.7.0
   swr:
     specifier: 2.2.4
     version: 2.2.4(react@18.2.0)
@@ -2097,6 +2106,23 @@ packages:
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
     dependencies:
       '@sinonjs/commons': 3.0.0
+    dev: false
+
+  /@stripe/react-stripe-js@2.4.0(@stripe/stripe-js@2.2.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-1jVQEL3OuhuzNlf4OdfqovHt+MkWh8Uh8xpLxx/xUFUDdF+7/kDOrGKy+xJO3WLCfZUL7NAy+/ypwXbbYZi0tg==}
+    peerDependencies:
+      '@stripe/stripe-js': ^1.44.1 || ^2.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@stripe/stripe-js': 2.2.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@stripe/stripe-js@2.2.0:
+    resolution: {integrity: sha512-YyXQbsXvnNRJ6MofFhCLIQ4W7UpfkfSOQhjIaHEiCMBv3IBxhzugXiYNNzceGTK/7DL31v7HtTnkJ+FI+6AIow==}
     dev: false
 
   /@swc/helpers@0.5.2:
@@ -6236,6 +6262,14 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
     dev: true
+
+  /stripe@14.7.0:
+    resolution: {integrity: sha512-A6XWH76K0K7IgEBz4odIVxjhkdPduSPafZju6ltAFU0oMbWJlfeaDyMTfRJ9vcYA9zqENfwRizExD/2nZ4rQ1A==}
+    engines: {node: '>=12.*'}
+    dependencies:
+      '@types/node': 20.9.4
+      qs: 6.11.2
+    dev: false
 
   /styled-jsx@5.1.1(react@18.2.0):
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}

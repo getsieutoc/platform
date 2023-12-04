@@ -1,3 +1,7 @@
+export const STRIPE_API_VERSION = '2023-10-16';
+export const STRIPE_APP_NAME = 'Sieutoc Platform';
+export const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+
 export const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 export const TEAM_ID = process.env.TEAM_ID_VERCEL ?? '';
 export const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? '';

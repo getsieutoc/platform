@@ -1,7 +1,9 @@
-import { Button, Heading } from '@/components/chakra';
+import { Box, Button, Container, Heading } from '@/components/chakra';
 import { NextLink } from '@/components/client';
 import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
+
+import { Features, HeroSection, Highlights, Navbar, PricingSection } from './components';
 
 export default async function HomePage() {
   const session = await getSession();
@@ -11,12 +13,16 @@ export default async function HomePage() {
   }
 
   return (
-    <>
-      <Heading>Edit this page on app/home/page.tsx</Heading>
+    <Box>
+      <Navbar />
 
-      <Button as={NextLink} href="/login">
-        Start creating
-      </Button>
-    </>
+      <HeroSection />
+
+      <Features />
+
+      <Highlights />
+
+      <PricingSection />
+    </Box>
   );
 }

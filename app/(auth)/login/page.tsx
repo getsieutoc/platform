@@ -1,5 +1,5 @@
 import { Divider, Heading, Stack } from '@/components/chakra';
-import { Logo, NextLink } from '@/components/client';
+import { Logo } from '@/components/client';
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth';
 import { cookies } from 'next/headers';
@@ -22,9 +22,7 @@ export default async function LoginPage() {
 
   return (
     <Stack gap={4} maxWidth="sm" marginX="auto" marginTop="10vh">
-      <NextLink href="/">
-        <Logo width={256} height={74} />
-      </NextLink>
+      <Logo width={256} height={74} />
 
       <Heading as="h1" size="lg">
         Login

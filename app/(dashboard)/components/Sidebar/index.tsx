@@ -8,7 +8,7 @@ import {
   useSelectedLayoutSegments,
 } from '@/hooks';
 import { ArrowBackIcon, DashboardIcon, GlobeIcon, UsersIcon } from '@/icons';
-import { ColorModeSwitcher, NextLink, NextImage } from '@/components/client';
+import { ColorModeSwitcher, NextLink, NextImage, Logo } from '@/components/client';
 import { Box, Button, Flex, Stack } from '@/components/chakra';
 import { ReactNode, UserRole } from '@/types';
 
@@ -16,7 +16,7 @@ export type NavbarProps = {
   children: ReactNode;
 };
 
-export const Navbar = ({ children }: NavbarProps) => {
+export const Sidebar = ({ children }: NavbarProps) => {
   const { session } = useAuth();
   const { id } = useParams() as { id?: string };
 
@@ -73,7 +73,6 @@ export const Navbar = ({ children }: NavbarProps) => {
   }, [segments, id]);
 
   const backgroundColor = useColorModeValue('white', 'black');
-  const logoPath = useColorModeValue('/light.png', '/dark.png');
 
   return (
     <Flex
@@ -86,16 +85,7 @@ export const Navbar = ({ children }: NavbarProps) => {
     >
       <Box>
         <Flex direction="row" justify="space-between" align="end">
-          <NextLink href="/">
-            <NextImage
-              priority
-              src={logoPath}
-              width={128}
-              height={37}
-              alt="Sieutoc Logo"
-              placeholder="empty"
-            />
-          </NextLink>
+          <Logo width={128} height={37} />
 
           <ColorModeSwitcher size="sm" />
         </Flex>
