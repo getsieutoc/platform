@@ -102,7 +102,6 @@ const styles = {
       textDecoration: 'none',
 
       '&:hover': {
-        color: 'brand.500',
         textDecoration: 'none',
       },
     },

@@ -85,7 +85,7 @@ export const Sidebar = ({ children }: NavbarProps) => {
     >
       <Box>
         <Flex direction="row" justify="space-between" align="end">
-          <Logo width={128} height={37} />
+          <Logo width={90} height={27} href="/projects" />
 
           <ColorModeSwitcher size="sm" />
         </Flex>

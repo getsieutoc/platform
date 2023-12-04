@@ -42,20 +42,22 @@ export const QuickLinks = ({ repo, data }: QuickLinksProps) => {
         </CardHeader>
         <CardBody>
           <Stack spacing={6} minW="240px">
-            <Stack direction="row" align="center">
-              <Box>
-                <Code padding={3} fontSize="xs" borderRadius="md">
-                  {gitCloneText}
-                </Code>
-              </Box>
-              <IconButton
-                aria-label="Copy"
-                colorScheme={hasCopied ? 'green' : 'gray'}
-                icon={hasCopied ? <CheckCircleIcon color="green" /> : <CopyIcon />}
-                variant="outline"
-                onClick={onCopy}
-              />
-            </Stack>
+            {repo && (
+              <Stack direction="row" align="center">
+                <Box>
+                  <Code padding={3} fontSize="xs" borderRadius="md">
+                    {gitCloneText}
+                  </Code>
+                </Box>
+                <IconButton
+                  aria-label="Copy"
+                  colorScheme={hasCopied ? 'green' : 'gray'}
+                  icon={hasCopied ? <CheckCircleIcon color="green" /> : <CopyIcon />}
+                  variant="outline"
+                  onClick={onCopy}
+                />
+              </Stack>
+            )}
 
             <Stack direction="row" spacing={3}>
               {repo && (
