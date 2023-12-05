@@ -129,13 +129,14 @@ export const CreateNewButton = ({ isDisabled }: CreateNewButtonProps) => {
         ref={finalRef}
         isDisabled={isDisabled}
         leftIcon={<AddIcon />}
-        colorScheme="green"
+        colorScheme="brand"
         onClick={onOpen}
       >
         Create New Project
       </Button>
 
       <Modal
+        closeOnOverlayClick={false}
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
         isOpen={isOpen}
@@ -226,10 +227,10 @@ export const CreateNewButton = ({ isDisabled }: CreateNewButtonProps) => {
               <Button onClick={handleCancel}>Cancel</Button>
 
               <Button
-                colorScheme={isValid ? 'green' : 'gray'}
-                loadingText="Creating..."
-                isLoading={isLoading}
                 isDisabled={!isValid || isLoading}
+                loadingText="Creating..."
+                colorScheme="brand"
+                isLoading={isLoading}
                 leftIcon={<AddIcon />}
                 onClick={handleSubmit}
               >

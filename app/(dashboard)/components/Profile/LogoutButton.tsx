@@ -8,11 +8,11 @@ import { LogoutIcon } from '@/icons';
 export const LogoutButton = () => {
   return (
     <IconButton
-      aria-label="Logout"
-      size="sm"
-      variant="outline"
-      icon={<LogoutIcon />}
       onClick={() => signOut()}
+      icon={<LogoutIcon />}
+      aria-label="Logout"
+      variant="outline"
+      size="sm"
     />
   );
 };

@@ -1,14 +1,14 @@
 'use server';
 
 import { EnvironmentVariables, Project } from '@/types';
-import { generateSecret } from '@/lib/generators';
+import { generatePassword } from '@/lib/generators';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 export type CreateProjectDto = Pick<Project, 'name' | 'description' | 'slug'>;
 
 export const createProject = async (input: CreateProjectDto) => {
-  const session = await getSession();
+  const { session } = await getSession();
 
   if (!session?.user.id) {
     throw new Error('Unauthorized');
@@ -17,12 +17,12 @@ export const createProject = async (input: CreateProjectDto) => {
   try {
     const environmentVariables: EnvironmentVariables = {
       production: {
-        NEXTAUTH_SECRET: generateSecret(),
-        POSTGRES_PASSWORD: generateSecret(),
+        NEXTAUTH_SECRET: generatePassword(),
+        POSTGRES_PASSWORD: generatePassword({ hasSpecial: false }),
       },
       preview: {
-        NEXTAUTH_SECRET: generateSecret(),
-        POSTGRES_PASSWORD: generateSecret(),
+        NEXTAUTH_SECRET: generatePassword(),
+        POSTGRES_PASSWORD: generatePassword({ hasSpecial: false }),
       },
     };
 
@@ -51,7 +51,7 @@ export const createProject = async (input: CreateProjectDto) => {
 export type UpdateProjectDto = Partial<Project>;
 
 export const updateProject = async (id: string, data: UpdateProjectDto) => {
-  const session = await getSession();
+  const { session } = await getSession();
 
   if (!session) {
     throw new Error('Unauthorized');
@@ -83,7 +83,7 @@ export const updateProject = async (id: string, data: UpdateProjectDto) => {
 
 export const deleteProject = async (project: Project) => {
   try {
-    const session = await getSession();
+    const { session } = await getSession();
     if (!session?.user.id) {
       return {
         error: 'Not authenticated',
@@ -105,7 +105,7 @@ export const deleteProject = async (project: Project) => {
 };
 
 export const editUser = async (formData: FormData, _id: unknown, key: string) => {
-  const session = await getSession();
+  const { session } = await getSession();
   if (!session?.user.id) {
     return {
       error: 'Not authenticated',

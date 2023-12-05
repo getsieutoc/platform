@@ -1,26 +1,30 @@
-import { Account, NextAuthOptions, getServerSession } from 'next-auth';
+import { Account, NextAuthOptions, Session, getServerSession } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GitHubProvider from 'next-auth/providers/github';
 import EmailProvider from 'next-auth/providers/email';
 import { AdapterUser } from 'next-auth/adapters';
 import { Organization, UserRole } from '@/types';
+import { render } from '@react-email/render';
 import { prisma } from '@/lib/prisma';
 import { fetcher } from '@/lib/utils';
 import { cookies } from 'next/headers';
+
+import MagicLinkTemplate from './emails/MagicLink';
+import { sendEmail } from './nodemailer';
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   adapter: {
     ...PrismaAdapter(prisma),
-    createUser: async (data) => {
-      if (!data.email) throw new Error('Email is required when sign up');
+    createUser: async (input) => {
+      if (!input.email) throw new Error('Email is required when sign up');
 
-      const numOfUsers = await prisma.user.count({});
+      const numOfUsers = await prisma.user.count();
 
       return (await prisma.user.create({
         data: {
-          ...data,
+          ...input,
           role: numOfUsers === 0 ? UserRole.ADMIN : UserRole.USER,
         },
       })) as AdapterUser;
@@ -44,6 +48,7 @@ export const authOptions: NextAuthOptions = {
     }),
 
     EmailProvider({
+      maxAge: 60 * 30,
       server: {
         host: process.env.SMTP_HOST,
         port: Number(process.env.SMTP_PORT),
@@ -53,6 +58,19 @@ export const authOptions: NextAuthOptions = {
         },
       },
       from: process.env.EMAIL_FROM ?? 'noreply@sieutoc.website',
+      async sendVerificationRequest({ identifier, url }) {
+        const magicTemplate = MagicLinkTemplate({
+          confirmUrl: url,
+          baseUrl: process.env.NEXTAUTH_URL,
+        });
+
+        await sendEmail({
+          to: identifier,
+          subject: 'Login to Sieutoc ⚡',
+          html: render(magicTemplate),
+          text: render(magicTemplate, { plainText: true }),
+        });
+      },
     }),
   ],
 
@@ -117,6 +135,13 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export function getSession() {
-  return getServerSession(authOptions);
+export async function getSession() {
+  const session = (await getServerSession(authOptions)) as Session;
+
+  const isAdmin = session?.user?.role === UserRole.ADMIN;
+
+  return {
+    session,
+    isAdmin,
+  };
 }

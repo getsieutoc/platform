@@ -3,19 +3,21 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Container,
+  FormControl,
+  FormLabel,
   HStack,
   Heading,
   List,
   ListIcon,
   ListItem,
   SimpleGrid,
+  Switch,
   Text,
   VStack,
 } from '@/components/chakra';
-import { GradientText } from '@/components/client';
 import { useState, useColorModeValue } from '@/hooks';
+import { GradientText } from '@/components/client';
 import { CheckIcon } from '@/icons';
 
 export type PricingBoxProps = {
@@ -90,28 +92,24 @@ export const PricingSection = () => {
   const [isAnnually, setAnnually] = useState(true);
 
   return (
-    <Container py={28} maxW="container.lg" id="pricing">
+    <Container py={20} maxW="container.lg" id="pricing">
       <VStack spacing={6} align="center">
         <Heading as="h2" size="xl" textAlign="center" maxW="container.md">
           Supercharge your development process with{' '}
           <GradientText>enterprise-level</GradientText> capabilities
         </Heading>
 
-        <ButtonGroup isAttached size="sm" colorScheme="brand">
-          <Button
-            variant={isAnnually ? 'outline' : 'solid'}
-            onClick={() => setAnnually(false)}
-          >
-            Monthly
-          </Button>
-
-          <Button
-            variant={isAnnually ? 'solid' : 'outline'}
-            onClick={() => setAnnually(true)}
-          >
-            Annually
-          </Button>
-        </ButtonGroup>
+        <FormControl display="flex" alignItems="center" justifyContent="center">
+          <FormLabel htmlFor="billed-annually" mb="0">
+            Billed Annually (Save up to 20%)
+          </FormLabel>
+          <Switch
+            id="billed-annually"
+            colorScheme="purple"
+            isChecked={isAnnually}
+            onChange={(e) => setAnnually(e.target.checked)}
+          />
+        </FormControl>
 
         <SimpleGrid columns={[1, null, 3]} spacing={6}>
           <PricingBox

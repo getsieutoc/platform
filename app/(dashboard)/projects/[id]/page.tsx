@@ -21,7 +21,7 @@ export type SingleProjectPageProps = {
 };
 
 export default async function SingleProjectPage({ params }: SingleProjectPageProps) {
-  const session = await getSession();
+  const { session } = await getSession();
 
   if (!session) {
     return null;

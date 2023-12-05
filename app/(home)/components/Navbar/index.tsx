@@ -38,16 +38,16 @@ export const Navbar = () => {
             variant="link"
             size="sm"
           >
-            <Button as={NextLink} href="/protected">
-              Protected
+            <Button as={NextLink} href="/">
+              Home
             </Button>
-            <Button as={NextLink} href="/about-us">
-              About us
+            <Button as={NextLink} href="/#highlights">
+              Why us?
             </Button>
             <Button as={NextLink} href="/#pricing">
               Pricing
             </Button>
-            <Button as={NextLink} href="/blog">
+            <Button as={NextLink} href="/">
               Blogs
             </Button>
           </ButtonGroup>

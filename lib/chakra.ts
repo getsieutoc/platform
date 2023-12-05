@@ -51,9 +51,6 @@ const colors = {
 
 const styles = {
   global: (props: StyleFunctionProps) => ({
-    html: {
-      scrollBehavior: 'smooth',
-    },
     '.text-editor-inner > div': {
       height: '100%',
     },

@@ -21,14 +21,28 @@ import {
   MdStarBorder,
 } from 'react-icons/md';
 import { LuRefreshCw, LuStickyNote } from 'react-icons/lu';
+import { DiGoogleCloudPlatform } from 'react-icons/di';
 import { FaGithub, FaGlobe } from 'react-icons/fa6';
 import { BiSolidCommentAdd } from 'react-icons/bi';
+import { TbBrandTypescript } from 'react-icons/tb';
 import { AiOutlineEnter } from 'react-icons/ai';
+import { TbBrandNextjs } from 'react-icons/tb';
 import { BsThreeDots } from 'react-icons/bs';
+import { SiChakraui } from 'react-icons/si';
 import { FcFlashOn } from 'react-icons/fc';
+import { SiPrisma } from 'react-icons/si';
 import { HiUsers } from 'react-icons/hi2';
+import { FaAws } from 'react-icons/fa';
 
 export * from '@chakra-ui/icons';
+
+// Company logos, for demo
+export const AwsLogo = (p: P) => <Icon as={FaAws} {...p} />;
+export const GcpLogo = (p: P) => <Icon as={DiGoogleCloudPlatform} {...p} />;
+export const NextLogo = (p: P) => <Icon as={TbBrandNextjs} {...p} />;
+export const ChakraLogo = (p: P) => <Icon as={SiChakraui} {...p} />;
+export const PrismaLogo = (p: P) => <Icon as={SiPrisma} {...p} />;
+export const TypescriptLogo = (p: P) => <Icon as={TbBrandTypescript} {...p} />;
 
 export const AddCommentIcon = (p: P) => <Icon as={BiSolidCommentAdd} {...p} />;
 export const BarChartIcon = (p: P) => <Icon as={MdBarChart} {...p} />;

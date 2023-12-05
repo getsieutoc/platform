@@ -3,34 +3,27 @@ import { randomBytes } from 'crypto';
 const lowerCase = 'abcdefghijklmnopqrstuvwxyz';
 const upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const integers = '0123456789';
-const specialCharacters = '!@#$%^&*()[]{}_-=+';
+const specials = '!@#$%^&*()[]{}_-=+';
 
 type Options = {
+  length?: number;
   hasNumber?: boolean;
   hasSpecial?: boolean;
-  onlyLowerCase?: boolean;
-  onlyUpperCase?: boolean;
+  exclude?: 'lower' | 'upper';
 };
 
-export const randomNumber = (max: number) => {
-  return Math.floor(Math.random() * max);
-};
-
-export const generatePassword = (length = 32, options?: Options) => {
+export const generatePassword = (options?: Options) => {
   let chars = lowerCase + upperCase;
 
-  const {
-    hasNumber = true,
-    hasSpecial = true,
-    onlyLowerCase = false,
-    onlyUpperCase = false,
-  } = options ?? {};
+  const { length = 48, hasNumber = true, hasSpecial = true, exclude } = options ?? {};
 
-  if (onlyLowerCase) {
+  const bytes = randomBytes(length);
+
+  if (exclude === 'lower') {
     chars = lowerCase;
   }
 
-  if (onlyUpperCase) {
+  if (exclude === 'upper') {
     chars = upperCase;
   }
 
@@ -39,15 +32,18 @@ export const generatePassword = (length = 32, options?: Options) => {
   }
 
   if (hasSpecial) {
-    chars += specialCharacters;
+    chars += specials;
   }
 
-  let code = '';
+  let result = '';
+
   for (let i = 0; i < length; i++) {
-    code += chars.charAt(randomNumber(chars.length));
+    result += chars.charAt(bytes.readUInt8(i) % chars.length);
   }
 
-  return code;
+  return result;
 };
 
-export const generateSecret = (l = 32) => randomBytes(l).toString('base64');
+export const randomNumber = (max: number) => {
+  return Math.floor(Math.random() * max);
+};

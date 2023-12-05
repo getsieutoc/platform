@@ -10,7 +10,7 @@ const hasGithubProvider = !!process.env.GITHUB_ID && !!process.env.GITHUB_SECRET
 const hasEmailProvider = !!process.env.SMTP_USER && !!process.env.SMTP_PASSWORD;
 
 export default async function LoginPage() {
-  const session = await getSession();
+  const { session } = await getSession();
 
   if (session) {
     redirect('/projects');
@@ -22,15 +22,18 @@ export default async function LoginPage() {
 
   return (
     <Stack gap={4} maxWidth="sm" marginX="auto" marginTop="10vh">
-      <Logo width={256} height={74} />
+      <Logo width={256} height={74} href="/" />
 
       <Heading as="h1" size="lg">
         Login
       </Heading>
 
-      <Divider />
-
-      {hasEmailProvider && <LoginByEmail isRequested={isRequested} />}
+      {hasEmailProvider && (
+        <>
+          <Divider />
+          <LoginByEmail isRequested={isRequested} />
+        </>
+      )}
 
       {hasGithubProvider && (
         <>

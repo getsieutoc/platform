@@ -6,7 +6,7 @@ import { NextLink } from '@/components/client';
 import { LogoutButton } from './LogoutButton';
 
 export const Profile = async () => {
-  const session = await getSession();
+  const { session } = await getSession();
 
   if (!session?.user) {
     return null;

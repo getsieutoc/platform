@@ -1,21 +1,21 @@
 'use client';
 
 import {
-  useEffect,
   useKeyPressEvent,
   useSearchParams,
+  useEffect,
   useState,
   useToast,
 } from '@/hooks';
 import {
-  Alert,
   AlertDescription,
-  AlertIcon,
   AlertTitle,
-  Box,
+  AlertIcon,
   Button,
+  Alert,
   Input,
   Stack,
+  Box,
 } from '@/components/chakra';
 import { signIn } from 'next-auth/react';
 import { FlashIcon } from '@/icons';
@@ -26,6 +26,7 @@ export type LoginByEmailProps = {
 
 export const LoginByEmail = ({ isRequested }: LoginByEmailProps) => {
   const toast = useToast();
+
   const [isFocused, setFocused] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
@@ -36,13 +37,20 @@ export const LoginByEmail = ({ isRequested }: LoginByEmailProps) => {
   const [email, setEmail] = useState('');
 
   const handleSignIn = async () => {
+    if (!email) {
+      toast({ description: 'Email is required', status: 'info' });
+      return;
+    }
+
+    if (isLoading) return;
+
     const callbackUrl = searchParams?.get('callbackUrl') ?? '/';
 
     setLoading(true);
 
     await signIn('email', {
-      email,
       callbackUrl,
+      email,
     });
   };
 
@@ -74,23 +82,25 @@ export const LoginByEmail = ({ isRequested }: LoginByEmailProps) => {
       )}
 
       <Input
-        size="lg"
-        value={email}
-        borderWidth="2px"
-        focusBorderColor="brand.500"
-        placeholder="email@example.com"
+        onChange={(e) => setEmail(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        onChange={(e) => setEmail(e.target.value)}
+        placeholder="email@example.com"
+        focusBorderColor="brand.500"
+        isDisabled={isLoading}
+        name="login-email"
+        borderWidth="2px"
+        value={email}
+        size="lg"
       />
 
       <Button
-        size="lg"
-        colorScheme="brand"
-        isLoading={isLoading}
-        isDisabled={isLoading || !email}
         leftIcon={<FlashIcon />}
+        isDisabled={isLoading}
         onClick={handleSignIn}
+        isLoading={isLoading}
+        colorScheme="brand"
+        size="lg"
       >
         Login with Email
       </Button>
