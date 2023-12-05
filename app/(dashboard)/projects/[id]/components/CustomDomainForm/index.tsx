@@ -173,7 +173,7 @@ export const CustomDomainForm = ({ data, service }: CustomDomainFormProps) => {
               <ButtonGroup as={Box} variant="outline">
                 {customDomain === null && (
                   <Button
-                    colorScheme="green"
+                    colorScheme="brand"
                     leftIcon={<SmallAddIcon />}
                     onClick={() => setCustomDomain('')}
                   >
