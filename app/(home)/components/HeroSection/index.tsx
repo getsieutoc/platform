@@ -21,7 +21,7 @@ import {
 } from '@/icons';
 
 export const HeroSection = () => {
-  const logoColor = useColorModeValue('gray.100', 'gray.700');
+  const logoColor = useColorModeValue('gray.300', 'gray.700');
 
   return (
     <Container maxW="full">

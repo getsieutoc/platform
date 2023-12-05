@@ -13,6 +13,7 @@ import {
   Text,
   UnorderedList,
   ListItem,
+  useColorModeValue,
 } from '@/components/chakra';
 import { ColorModeBox, Logo, NextLink } from '@/components/client';
 import { ExternalLinkIcon } from '@/icons';
@@ -51,6 +52,8 @@ const footerLinkColumns: { title: string; links: FooterLink[] }[] = [
   },
 ];
 export const Footer = () => {
+  const inputBgColor = useColorModeValue('gray.100', 'gray.800');
+
   return (
     <Flex as={ColorModeBox} minH="20vh" py={20}>
       <Container
@@ -83,7 +86,7 @@ export const Footer = () => {
           </Stack>
           <FormControl as={Stack} direction="row">
             <FormLabel hidden>Subscribe</FormLabel>
-            <Input focusBorderColor="brand.500" size="lg" />
+            <Input size="lg" bgColor={inputBgColor} focusBorderColor="brand.500" />
             <Button colorScheme="brand" size="lg">
               Subscribe
             </Button>

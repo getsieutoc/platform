@@ -4,8 +4,8 @@ import { Input, ServiceTemplate } from '@/types';
 export const generate = ({ projectName }: Input) => {
   const services: ServiceTemplate[] = [];
 
-  const DATABASE_PASSWORD = generatePassword(32, { hasSpecial: false });
-  const SECRET_KEY_BASE = generatePassword(64);
+  const DATABASE_PASSWORD = generatePassword({ hasSpecial: false });
+  const SECRET_KEY_BASE = generatePassword();
 
   services.push({
     type: 'app',

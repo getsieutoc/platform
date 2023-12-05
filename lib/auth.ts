@@ -1,4 +1,4 @@
-import { Account, NextAuthOptions, getServerSession } from 'next-auth';
+import { Account, NextAuthOptions, Session, getServerSession } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GitHubProvider from 'next-auth/providers/github';
 import EmailProvider from 'next-auth/providers/email';
@@ -117,6 +117,13 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export function getSession() {
-  return getServerSession(authOptions);
+export async function getSession() {
+  const session = (await getServerSession(authOptions)) as Session;
+
+  const isAdmin = session?.user?.role === UserRole.ADMIN;
+
+  return {
+    session,
+    isAdmin,
+  };
 }

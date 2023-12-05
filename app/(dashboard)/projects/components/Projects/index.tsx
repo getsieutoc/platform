@@ -8,7 +8,7 @@ import { UserRole } from '@/types';
 import { ProjectCard } from './ProjectCard';
 
 export const Projects = async ({ limit }: { limit?: number }) => {
-  const session = await getSession();
+  const { session } = await getSession();
 
   if (!session) {
     return null;

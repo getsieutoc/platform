@@ -1,5 +1,6 @@
 import { paramParser, queryParser } from '@/lib/parsers';
 import { NextRequest, NextResponse } from 'next/server';
+import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@/types';
 
@@ -11,6 +12,12 @@ const richInclude = {
 
 export async function GET(req: NextRequest) {
   try {
+    const { session, isAdmin } = await getSession();
+
+    if (!session) {
+      throw new Error('Unauthorized request');
+    }
+
     // We lost the type here
     const { searchParams } = req.nextUrl;
 
@@ -23,7 +30,7 @@ export async function GET(req: NextRequest) {
     const response = await prisma.user.findMany({
       skip,
       take,
-      where,
+      where: isAdmin ? where : { id: session.user.id },
       include: richInclude,
     });
 

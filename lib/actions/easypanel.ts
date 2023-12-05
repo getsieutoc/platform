@@ -28,7 +28,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export const createEasyPanelProject = async (project: Project) => {
-  const session = await getSession();
+  const { session } = await getSession();
 
   if (!session?.user.id) {
     throw new Error('Unauthorized');
@@ -61,7 +61,7 @@ export const createEasyPanelProject = async (project: Project) => {
 };
 
 export const getProject = async ({ projectName }: ProjectQueryConf) => {
-  const session = await getSession();
+  const { session } = await getSession();
 
   if (!session) {
     throw new Error('Unauthorized');
@@ -73,7 +73,7 @@ export const getProject = async ({ projectName }: ProjectQueryConf) => {
 };
 
 export const deleteEasyPanelProject = async ({ name }: ProjectName) => {
-  const session = await getSession();
+  const { session } = await getSession();
 
   if (!session?.user.id) {
     throw new Error('Unauthorized');
@@ -100,7 +100,7 @@ export const deleteEasyPanelProject = async ({ name }: ProjectName) => {
 export const updateDomains = async (
   input: Pick<CreateService, 'domains'> & Pick<Project, 'id'>
 ) => {
-  const session = await getSession();
+  const { session } = await getSession();
 
   if (!session) {
     throw new Error('Unauthorized');

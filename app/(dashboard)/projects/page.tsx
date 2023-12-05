@@ -8,7 +8,7 @@ import { Suspense } from 'react';
 import { CreateNewButton, Projects } from './components';
 
 export default async function ProjectsPageView() {
-  const session = await getSession();
+  const { session } = await getSession();
 
   const isAdmin = session?.user?.role === UserRole.ADMIN;
 

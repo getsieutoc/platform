@@ -12,7 +12,7 @@ const visibleRules = {
 };
 
 export default async function UserPageView() {
-  const session = await getSession();
+  const { session } = await getSession();
 
   if (session && !visibleRules[session.user.role]) {
     redirect('/projects');

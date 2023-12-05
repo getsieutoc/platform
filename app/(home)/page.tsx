@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { Features, HeroSection, Highlights, PricingSection } from './components';
 
 export default async function HomePage() {
-  const session = await getSession();
+  const { session } = await getSession();
 
   if (session) {
     redirect('/projects');

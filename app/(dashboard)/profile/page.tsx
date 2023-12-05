@@ -4,7 +4,7 @@ import { getSession } from '@/lib/auth';
 import { ProfileCard } from './components';
 
 export default async function ProfileSettingsPage() {
-  const session = await getSession();
+  const { session } = await getSession();
 
   if (!session) {
     return null;

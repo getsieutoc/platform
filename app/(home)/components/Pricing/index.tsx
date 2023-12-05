@@ -105,7 +105,7 @@ export const PricingSection = () => {
           </FormLabel>
           <Switch
             id="billed-annually"
-            colorScheme="orange"
+            colorScheme="purple"
             isChecked={isAnnually}
             onChange={(e) => setAnnually(e.target.checked)}
           />
