@@ -17,11 +17,4 @@ export const NextLink = chakra<typeof Link, LinkProps>(Link, {
       'shallow',
       'target',
     ].includes(prop),
-  baseStyle: {
-    color: 'gray',
-
-    _hover: {
-      color: 'brand.500',
-    },
-  },
 });

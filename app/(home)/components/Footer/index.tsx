@@ -103,7 +103,9 @@ export const Footer = () => {
               <UnorderedList minH={20} listStyleType="none" marginInline={0} spacing={2}>
                 {links.map(({ label, url, isExternal }) => (
                   <ListItem key={label}>
-                    <NextLink href={url}>{label}</NextLink>{' '}
+                    <Button variant="link" size="sm" as={NextLink} href={url}>
+                      {label}
+                    </Button>{' '}
                     {isExternal && <ExternalLinkIcon mx="2px" />}
                   </ListItem>
                 ))}

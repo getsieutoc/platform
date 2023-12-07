@@ -4,3 +4,4 @@ export * from './Features';
 export * from './Highlights';
 export * from './Pricing';
 export * from './Footer';
+export * from './FAQs';
