@@ -2,7 +2,7 @@ import { Box } from '@/components/chakra';
 import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 
-import { Features, HeroSection, Highlights, PricingSection } from './components';
+import { FAQs, Features, HeroSection, Highlights, PricingSection } from './components';
 
 export default async function HomePage() {
   const { session } = await getSession();
@@ -20,6 +20,8 @@ export default async function HomePage() {
       <PricingSection />
 
       <Highlights />
+
+      <FAQs />
     </Box>
   );
 }
