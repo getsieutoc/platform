@@ -3,14 +3,9 @@ import { Endpoints } from '@octokit/types';
 
 export type { ChangeEvent, ReactNode } from 'react';
 
-import type {
-  Service,
-  ServiceType,
-  CreateService,
-  Project as EasyPanelProject,
-} from 'easypanel-sdk';
+import type { Service, ServiceType, Project as EasyPanelProject } from 'easypanel.js';
 
-export type { Service, ServiceType, CreateService, EasyPanelProject };
+export type { Service, ServiceType, EasyPanelProject };
 
 export type * from './github';
 
@@ -49,5 +44,7 @@ export type Input = {
 
 export type ServiceTemplate = {
   type: ServiceType;
+  // TODO: try to reuse the types from @easypanel-io/templates
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any;
 };

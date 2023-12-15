@@ -19,8 +19,8 @@ export const generate = ({ projectName }: Input) => {
       ].join('\n'),
       source: {
         type: 'github',
-        owner: 'sieutoc-customers',
-        repo: projectName,
+        owner: 'websitesieutoc',
+        repo: 'taijutsu',
         ref: 'master',
         path: '/',
         autoDeploy: true,
@@ -38,7 +38,7 @@ export const generate = ({ projectName }: Input) => {
   });
 
   services.push({
-    // @ts-ignore
+    // @ts-expect-error wrong type definition
     type: 'postgres',
     data: {
       projectName,

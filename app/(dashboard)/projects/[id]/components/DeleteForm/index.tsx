@@ -30,10 +30,10 @@ import {
   useState,
   useToast,
 } from '@/hooks';
-import { DeleteIcon } from '@/icons';
 import { deleteEasyPanelProject } from '@/lib/actions/easypanel';
 import { deleteProject } from '@/lib/actions/project';
-import type { Project } from '@/types';
+import { DeleteIcon } from '@/icons';
+import { Project } from '@/types';
 
 export type DeleteFormProps = {
   data: Project;
@@ -42,7 +42,7 @@ export type DeleteFormProps = {
 export const DeleteForm = ({ data }: DeleteFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { toast } = useToast();
+  const { addToast, updateToast } = useToast();
   const cancelRef = useRef(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -67,15 +67,15 @@ export const DeleteForm = ({ data }: DeleteFormProps) => {
 
       setIsLoading(true);
 
-      toast({ title: 'Start deleting...' });
-
-      toast({ title: 'Deleted GitHub repo...' });
-
-      await deleteEasyPanelProject({ name: id });
+      addToast({ title: 'Start deleting...' });
 
       const deletedProject = await deleteProject(data);
 
-      toast({ title: 'Finally, deleted project!' });
+      updateToast({ title: '...deleting EasyPanel project too' });
+
+      await deleteEasyPanelProject({ name: data.id });
+
+      updateToast({ title: 'Finally, deleted project!' });
 
       setIsLoading(false);
 
@@ -86,7 +86,10 @@ export const DeleteForm = ({ data }: DeleteFormProps) => {
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast({ status: 'error', title: `Error: ${error.message}` });
+      addToast({
+        status: 'error',
+        title: `Error while deleting project. ${error.message}`,
+      });
     }
   };
 

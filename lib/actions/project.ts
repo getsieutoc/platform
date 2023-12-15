@@ -5,6 +5,24 @@ import { generatePassword } from '@/lib/generators';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
+export const getProject = async (id: string) => {
+  try {
+    const { session, isAdmin } = await getSession();
+
+    const project = await prisma.project.findUnique({
+      include: { users: true },
+      where: {
+        id,
+        users: isAdmin ? {} : { some: { id: session.user.id } },
+      },
+    });
+
+    return project;
+  } catch (error) {
+    console.error(`Error while getting project by Id`, { cause: error });
+  }
+};
+
 export type CreateProjectDto = Pick<Project, 'name' | 'description' | 'slug'>;
 
 export const createProject = async (input: CreateProjectDto) => {
@@ -29,7 +47,7 @@ export const createProject = async (input: CreateProjectDto) => {
     data: {
       ...input,
       environmentVariables,
-      user: {
+      users: {
         connect: {
           id: session.user.id,
         },

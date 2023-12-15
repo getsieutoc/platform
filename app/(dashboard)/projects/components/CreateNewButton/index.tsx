@@ -101,19 +101,23 @@ export const CreateNewButton = ({ isDisabled }: CreateNewButtonProps) => {
       const newProject = await createProject(data);
 
       if (newProject) {
-        updateToast({ title: '...creating services on EasyPanel' });
         await createEasyPanelProject(newProject);
 
         updateToast({ title: 'Done!' });
 
-        onClose();
-
         router.refresh();
         router.push(`/projects/${newProject.id}`);
+
+        onClose();
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      addToast({ status: 'error', title: error.message });
+      addToast({
+        status: 'error',
+        title: `Problem while creating project. ${error.message}`,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 

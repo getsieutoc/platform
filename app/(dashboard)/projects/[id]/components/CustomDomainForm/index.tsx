@@ -1,6 +1,5 @@
 'use client';
 
-import { updateDomains } from '@/lib/actions/easypanel';
 import { useColorModeValue, useState } from '@/hooks';
 import { updateProject } from '@/lib/actions/project';
 import { validDomainRegex } from '@/lib/domains';
@@ -32,20 +31,17 @@ import {
   SaveIcon,
   SmallAddIcon,
 } from '@/icons';
-import { Service, Project } from '@/types';
 import { Copyable } from '@/components/client';
+import { Project } from '@/types';
 
 type CustomDomainFormProps = {
   data: Project;
-  service: Service;
 };
 
-export const CustomDomainForm = ({ data, service }: CustomDomainFormProps) => {
+export const CustomDomainForm = ({ data }: CustomDomainFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const cleanDomains = (service.domains ?? []).filter(
-    (d) => !d.host.includes('easypanel.host')
-  );
+  const cleanDomains = [{ host: '' }];
 
   const [customDomain, setCustomDomain] = useState(data.customDomain);
 
@@ -66,53 +62,48 @@ export const CustomDomainForm = ({ data, service }: CustomDomainFormProps) => {
 
     setIsLoading(true);
 
-    const finalDomains =
-      customDomain === ''
-        ? (service.domains ?? []).filter((d) => d.host !== data.customDomain)
-        : [
-            {
-              host: customDomain,
-              https: true,
-              path: '/',
-              port: 80,
-            },
-            ...(service.domains ?? []),
-          ];
+    // const finalDomains =
+    //   customDomain === ''
+    //     ? (service.domains ?? []).filter((d) => d.host !== data.customDomain)
+    //     : [
+    //         {
+    //           host: customDomain,
+    //           https: true,
+    //           path: '/',
+    //           port: 80,
+    //         },
+    //         ...(service.domains ?? []),
+    //       ];
 
     await updateProject(data.id, { customDomain });
-
-    await updateDomains({
-      id: data.id,
-      domains: finalDomains,
-    });
 
     setIsLoading(false);
   };
 
-  const generateSubdomain = async () => {
-    await updateDomains({
-      id: data.id,
-      domains: [
-        {
-          host: `${data.slug}.sieutoc.website`,
-          https: true,
-          path: '/',
-          port: 80,
-        },
-        ...(service.domains ?? []),
-      ],
-    });
-  };
+  // const generateSubdomain = async () => {
+  //   await updateDomains({
+  //     id: data.id,
+  //     domains: [
+  //       {
+  //         host: `${data.slug}.sieutoc.website`,
+  //         https: true,
+  //         path: '/',
+  //         port: 80,
+  //       },
+  //       ...(service.domains ?? []),
+  //     ],
+  //   });
+  // };
 
-  const removeSubdomain = async (host: string) => {
-    // We don't use cleanDomains because we want to keep the default subdomain
-    const remained = (service.domains ?? []).filter((d) => d.host !== host);
+  // const removeSubdomain = async (host: string) => {
+  //   // We don't use cleanDomains because we want to keep the default subdomain
+  //   const remained = (service.domains ?? []).filter((d) => d.host !== host);
 
-    await updateDomains({
-      id: data.id,
-      domains: remained,
-    });
-  };
+  //   await updateDomains({
+  //     id: data.id,
+  //     domains: remained,
+  //   });
+  // };
 
   return (
     <>
@@ -129,7 +120,7 @@ export const CustomDomainForm = ({ data, service }: CustomDomainFormProps) => {
                   variant="outline"
                   colorScheme="purple"
                   leftIcon={<YellowFlashIcon />}
-                  onClick={generateSubdomain}
+                  // onClick={generateSubdomain}
                 >
                   Generate subdomain
                 </Button>
@@ -148,7 +139,7 @@ export const CustomDomainForm = ({ data, service }: CustomDomainFormProps) => {
                       colorScheme="red"
                       variant="outline"
                       icon={<DeleteIcon />}
-                      onClick={() => removeSubdomain(d.host)}
+                      // onClick={() => removeSubdomain(d.host)}
                     />
                   </Flex>
                 ))}

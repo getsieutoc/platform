@@ -1,7 +1,4 @@
-import { getEasyPanelProject } from '@/lib/actions/easypanel';
-import { getSession } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
-
+import { getProject } from '@/lib/actions/project';
 import { Stack } from '@/components/chakra';
 
 import {
@@ -18,21 +15,11 @@ export type SingleProjectPageProps = {
 };
 
 export default async function SingleProjectPage({ params }: SingleProjectPageProps) {
-  const { session, isAdmin } = await getSession();
+  const project = await getProject(params.id);
 
-  const projectRes = await getEasyPanelProject({ projectName: params.id });
-  const nextjsService = projectRes.result.data.json.services.find(
-    // @ts-expect-error service.name is wrong typed
-    (o) => o.name === 'nextjs'
-  );
-
-  const project = await prisma.project.findUnique({
-    include: { users: true },
-    where: {
-      id: params.id,
-      users: isAdmin ? {} : { some: { id: session.user.id } },
-    },
-  });
+  if (!project) {
+    return null;
+  }
 
   return (
     <Stack width="100%" spacing={6}>
@@ -40,9 +27,7 @@ export default async function SingleProjectPage({ params }: SingleProjectPagePro
 
       {project && <GeneralSettingsForm data={project} />}
 
-      {project && nextjsService && (
-        <CustomDomainForm data={project} service={nextjsService} />
-      )}
+      {project && <CustomDomainForm data={project} />}
 
       {project && <DeleteForm data={project} />}
     </Stack>

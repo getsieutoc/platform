@@ -13,7 +13,7 @@ export default async function SingleProjectLayout({
 }) {
   const data = await prisma.project.findUnique({
     where: { id: params.id },
-    include: { user: true },
+    include: { users: true },
   });
 
   if (!data) {

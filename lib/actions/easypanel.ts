@@ -1,36 +1,16 @@
 'use server';
 
-import {
-  easypanel as easypanelClient,
-  ProjectName,
-  ProjectQueryConf,
-  CreateService,
-} from 'easypanel-sdk';
-import { Project } from '@/types';
+import { easypanel } from '@/lib/easypanel';
 import { delayAsync } from '@/lib/utils';
 import { getSession } from '@/lib/auth';
 import { templates } from '@/templates';
 
-declare global {
-  // eslint-disable-next-line no-var, vars-on-top
-  var easypanel: ReturnType<typeof easypanelClient> | undefined; // declare needs var
-}
-
-const easypanel =
-  global.easypanel ??
-  easypanelClient({
-    endpoint: process.env.EASYPANEL_URL ?? '',
-    token: process.env.EASYPANEL_API_KEY ?? '',
-  });
-
-if (process.env.NODE_ENV === 'development') {
-  global.easypanel = easypanel;
-}
+import { Project, Service } from '@/types';
 
 export const createEasyPanelProject = async (project: Project) => {
   const { session } = await getSession();
 
-  if (!session?.user.id) {
+  if (!session) {
     throw new Error('Unauthorized');
   }
 
@@ -44,23 +24,23 @@ export const createEasyPanelProject = async (project: Project) => {
     const { services } = template.generate({ projectName: project.id });
 
     const requests = services.map(({ type, data }) => [
-      easypanel.services.create(type, data),
+      easypanel.services.create({
+        type,
+        projectName: project.id,
+        ...data,
+      }),
       delayAsync(500),
     ]);
 
     await Promise.all(requests.flat());
   }
 
-  // do the deploy later, it takes too long
-  // const deployed = await easypanel.services.deploy('app', {
-  //   projectName: project.id,
-  //   serviceName: 'nextjs',
-  // });
+  // TODO: make the deploy later, it takes too long
 
   return response;
 };
 
-export const getEasyPanelProject = async ({ projectName }: ProjectQueryConf) => {
+export const getEasyPanelProject = async ({ projectName }: { projectName: string }) => {
   const { session } = await getSession();
 
   if (!session) {
@@ -72,33 +52,33 @@ export const getEasyPanelProject = async ({ projectName }: ProjectQueryConf) => 
   return response;
 };
 
-export const deleteEasyPanelProject = async ({ name }: ProjectName) => {
+export const deleteEasyPanelProject = async ({ name }: { name: string }) => {
   const { session } = await getSession();
 
-  if (!session?.user.id) {
+  if (!session) {
     throw new Error('Unauthorized');
   }
 
   const foundProject = await easypanel.projects.inspect({ projectName: name });
 
   // We have to delete all services inside before deleting the project
-  const destroyRequests = foundProject.result.data.json.services.map((service) => {
-    return easypanel.services.destroy(service.type, {
-      projectName: service.projectName,
-      // @ts-expect-error the sdk use wrong type
+  const destroyRequests = foundProject.services.map((service) => {
+    return easypanel.services.destroy({
+      ...service,
       serviceName: service.name,
     });
   });
 
   await Promise.all(destroyRequests);
 
-  const response = await easypanel.projects.destory({ name });
+  const response = await easypanel.projects.destroy({ name });
 
   return response;
 };
 
+// TODO: replace with your app
 export const updateDomains = async (
-  input: Pick<CreateService, 'domains'> & Pick<Project, 'id'>
+  input: Pick<Service, 'domains'> & Pick<Project, 'id'>
 ) => {
   const { session } = await getSession();
 
@@ -106,10 +86,11 @@ export const updateDomains = async (
     throw new Error('Unauthorized');
   }
 
-  const response = await easypanel.services.updateDomains('app', {
+  const response = await easypanel.services.updateDomains({
+    domains: input.domains,
     projectName: input.id,
     serviceName: 'nextjs',
-    domains: input.domains,
+    type: 'app',
   });
 
   return response;
