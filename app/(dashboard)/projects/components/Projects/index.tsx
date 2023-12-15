@@ -3,12 +3,11 @@ import { NextImage } from '@/components/client';
 import { parseQuery } from '@/lib/utils';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { UserRole } from '@/types';
 
 import { ProjectCard } from './ProjectCard';
 
 export const Projects = async ({ limit }: { limit?: number }) => {
-  const { session } = await getSession();
+  const { session, isAdmin } = await getSession();
 
   if (!session) {
     return null;
@@ -16,7 +15,7 @@ export const Projects = async ({ limit }: { limit?: number }) => {
 
   const projects = await prisma.project.findMany({
     take: parseQuery(limit),
-    where: session.user.role === UserRole.ADMIN ? {} : { user: { id: session.user.id } },
+    where: isAdmin ? {} : { users: { some: { id: session.user.id } } },
     orderBy: { createdAt: 'asc' },
   });
 

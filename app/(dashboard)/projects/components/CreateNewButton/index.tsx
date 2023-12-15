@@ -135,6 +135,7 @@ export const CreateNewButton = ({ isDisabled }: CreateNewButtonProps) => {
         finalFocusRef={finalRef}
         isOpen={isOpen}
         onClose={onClose}
+        size="xl"
       >
         <ModalOverlay />
         <ModalContent>

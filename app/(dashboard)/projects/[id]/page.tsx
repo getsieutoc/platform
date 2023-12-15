@@ -1,10 +1,8 @@
-import { getProject } from '@/lib/actions/easypanel';
-import { redirect } from 'next/navigation';
+import { getEasyPanelProject } from '@/lib/actions/easypanel';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 import { Stack } from '@/components/chakra';
-import { UserRole } from '@prisma/client';
 
 import {
   CustomDomainForm,
@@ -20,27 +18,21 @@ export type SingleProjectPageProps = {
 };
 
 export default async function SingleProjectPage({ params }: SingleProjectPageProps) {
-  const { session } = await getSession();
+  const { session, isAdmin } = await getSession();
 
-  if (!session) {
-    return null;
-  }
-
-  const id = decodeURIComponent(params.id);
-
-  const projectRes = await getProject({ projectName: id });
+  const projectRes = await getEasyPanelProject({ projectName: params.id });
   const nextjsService = projectRes.result.data.json.services.find(
     // @ts-expect-error service.name is wrong typed
     (o) => o.name === 'nextjs'
   );
 
   const project = await prisma.project.findUnique({
-    where: { id },
+    include: { users: true },
+    where: {
+      id: params.id,
+      users: isAdmin ? {} : { some: { id: session.user.id } },
+    },
   });
-
-  if (session.user.role !== UserRole.ADMIN && project?.userId !== session.user.id) {
-    redirect('/projects');
-  }
 
   return (
     <Stack width="100%" spacing={6}>

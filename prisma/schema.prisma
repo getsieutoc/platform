@@ -81,9 +81,6 @@ model Project {
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
   environmentVariables Json     @default("{\"preview\":{},\"production\":{}}")
-  userId               String?
-  user                 User?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   template             String?
-
-  @@index([userId])
+  users                User[]
 }

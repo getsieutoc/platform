@@ -13,7 +13,7 @@ export default async function ProjectsPageView() {
   const isAdmin = session?.user?.role === UserRole.ADMIN;
 
   const projectsNum = await prisma.project.count({
-    where: isAdmin ? {} : { userId: session?.user.id },
+    where: isAdmin ? {} : { users: { some: { id: session?.user.id } } },
   });
 
   const displayProjects = isAdmin ? projectsNum : `${projectsNum}/${MAX_PROJECTS}`;

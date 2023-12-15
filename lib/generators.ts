@@ -9,23 +9,14 @@ type Options = {
   length?: number;
   hasNumber?: boolean;
   hasSpecial?: boolean;
-  exclude?: 'lower' | 'upper';
 };
 
 export const generatePassword = (options?: Options) => {
   let chars = lowerCase + upperCase;
 
-  const { length = 48, hasNumber = true, hasSpecial = true, exclude } = options ?? {};
+  const { length = 48, hasNumber = true, hasSpecial = true } = options ?? {};
 
   const bytes = randomBytes(length);
-
-  if (exclude === 'lower') {
-    chars = lowerCase;
-  }
-
-  if (exclude === 'upper') {
-    chars = upperCase;
-  }
 
   if (hasNumber) {
     chars += integers;

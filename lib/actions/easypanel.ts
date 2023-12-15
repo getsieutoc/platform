@@ -60,7 +60,7 @@ export const createEasyPanelProject = async (project: Project) => {
   return response;
 };
 
-export const getProject = async ({ projectName }: ProjectQueryConf) => {
+export const getEasyPanelProject = async ({ projectName }: ProjectQueryConf) => {
   const { session } = await getSession();
 
   if (!session) {

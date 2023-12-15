@@ -93,7 +93,7 @@ export const generate = ({ projectName }: Input) => {
   });
 
   services.push({
-    // @ts-ignore
+    // @ts-expect-error wrong type
     type: 'postgres',
     data: {
       image: 'postgres:16',
