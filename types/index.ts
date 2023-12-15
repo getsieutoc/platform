@@ -28,6 +28,21 @@ export enum HttpMethod {
   TRACE = 'TRACE',
 }
 
+// For Listmonk
+export type SubscribeResponse = {
+  data: {
+    id: number;
+    created_at: string;
+    updated_at: string;
+    uuid: string;
+    email: string;
+    name: string;
+    attribs: Record<string, unknown>;
+    status: 'enabled' | 'disabled' | 'blocklisted';
+    lists: number[];
+  };
+};
+
 export type JsonObject = Prisma.JsonObject;
 
 export type ReposResponse = Endpoints['GET /repos/{owner}/{repo}']['response'];

@@ -80,9 +80,6 @@ dependencies:
   deepmerge:
     specifier: 4.3.1
     version: 4.3.1
-  easypanel-sdk:
-    specifier: 0.3.1
-    version: 0.3.1
   easypanel.js:
     specifier: 1.1.6
     version: 1.1.6
@@ -4272,11 +4269,6 @@ packages:
 
   /eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
-
-  /easypanel-sdk@0.3.1:
-    resolution: {integrity: sha512-5IasaIkkk8dePyFNFC7H8uqzB2nbRXksdrDkuQvfdjhAFLrD2cZ15n/cEngJ5a7KKExWzOrbEHnfqGD7MF11CA==}
-    engines: {node: '>=20'}
-    dev: false
 
   /easypanel.js@1.1.6:
     resolution: {integrity: sha512-TTgTjAFChd/2RA9xcs2RaMQSEo4nVOuZx002EbMylJSDi8PJ3dUxddbmv8kBVX2UXHNLplWqr/LKLPzC+Gf9lg==}

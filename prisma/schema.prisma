@@ -16,6 +16,12 @@ enum UserRole {
   USER
 }
 
+enum Plan {
+  HOBBY
+  PRO
+  ENTERPRISE
+}
+
 model User {
   id            String    @id @default(uuid())
   name          String?
@@ -82,5 +88,6 @@ model Project {
   updatedAt            DateTime @updatedAt
   environmentVariables Json     @default("{\"preview\":{},\"production\":{}}")
   template             String?
+  plan                 Plan     @default(HOBBY)
   users                User[]
 }
