@@ -1,15 +1,15 @@
 'use client';
 
 import {
-  useAuth,
-  useColorModeValue,
-  useMemo,
-  useParams,
   useSelectedLayoutSegments,
+  useColorModeValue,
+  useParams,
+  useAuth,
+  useMemo,
 } from '@/hooks';
 import { ArrowBackIcon, DashboardIcon, GlobeIcon, UsersIcon } from '@/icons';
+import { Box, Button, Flex, Stack, Skeleton } from '@/components/chakra';
 import { ColorModeSwitcher, NextLink, Logo } from '@/components/client';
-import { Box, Button, Flex, Stack } from '@/components/chakra';
 import { ReactNode, UserRole } from '@/types';
 
 export type NavbarProps = {
@@ -76,23 +76,23 @@ export const Sidebar = ({ children }: NavbarProps) => {
 
   return (
     <Flex
-      direction="column"
       width={{ sm: '240px', lg: '420px' }}
-      height="100vh"
-      justify="space-between"
       background={backgroundColor}
+      justify="space-between"
+      direction="column"
+      height="100vh"
       padding={4}
     >
       <Box>
         <Flex direction="row" justify="space-between" align="end">
-          <Logo width={90} height={27} href="/projects" />
+          <Logo size="sm" href="/projects" />
 
           <ColorModeSwitcher size="sm" />
         </Flex>
 
-        {session && (
-          <Stack marginTop={6} spacing={1}>
-            {tabs
+        <Stack marginTop={6} spacing={1}>
+          {session ? (
+            tabs
               .filter(({ visible }) => visible[session?.user.role])
               .map(({ name, href, icon, isActive }) => (
                 <Button
@@ -100,16 +100,21 @@ export const Sidebar = ({ children }: NavbarProps) => {
                   colorScheme={isActive ? 'brand' : 'gray'}
                   variant={isActive ? 'outline' : 'ghost'}
                   justifyContent="start"
-                  width="100%"
                   leftIcon={icon}
                   as={NextLink}
+                  width="100%"
                   href={href}
                 >
                   {name}
                 </Button>
-              ))}
-          </Stack>
-        )}
+              ))
+          ) : (
+            <>
+              <Skeleton h="40px" />
+              <Skeleton h="40px" />
+            </>
+          )}
+        </Stack>
       </Box>
 
       <Box>{children}</Box>

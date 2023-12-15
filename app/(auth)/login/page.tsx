@@ -29,7 +29,7 @@ export default async function LoginPage() {
       align="center"
       justify="center"
     >
-      <Logo width={256} height={74} href="/" />
+      <Logo href="/" />
 
       <Heading as="h1" size="lg">
         Login

@@ -114,7 +114,7 @@ export const Footer = () => {
           ))}
         </SimpleGrid>
 
-        <Logo width={128} height={37} />
+        <Logo />
       </Container>
     </Flex>
   );

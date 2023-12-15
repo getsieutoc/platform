@@ -1,30 +1,40 @@
 'use client';
 
-import { NextLink, NextImage, NextImageProps } from '@/components/client';
-import { useColorModeValue } from '@/hooks';
+import { NextLink, NextImage } from '@/components/client';
+import { Box, BoxProps } from '@/components/chakra';
+import { useColorMode } from '@/hooks';
 import { forwardRef } from 'react';
 
-export type LogoProps = Pick<NextImageProps, 'width' | 'height'> & {
+export type LogoProps = BoxProps & {
   href?: string;
   revert?: boolean;
+  size?: 'md' | 'sm';
+};
+
+const calculateSize = (size: LogoProps['size']) => {
+  const width = 56;
+  const height = 20;
+
+  if (size === 'sm') return { width: width / 2, height: height / 2 };
+  return { width, height };
 };
 
 export const Logo = forwardRef<HTMLAnchorElement, LogoProps>(
-  ({ href = '/', revert, ...rest }, ref) => {
-    const lightPath = revert ? '/dark.png' : '/light.png';
-    const darkPath = revert ? '/light.png' : '/dark.png';
-    const logoPath = useColorModeValue(lightPath, darkPath);
+  ({ href = '/', size = 'md', ...rest }, ref) => {
+    const { colorMode } = useColorMode();
 
     return (
-      <NextLink ref={ref} href={href}>
-        <NextImage
-          priority
-          src={logoPath}
-          alt="Sieutoc Logo"
-          placeholder="empty"
-          {...rest}
-        />
-      </NextLink>
+      <Box {...rest}>
+        <NextLink ref={ref} href={href}>
+          <NextImage
+            src={`/${colorMode}.svg`}
+            {...calculateSize(size)}
+            placeholder="empty"
+            alt="Sieutoc Logo"
+            priority
+          />
+        </NextLink>
+      </Box>
     );
   }
 );

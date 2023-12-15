@@ -28,7 +28,7 @@ export const Navbar = () => {
         }}
       >
         <Flex align="center" gap={16}>
-          <Logo width={90} height={27} />
+          <Logo size="sm" href="/" />
 
           <ButtonGroup
             as={Stack}
