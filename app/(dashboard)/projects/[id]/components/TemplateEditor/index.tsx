@@ -47,16 +47,12 @@ export const ProjectTemplateEditor = ({ data }: TemplateEditorProps) => {
   const hasChanged = inputValue !== (data.template ?? '');
 
   const handleSave = async () => {
-    try {
-      if (!data || !inputValue) return;
+    if (!data || !inputValue) return;
 
-      setIsLoading(true);
+    setIsLoading(true);
 
-      await updateProject(data.id, { template: inputValue });
-    } catch (error) {
-    } finally {
-      setIsLoading(false);
-    }
+    await updateProject(data.id, { template: inputValue });
+    setIsLoading(false);
   };
 
   return (

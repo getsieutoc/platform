@@ -3,12 +3,12 @@
 import {
   FormControl,
   FormLabel,
+  InputProps,
   Input,
   InputGroup,
   InputLeftAddon,
   InputRightAddon,
   Text,
-  type InputProps,
 } from '@/components/chakra';
 
 export type SubdomainInputProps = Partial<InputProps> & {
@@ -21,7 +21,6 @@ export const SubdomainInput = ({
   label = 'Subdomain',
   value,
   onChange,
-  isOK = false,
   ...rest
 }: SubdomainInputProps) => {
   return (

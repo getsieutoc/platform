@@ -16,7 +16,7 @@ type ColumnDefinition = {
 };
 
 export type SimpleTableProps = {
-  data: Record<string, any>[];
+  data: Record<string, string | number>[];
   columns: ColumnDefinition[];
   tableProps?: Partial<TableProps>;
 };

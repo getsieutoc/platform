@@ -32,13 +32,10 @@ import {
   useState,
   useToast,
 } from '@/hooks';
-import { addCollaborator, createRepo } from '@/lib/actions/github';
 import { createEasyPanelProject } from '@/lib/actions/easypanel';
 import { createProject } from '@/lib/actions/project';
 import { AddIcon, EditIcon } from '@/icons';
-import { UserRole } from '@prisma/client';
 import { templates } from '@/templates';
-import { isEqual } from '@/lib/utils';
 
 const initialValues = {
   name: '',
@@ -53,15 +50,21 @@ export type CreateNewButtonProps = {
 
 export const CreateNewButton = ({ isDisabled }: CreateNewButtonProps) => {
   const { session } = useAuth();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { addToast, updateToast } = useToast();
+
   const initialRef = useRef(null);
+
   const finalRef = useRef(null);
-  const toast = useToast();
+
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const [data, setData] = useState(initialValues);
+
   const [slugEditing, setSlugEditing] = useState(false);
 
   const isValid = !!data.template && !!data.name && !!data.slug;
@@ -86,40 +89,31 @@ export const CreateNewButton = ({ isDisabled }: CreateNewButtonProps) => {
   const handleSubmit = async () => {
     try {
       if (!session || !session.user) {
-        toast({ title: 'Authentication issue', status: 'error' });
+        addToast({ title: 'Authentication issue', status: 'error' });
 
         return;
       }
 
       setIsLoading(true);
 
+      addToast({ title: 'Creating your project...' });
+
       const newProject = await createProject(data);
 
       if (newProject) {
-        toast({ title: 'Creating your project...' });
-
-        if (data.template === 'taijutsu') {
-          await createRepo(newProject);
-          toast({ title: '...GitHub repo is cloned successfully' });
-
-          if (session.user.role !== UserRole.ADMIN) {
-            toast({ title: '...adding you as collaborator' });
-            await addCollaborator(newProject.id, session.user.username);
-          }
-        }
-
-        toast({ title: '...creating services on EasyPanel' });
+        updateToast({ title: '...creating services on EasyPanel' });
         await createEasyPanelProject(newProject);
 
-        toast({ title: 'Done!' });
+        updateToast({ title: 'Done!' });
 
         onClose();
 
         router.refresh();
         router.push(`/projects/${newProject.id}`);
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast({ status: 'error', title: error.message });
+      addToast({ status: 'error', title: error.message });
     }
   };
 

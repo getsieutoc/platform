@@ -35,6 +35,7 @@ const defaultComponents: TableComponents = {
     </TableContainer>
   ),
   TableRow: ({ context, ...rest }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const cursor = (context as any).clickable ? 'pointer' : 'default';
     const background = useColorModeValue('gray.50', 'whiteAlpha.50');
     return <Tr _hover={{ cursor, background }} {...rest} />;

@@ -1,4 +1,3 @@
-import { checkRepoExisting } from '@/lib/actions/github';
 import { getProject } from '@/lib/actions/easypanel';
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth';
@@ -29,8 +28,6 @@ export default async function SingleProjectPage({ params }: SingleProjectPagePro
 
   const id = decodeURIComponent(params.id);
 
-  const repo = await checkRepoExisting(id);
-
   const projectRes = await getProject({ projectName: id });
   const nextjsService = projectRes.result.data.json.services.find(
     // @ts-expect-error service.name is wrong typed
@@ -47,7 +44,7 @@ export default async function SingleProjectPage({ params }: SingleProjectPagePro
 
   return (
     <Stack width="100%" spacing={6}>
-      {project && <QuickLinks repo={repo} data={project} />}
+      {project && <QuickLinks data={project} />}
 
       {project && <GeneralSettingsForm data={project} />}
 

@@ -55,20 +55,17 @@ export const GeneralSettingsForm = ({ data }: GeneralSettingsFormProps) => {
   );
 
   const handleSave = async () => {
-    try {
-      if (!id) return;
+    if (!id) return;
 
-      setIsLoading(true);
+    setIsLoading(true);
 
-      const res = await updateProject(id, formValues);
+    const res = await updateProject(id, formValues);
 
-      if (res) {
-        update();
-      }
-    } catch (error) {
-    } finally {
-      setIsLoading(false);
+    if (res) {
+      update();
     }
+
+    setIsLoading(false);
   };
 
   const hasChanged = !isEqual(formValues, initialData);

@@ -1,5 +1,6 @@
 'use client';
 
+import { updateDomains } from '@/lib/actions/easypanel';
 import { useColorModeValue, useState } from '@/hooks';
 import { updateProject } from '@/lib/actions/project';
 import { validDomainRegex } from '@/lib/domains';
@@ -32,7 +33,6 @@ import {
   SmallAddIcon,
 } from '@/icons';
 import { Service, Project } from '@/types';
-import { updateDomains } from '@/lib/actions/easypanel';
 import { Copyable } from '@/components/client';
 
 type CustomDomainFormProps = {
@@ -62,34 +62,31 @@ export const CustomDomainForm = ({ data, service }: CustomDomainFormProps) => {
   const footerBorder = useColorModeValue('gray.200', 'gray.600');
 
   const handleSave = async () => {
-    try {
-      if (!validChanged) return;
+    if (!validChanged) return;
 
-      setIsLoading(true);
+    setIsLoading(true);
 
-      const finalDomains =
-        customDomain === ''
-          ? (service.domains ?? []).filter((d) => d.host !== data.customDomain)
-          : [
-              {
-                host: customDomain,
-                https: true,
-                path: '/',
-                port: 80,
-              },
-              ...(service.domains ?? []),
-            ];
+    const finalDomains =
+      customDomain === ''
+        ? (service.domains ?? []).filter((d) => d.host !== data.customDomain)
+        : [
+            {
+              host: customDomain,
+              https: true,
+              path: '/',
+              port: 80,
+            },
+            ...(service.domains ?? []),
+          ];
 
-      await updateProject(data.id, { customDomain });
+    await updateProject(data.id, { customDomain });
 
-      await updateDomains({
-        id: data.id,
-        domains: finalDomains,
-      });
-    } catch (error) {
-    } finally {
-      setIsLoading(false);
-    }
+    await updateDomains({
+      id: data.id,
+      domains: finalDomains,
+    });
+
+    setIsLoading(false);
   };
 
   const generateSubdomain = async () => {

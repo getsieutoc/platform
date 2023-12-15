@@ -85,6 +85,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     signIn: async ({ profile, account, email }) => {
       if (profile && account && account.provider === 'github') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const orgs = await fetcher<Organization[]>((profile as any).organizations_url);
 
         if (process.env.GITHUB_ORG) {

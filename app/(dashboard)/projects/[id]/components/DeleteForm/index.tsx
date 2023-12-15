@@ -32,7 +32,6 @@ import {
 } from '@/hooks';
 import { DeleteIcon } from '@/icons';
 import { deleteEasyPanelProject } from '@/lib/actions/easypanel';
-import { deleteRepo } from '@/lib/actions/github';
 import { deleteProject } from '@/lib/actions/project';
 import type { Project } from '@/types';
 
@@ -43,7 +42,7 @@ export type DeleteFormProps = {
 export const DeleteForm = ({ data }: DeleteFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const toast = useToast();
+  const { toast } = useToast();
   const cancelRef = useRef(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -70,7 +69,6 @@ export const DeleteForm = ({ data }: DeleteFormProps) => {
 
       toast({ title: 'Start deleting...' });
 
-      await deleteRepo(id);
       toast({ title: 'Deleted GitHub repo...' });
 
       await deleteEasyPanelProject({ name: id });
@@ -86,6 +84,7 @@ export const DeleteForm = ({ data }: DeleteFormProps) => {
       if (deletedProject) {
         router.push('/projects');
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast({ status: 'error', title: `Error: ${error.message}` });
     }

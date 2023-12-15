@@ -3,7 +3,6 @@ export {
   useColorMode,
   useColorModeValue,
   useDisclosure,
-  useToast,
 } from '@/components/chakra';
 export {
   useRouter,
@@ -20,5 +19,6 @@ export { useSession } from 'next-auth/react';
 export { useKeyPressEvent } from 'react-use';
 export { default as useSWR } from 'swr';
 
-export * from './use-auth';
 export * from './use-window-size';
+export * from './use-toast';
+export * from './use-auth';

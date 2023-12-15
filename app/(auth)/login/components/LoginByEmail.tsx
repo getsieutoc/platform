@@ -25,7 +25,7 @@ export type LoginByEmailProps = {
 };
 
 export const LoginByEmail = ({ isRequested }: LoginByEmailProps) => {
-  const toast = useToast();
+  const { toast } = useToast();
 
   const [isFocused, setFocused] = useState(false);
   const [isLoading, setLoading] = useState(false);

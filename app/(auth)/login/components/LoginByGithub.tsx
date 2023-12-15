@@ -10,7 +10,7 @@ export type LoginByGithubProps = {
 };
 
 export const LoginByGithub = ({ org }: LoginByGithubProps) => {
-  const toast = useToast();
+  const { toast } = useToast();
   const [isLoading, setLoading] = useState(false);
 
   // Get error message added by next/auth in URL.

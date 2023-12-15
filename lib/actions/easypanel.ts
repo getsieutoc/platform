@@ -85,8 +85,8 @@ export const deleteEasyPanelProject = async ({ name }: ProjectName) => {
   const destroyRequests = foundProject.result.data.json.services.map((service) => {
     return easypanel.services.destroy(service.type, {
       projectName: service.projectName,
-      // @ts-expect-error
-      serviceName: service.name, // wrong type return in inspect service
+      // @ts-expect-error the sdk use wrong type
+      serviceName: service.name,
     });
   });
 

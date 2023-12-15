@@ -39,6 +39,7 @@ export const createProject = async (input: CreateProjectDto) => {
     });
 
     return response;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.code === 'P2002') {
       throw new Error('This subdomain is already taken', { cause: error });
@@ -97,6 +98,7 @@ export const deleteProject = async (project: Project) => {
     });
 
     return response;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return {
       error: error.message,
@@ -123,6 +125,7 @@ export const editUser = async (formData: FormData, _id: unknown, key: string) =>
       },
     });
     return response;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.code === 'P2002') {
       return {

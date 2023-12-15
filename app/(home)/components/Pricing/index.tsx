@@ -86,8 +86,6 @@ export const PricingBox = ({
   );
 };
 
-export type PricingSectionProps = {};
-
 export const PricingSection = () => {
   const [isAnnually, setAnnually] = useState(true);
 
