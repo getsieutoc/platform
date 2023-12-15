@@ -35,10 +35,18 @@ const footerLinkColumns: { title: string; links: FooterLink[] }[] = [
   {
     title: 'Community',
     links: [
-      { label: 'Discord', url: '/', isExternal: true },
-      { label: 'Twitter', url: '/', isExternal: true },
-      { label: 'Facebook', url: '/', isExternal: true },
-      { label: 'GitHub', url: '/', isExternal: true },
+      { label: 'Discord', url: 'https://discord.gg/YFKjGjDgnb', isExternal: true },
+      { label: 'Twitter', url: 'https://twitter.com/SieutocWebsite', isExternal: true },
+      {
+        label: 'Facebook',
+        url: 'https://www.facebook.com/sieutoc.website',
+        isExternal: true,
+      },
+      {
+        label: 'GitHub',
+        url: 'https://github.com/websitesieutoc/platform',
+        isExternal: true,
+      },
     ],
   },
   {
@@ -103,9 +111,15 @@ export const Footer = () => {
               <UnorderedList minH={20} listStyleType="none" marginInline={0} spacing={2}>
                 {links.map(({ label, url, isExternal }) => (
                   <ListItem key={label}>
-                    <Button variant="link" size="sm" as={NextLink} href={url}>
+                    <Button
+                      variant="link"
+                      size="sm"
+                      as={NextLink}
+                      href={url}
+                      target={isExternal ? '_blank' : '_self'}
+                    >
                       {label}
-                    </Button>{' '}
+                    </Button>
                     {isExternal && <ExternalLinkIcon mx="2px" />}
                   </ListItem>
                 ))}
