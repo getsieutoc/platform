@@ -1,11 +1,9 @@
+<img alt="Sieutoc" src="https://github.com/websitesieutoc/platform/assets/1083478/85190f2c-a300-4f2d-bbb2-00cc632c80cf">
 
-  <img alt="Sieutoc" src="https://github.com/websitesieutoc/platform/assets/1083478/85190f2c-a300-4f2d-bbb2-00cc632c80cf">
-
-  <h1 align="center">Sieutoc Platform</h1>
-
+<h1 align="center">Sieutoc Platform</h1>
 
 <p align="center">
-Create modern apps easier
+    Create modern apps easier
 </p>
 
 <br/>
@@ -14,7 +12,7 @@ Create modern apps easier
 
 This template includes the following:
 
-- Next.js 13
+- Next.js 14
 - TypeScript
 - ESLint
 - Prettier
@@ -25,6 +23,7 @@ This template includes the following:
     - PostgresQL
     - Redis
     - Mailpit
+- And plenty of well-crafted components like HeroSection, Features, Pricings, SubscribeForm etc.
 
 ## Demo
 
@@ -61,13 +60,26 @@ cd your-project
 pnpm install
 ```
 
-#### Setup environment variables
+## Setup environment variables
 
 For the first time, you need some default environment variables:
 
 ```bash
 cp .env.example .env
 ```
+
+#### If you want to use magic link login
+
+Uncomment the `SMPT` section in `.env` file. By default we already set Mailpit for you.
+
+The mailbox can be reach at http://localhost:8025
+
+
+#### If you want to use GitHub login
+
+Uncomment the `GITHUB` section in .env file. Follow this [documentation](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app) to configure the authentication.
+
+#### Let's get started!
 
 Then, run the development server:
 
@@ -76,3 +88,21 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser and start developing.
+
+## Further instructions
+
+Currently we leave only EasyPanel helper actions along with its templates. This is heavy and repetitive task that's why we don't want to add all the templates from EasyPanel.
+
+The main idea of this platform is, you can use it to quickly start developing a product/service and serve your customers right away.
+
+It does not mean to replace the EasyPanel product.
+
+To use EasyPanel function, you need to obtain and set up the .env file:
+
+```bash
+EASYPANEL_URL=https://your-easypanel.url
+EASYPANEL_API_KEY=your-easypanel-apikey
+```
+
+NOTE: The actions by default will create new project for 1-1 match with our platform Project. The free version of EasyPanel only supports 3 projects!
+Make sure to upgrade your EasyPanel license.
