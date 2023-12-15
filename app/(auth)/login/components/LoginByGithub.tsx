@@ -33,7 +33,7 @@ export const LoginByGithub = ({ org }: LoginByGithubProps) => {
   };
 
   return (
-    <Stack gap={1} textAlign="center">
+    <Stack gap={1} textAlign="center" w="100%">
       <Button
         size="lg"
         colorScheme="brand"

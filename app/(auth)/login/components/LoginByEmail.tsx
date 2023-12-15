@@ -67,7 +67,7 @@ export const LoginByEmail = ({ isRequested }: LoginByEmailProps) => {
   });
 
   return (
-    <Stack gap={4}>
+    <Stack gap={4} w="100%">
       {isRequested && (
         <Alert status="success" variant="subtle" borderRadius="md" pb={4}>
           <AlertIcon boxSize="20px" />

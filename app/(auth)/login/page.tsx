@@ -21,7 +21,14 @@ export default async function LoginPage() {
   const isRequested = !!requestCookie && requestCookie.value === 'true';
 
   return (
-    <Stack gap={4} maxWidth="sm" marginX="auto" marginTop="10vh">
+    <Stack
+      gap={4}
+      maxWidth="sm"
+      marginX="auto"
+      marginTop="10vh"
+      align="center"
+      justify="center"
+    >
       <Logo width={256} height={74} href="/" />
 
       <Heading as="h1" size="lg">
