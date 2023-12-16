@@ -25,10 +25,11 @@ export const createEasyPanelProject = async (project: Project) => {
 
     const requests = services.map(({ type, data }) => [
       easypanel.services.create({
+        ...data,
         type,
         projectName: project.id,
-        ...data,
       }),
+
       delayAsync(500),
     ]);
 

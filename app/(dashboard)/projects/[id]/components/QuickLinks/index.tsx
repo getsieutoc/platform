@@ -13,17 +13,19 @@ import {
   Stack,
   Text,
 } from '@/components/chakra';
-import { UserRole, Project } from '@/types';
-import { ExternalLinkIcon } from '@/icons';
 import { useAuth, useColorModeValue } from '@/hooks';
+import { ExternalLinkIcon } from '@/icons';
+import { Project } from '@/types';
 
 export type QuickLinksProps = {
   data: Project;
+  baseUrl?: string;
+  easypanelUrl?: string;
 };
 
 // We will continue to work on this soon
-export const QuickLinks = ({ data }: QuickLinksProps) => {
-  const { session } = useAuth();
+export const QuickLinks = ({ data, easypanelUrl }: QuickLinksProps) => {
+  const { isAdmin } = useAuth();
 
   const footerBorder = useColorModeValue('gray.200', 'gray.600');
 
@@ -36,13 +38,13 @@ export const QuickLinks = ({ data }: QuickLinksProps) => {
         <CardBody>
           <Stack spacing={6} minW="240px">
             <Stack direction="row" spacing={3}>
-              {session?.user.role === UserRole.ADMIN && (
+              {isAdmin && easypanelUrl && (
                 <Button
                   rightIcon={<ExternalLinkIcon />}
                   colorScheme="green"
                   target="_blank"
                   as={Link}
-                  href={`https://panel.sieutoc.website/projects/${data.id}`}
+                  href={`${easypanelUrl}/projects/${data.id}`}
                   variant="outline"
                 >
                   Go to EasyPanel project
