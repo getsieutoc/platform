@@ -53,6 +53,8 @@ npx tiged websitesieutoc/platform your-project
 
 Optional: Search and replace `platform` with your project slug.
 
+Optional but highly recommended: Replace all the logo and favicon files in `/public` and meta data with your project resources.
+
 #### Install dependencies
 
 ```bash

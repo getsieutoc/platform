@@ -40,12 +40,12 @@ export const QuickLinks = ({ data, easypanelUrl }: QuickLinksProps) => {
             <Stack direction="row" spacing={3}>
               {isAdmin && easypanelUrl && (
                 <Button
+                  href={`${easypanelUrl}/projects/${data.id}`}
                   rightIcon={<ExternalLinkIcon />}
                   colorScheme="green"
+                  variant="outline"
                   target="_blank"
                   as={Link}
-                  href={`${easypanelUrl}/projects/${data.id}`}
-                  variant="outline"
                 >
                   Go to EasyPanel project
                 </Button>
@@ -53,12 +53,12 @@ export const QuickLinks = ({ data, easypanelUrl }: QuickLinksProps) => {
 
               {data.customDomain && (
                 <Button
-                  as={Link}
-                  target="_blank"
-                  variant="outline"
-                  colorScheme="blue"
-                  rightIcon={<ExternalLinkIcon />}
                   href={`https://${data.customDomain}`}
+                  rightIcon={<ExternalLinkIcon />}
+                  colorScheme="blue"
+                  variant="outline"
+                  target="_blank"
+                  as={Link}
                 >
                   Go to website
                 </Button>
