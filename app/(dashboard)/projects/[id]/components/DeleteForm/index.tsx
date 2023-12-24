@@ -30,7 +30,6 @@ import {
   useState,
   useToast,
 } from '@/hooks';
-import { deleteEasyPanelProject } from '@/lib/actions/easypanel';
 import { deleteProject } from '@/lib/actions/project';
 import { DeleteIcon } from '@/icons';
 import { Project } from '@/types';
@@ -58,11 +57,6 @@ export const DeleteForm = ({ data }: DeleteFormProps) => {
 
   const handleDelete = async () => {
     try {
-      // if (!session || !session.user) {
-      //   toast({ title: 'Authentication issue', status: 'error' });
-
-      //   return;
-      // }
       if (!data) return;
 
       setIsLoading(true);
@@ -70,10 +64,6 @@ export const DeleteForm = ({ data }: DeleteFormProps) => {
       addToast({ title: 'Start deleting...' });
 
       const deletedProject = await deleteProject(data);
-
-      updateToast({ title: '...deleting EasyPanel project too' });
-
-      await deleteEasyPanelProject({ name: data.id });
 
       updateToast({ title: 'Finally, deleted project!' });
 

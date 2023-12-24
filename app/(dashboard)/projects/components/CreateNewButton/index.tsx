@@ -18,7 +18,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
   Stack,
   Text,
   Textarea,
@@ -32,16 +31,14 @@ import {
   useState,
   useToast,
 } from '@/hooks';
-import { createEasyPanelProject } from '@/lib/actions/easypanel';
 import { createProject } from '@/lib/actions/project';
 import { AddIcon, EditIcon } from '@/icons';
-import { templates } from '@/templates';
 
 const initialValues = {
   name: '',
   slug: '',
   description: '',
-  template: templates[0].slug,
+  template: '',
 };
 
 export type CreateNewButtonProps = {
@@ -101,8 +98,6 @@ export const CreateNewButton = ({ isDisabled }: CreateNewButtonProps) => {
       const newProject = await createProject(data);
 
       if (newProject) {
-        await createEasyPanelProject(newProject);
-
         updateToast({ title: 'Done!' });
 
         router.refresh();
@@ -148,22 +143,6 @@ export const CreateNewButton = ({ isDisabled }: CreateNewButtonProps) => {
 
           <ModalBody pb={6}>
             <Stack spacing={3}>
-              {templates.length > 1 && (
-                <FormControl isDisabled={isLoading}>
-                  <FormLabel>Template</FormLabel>
-                  <Select
-                    placeholder="Generate from template"
-                    value={data.template}
-                    onChange={(e) => setData({ ...data, template: e.target.value })}
-                  >
-                    {templates.map(({ slug, title }) => (
-                      <option key={slug} value={slug}>
-                        {title}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
-              )}
               <FormControl isRequired isDisabled={isLoading}>
                 <FormLabel>Name</FormLabel>
                 <Input
