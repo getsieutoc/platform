@@ -64,7 +64,7 @@ export const CreateNewButton = ({ isDisabled }: CreateNewButtonProps) => {
 
   const [slugEditing, setSlugEditing] = useState(false);
 
-  const isValid = !!data.template && !!data.name && !!data.slug;
+  const isValid = !!data.name && !!data.slug;
 
   useDebounce(
     () => {
