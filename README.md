@@ -93,18 +93,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser and start 
 
 ## Further instructions
 
-Currently we leave only EasyPanel helper actions along with its templates. This is heavy and repetitive task that's why we don't want to add all the templates from EasyPanel.
+The idea of this starter is, you can use it to quickly start developing a product/service but still have lot of controls over how you craft the product.
 
-The main idea of this platform is, you can use it to quickly start developing a product/service and serve your customers right away.
+More detailed documentation will be published soon.
 
-It does not mean to replace the EasyPanel product.
+## Contributions
 
-To use EasyPanel function, you need to obtain and set up the .env file:
+If you find this starter template miss something important, feel free to open an issue and we can discuss more about it.
 
-```bash
-EASYPANEL_URL=https://your-easypanel.url
-EASYPANEL_API_KEY=your-easypanel-apikey
-```
-
-NOTE: The actions by default will create new project for 1-1 match with our platform Project. The free version of EasyPanel only supports 3 projects!
-Make sure to upgrade your EasyPanel license.
+PRs are always welcome. <3
