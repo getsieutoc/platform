@@ -3,10 +3,6 @@ import { Endpoints } from '@octokit/types';
 
 export type { ChangeEvent, ReactNode } from 'react';
 
-import type { Service, ServiceType, Project as EasyPanelProject } from 'easypanel.js';
-
-export type { Service, ServiceType, EasyPanelProject };
-
 export type * from './github';
 
 // Do not know why export * will make nextjs complain about
@@ -51,15 +47,4 @@ export type EnvironmentType = 'production' | 'preview';
 
 export type EnvironmentVariables = {
   [key in EnvironmentType]: Record<string, string | undefined>;
-};
-
-export type Input = {
-  projectName: string;
-};
-
-export type ServiceTemplate = {
-  type: ServiceType;
-  // TODO: try to reuse the types from @easypanel-io/templates
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any;
 };

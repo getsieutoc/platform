@@ -2,11 +2,13 @@ import { extendTheme, UseToastOptions } from '@/components/chakra';
 import { StyleFunctionProps } from '@chakra-ui/styled-system';
 import { mode } from '@chakra-ui/theme-tools';
 
-export const toastOptions: UseToastOptions = {
-  position: 'top',
-  duration: 2000,
-  status: 'success',
-  isClosable: true,
+export const toastOptions: { defaultOptions?: UseToastOptions } = {
+  defaultOptions: {
+    position: 'top-right',
+    duration: 3000,
+    status: 'success',
+    isClosable: true,
+  },
 };
 
 const getColorMode = () => {

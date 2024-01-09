@@ -1,0 +1,9 @@
+User-agent: *
+
+Disallow: 
+Disallow: /profile/
+Disallow: /projects/
+Disallow: /users/
+Disallow: /api/
+
+Sitemap: https://platform.sieutoc.website/sitemap.xml

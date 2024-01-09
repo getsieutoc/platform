@@ -1,15 +1,7 @@
 import { getProject } from '@/lib/actions/project';
 import { Stack } from '@/components/chakra';
 
-// in order to use this variable, this page need to be server component
-import { BASE_URL, EASYPANEL_URL } from '@/lib/constants';
-
-import {
-  CustomDomainForm,
-  DeleteForm,
-  GeneralSettingsForm,
-  QuickLinks,
-} from './components';
+import { CustomDomainForm, DeleteForm, GeneralSettingsForm } from './components';
 
 export type SingleProjectPageProps = {
   params: {
@@ -26,11 +18,7 @@ export default async function SingleProjectPage({ params }: SingleProjectPagePro
 
   return (
     <Stack width="100%" spacing={6}>
-      {project && (
-        <QuickLinks baseUrl={BASE_URL} easypanelUrl={EASYPANEL_URL} data={project} />
-      )}
-
-      {project && <GeneralSettingsForm data={project} />}
+      <GeneralSettingsForm />
 
       {project && <CustomDomainForm data={project} />}
 

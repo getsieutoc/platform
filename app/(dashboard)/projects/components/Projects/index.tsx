@@ -1,23 +1,18 @@
-import { Flex, Heading, Text, Wrap, WrapItem } from '@/components/chakra';
+'use client';
+
+import { Flex, Heading, Skeleton, Text, Wrap, WrapItem } from '@/components/chakra';
 import { NextImage } from '@/components/client';
-import { parseQuery } from '@/lib/utils';
-import { getSession } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import { Project } from '@/types';
+import { useSWR } from '@/hooks';
 
 import { ProjectCard } from './ProjectCard';
 
-export const Projects = async ({ limit }: { limit?: number }) => {
-  const { session, isAdmin } = await getSession();
+export const Projects = () => {
+  const { data: projects, isLoading } = useSWR<Project[]>('/api/projects');
 
-  if (!session) {
-    return null;
+  if (isLoading || !projects) {
+    return <Skeleton height={10} width="300px" />;
   }
-
-  const projects = await prisma.project.findMany({
-    take: parseQuery(limit),
-    where: isAdmin ? {} : { users: { some: { id: session.user.id } } },
-    orderBy: { createdAt: 'asc' },
-  });
 
   return projects.length > 0 ? (
     <Wrap spacing={6}>

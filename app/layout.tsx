@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { Providers } from './components';
 
 export const metadata: Metadata = {
-  title: 'Sieutoc',
+  title: 'Sieutoc Platform',
   description: 'Create modern apps in minutes',
 };
 

@@ -19,7 +19,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <SWRConfig value={swrConfigs}>
       <SessionProvider>
         <JotaiProvider>
-          <ChakraProvider theme={theme} toastOptions={{ defaultOptions: toastOptions }}>
+          <ChakraProvider theme={theme} toastOptions={toastOptions}>
             <ColorModeScript initialColorMode={theme.config.initialColorMode} />
             {children}
           </ChakraProvider>

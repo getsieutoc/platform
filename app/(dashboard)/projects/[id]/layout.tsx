@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
-import { Flex, Heading } from '@/components/chakra';
-import type { ReactNode } from 'react';
-
+import { Flex } from '@/components/chakra';
 import { prisma } from '@/lib/prisma';
+import { ReactNode } from '@/types';
+
+import { ProjectTitle } from './components';
 
 export default async function SingleProjectLayout({
   params,
@@ -21,12 +22,8 @@ export default async function SingleProjectLayout({
   }
 
   return (
-    <Flex width="100%" direction="column" gap={6}>
-      <Flex height="48px" align="center">
-        <Heading as="h1" size="lg">
-          {data.name}
-        </Heading>
-      </Flex>
+    <Flex width="100%" height="100%" direction="column" gap={6}>
+      <ProjectTitle />
 
       {children}
     </Flex>

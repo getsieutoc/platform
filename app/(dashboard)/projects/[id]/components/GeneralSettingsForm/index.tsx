@@ -1,6 +1,5 @@
 'use client';
 
-import slugify from 'slugify';
 import {
   Button,
   Card,
@@ -12,65 +11,81 @@ import {
   FormLabel,
   Heading,
   Input,
+  InputGroup,
+  InputRightElement,
+  Skeleton,
   Stack,
   Text,
   Textarea,
 } from '@/components/chakra';
-import { useAuth, useColorModeValue, useDebounce, useState } from '@/hooks';
+import {
+  useColorModeValue,
+  useEffect,
+  useMemo,
+  useParams,
+  useState,
+  useSWR,
+} from '@/hooks';
 import { updateProject } from '@/lib/actions/project';
-import { isEqual } from '@/lib/utils';
 import { RepeatIcon, SaveIcon } from '@/icons';
-import { Project } from '@/types';
+import { Plan, Project } from '@/types';
+import { isEqual } from '@/lib/utils';
 
-export type GeneralSettingsFormProps = {
-  data: Project;
+type GeneralFormValues = Pick<Project, 'name' | 'slug' | 'description'>;
+
+const initialValues: GeneralFormValues = {
+  name: '',
+  slug: '',
+  description: '',
 };
 
-export const GeneralSettingsForm = ({ data }: GeneralSettingsFormProps) => {
-  const { update } = useAuth();
+export const GeneralSettingsForm = () => {
+  const params = useParams<{ id: string }>();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const { data: project, mutate } = useSWR<Project>(`/api/projects/${params.id}`);
 
-  const initialData = {
-    name: data.name ?? '',
-    slug: data.slug ?? '',
-    description: data.description ?? '',
-  };
-
-  const [formValues, setFormValues] = useState(initialData);
-
-  const id = data.id ?? '';
-
-  useDebounce(
-    () => {
-      if (initialData.name !== formValues.name) {
-        setFormValues((prev) => ({
-          ...prev,
-          slug: slugify(prev.name).toLowerCase(),
-        }));
-      }
-    },
-    200,
-    [formValues.name]
+  const projectValues = useMemo(
+    () => ({
+      name: project?.name ?? '',
+      slug: project?.slug ?? '',
+      description: project?.description ?? '',
+    }),
+    [project]
   );
 
+  const [isSaving, setIsSaving] = useState(false);
+
+  const [formValues, setFormValues] = useState<GeneralFormValues>(initialValues);
+
+  useEffect(() => {
+    if (project && isEqual(formValues, initialValues)) {
+      const { name, slug, description } = projectValues;
+
+      setFormValues({ name, slug, description });
+    }
+  }, [project, formValues, projectValues]);
+
   const handleSave = async () => {
-    if (!id) return;
+    if (!project || !formValues) return;
 
-    setIsLoading(true);
+    setIsSaving(true);
 
-    const res = await updateProject(id, formValues);
+    const res = await updateProject(project.id, formValues);
 
     if (res) {
-      update();
+      mutate();
     }
 
-    setIsLoading(false);
+    setIsSaving(false);
   };
 
-  const hasChanged = !isEqual(formValues, initialData);
+  const hasChanged = !isEqual(formValues, projectValues);
 
   const borderColor = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
+
+  if (!project) {
+    return <Skeleton h="100px" />;
+  }
 
   return (
     <Card direction="column" width="100%">
@@ -79,34 +94,45 @@ export const GeneralSettingsForm = ({ data }: GeneralSettingsFormProps) => {
       </CardHeader>
       <CardBody pt="0" borderBottomColor={borderColor} borderBottomWidth="1px">
         <Stack spacing={6} maxW="480px" minW="240px">
-          <FormControl isDisabled={isLoading}>
+          <FormControl isDisabled={isSaving}>
             <FormLabel>Name</FormLabel>
             <Input
               placeholder="Project name"
-              value={formValues.name ?? ''}
+              value={formValues?.name ?? ''}
               onChange={(event) =>
                 setFormValues(() => ({ ...formValues, name: event.target.value }))
               }
             />
           </FormControl>
 
-          <FormControl isDisabled={isLoading}>
+          <FormControl isDisabled={isSaving}>
             <FormLabel>Slug</FormLabel>
-            <Input
-              placeholder="Slug"
-              value={formValues.slug ?? ''}
-              onChange={(event) =>
-                setFormValues(() => ({ ...formValues, slug: event.target.value }))
-              }
-            />
+            <InputGroup>
+              <Input
+                pr="8rem"
+                placeholder="Slug"
+                isDisabled={project.plan === Plan.HOBBY}
+                value={formValues?.slug ?? ''}
+                onChange={(event) =>
+                  setFormValues(() => ({ ...formValues, slug: event.target.value }))
+                }
+              />
+              {project.plan === Plan.HOBBY && (
+                <InputRightElement width="7.5rem" pr="0.35rem">
+                  <Button isDisabled h="1.75rem" size="sm">
+                    Edit (Soon)
+                  </Button>
+                </InputRightElement>
+              )}
+            </InputGroup>
           </FormControl>
 
-          <FormControl isDisabled={isLoading}>
+          <FormControl isDisabled={isSaving}>
             <FormLabel>Description</FormLabel>
             <Textarea
               placeholder="Project description"
               rows={3}
-              value={formValues.description ?? ''}
+              value={formValues?.description ?? ''}
               onChange={(event) =>
                 setFormValues(() => ({ ...formValues, description: event.target.value }))
               }
@@ -126,17 +152,18 @@ export const GeneralSettingsForm = ({ data }: GeneralSettingsFormProps) => {
               <Button
                 aria-label="Reset"
                 leftIcon={<RepeatIcon />}
-                onClick={() => setFormValues(initialData)}
+                onClick={() => setFormValues(initialValues)}
               >
                 Reset
               </Button>
             )}
             <Button
-              colorScheme={hasChanged ? 'green' : 'gray'}
-              isDisabled={!hasChanged || isLoading}
-              isLoading={isLoading}
+              isDisabled={!hasChanged || isSaving}
               leftIcon={<SaveIcon />}
+              isLoading={isSaving}
               onClick={handleSave}
+              colorScheme="brand"
+              loadingText="Save"
             >
               Save
             </Button>

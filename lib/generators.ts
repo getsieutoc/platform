@@ -1,3 +1,4 @@
+import { customAlphabet } from 'nanoid';
 import { randomBytes } from 'crypto';
 
 const lowerCase = 'abcdefghijklmnopqrstuvwxyz';
@@ -38,3 +39,5 @@ export const generatePassword = (options?: Options) => {
 export const randomNumber = (max: number) => {
   return Math.floor(Math.random() * max);
 };
+
+export const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 30);
