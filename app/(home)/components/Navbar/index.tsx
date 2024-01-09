@@ -1,17 +1,13 @@
 'use client';
 
-import {
-  Button,
-  ButtonGroup,
-  Container,
-  Flex,
-  Stack,
-  useColorModeValue,
-} from '@/components/chakra';
+import { Button, ButtonGroup, Container, Flex, Stack } from '@/components/chakra';
 import { NextLink, Logo, ColorModeSwitcher } from '@/components/client';
+import { useColorModeValue, useAuth } from '@/hooks';
 
 export const Navbar = () => {
   const backgroundColor = useColorModeValue('white', 'black');
+
+  const { session } = useAuth();
 
   return (
     <Flex as="header" bg={backgroundColor}>
@@ -64,12 +60,20 @@ export const Navbar = () => {
             size="sm"
             _hover={{ textDecoration: 'none' }}
           >
-            <Button as={NextLink} href="/login">
-              Login
-            </Button>
-            <Button as={NextLink} variant="solid" colorScheme="brand" href="/login">
-              Get Started
-            </Button>
+            {session ? (
+              <Button as={NextLink} variant="solid" colorScheme="brand" href="/projects">
+                Dashboard
+              </Button>
+            ) : (
+              <>
+                <Button as={NextLink} href="/login">
+                  Login
+                </Button>
+                <Button as={NextLink} variant="solid" colorScheme="brand" href="/login">
+                  Get Started
+                </Button>
+              </>
+            )}
           </ButtonGroup>
         </Flex>
       </Container>

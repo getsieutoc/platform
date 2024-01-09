@@ -1,5 +1,5 @@
 import { Divider, Heading, Stack } from '@/components/chakra';
-import { Logo } from '@/components/client';
+import { ColorModeSwitcher, Logo } from '@/components/client';
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth';
 import { cookies } from 'next/headers';
@@ -48,6 +48,8 @@ export default async function LoginPage() {
           <LoginByGithub org={process.env.GITHUB_ORG} />
         </>
       )}
+
+      <ColorModeSwitcher />
     </Stack>
   );
 }

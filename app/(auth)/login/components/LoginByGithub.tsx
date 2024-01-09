@@ -17,19 +17,28 @@ export const LoginByGithub = ({ org }: LoginByGithubProps) => {
   const searchParams = useSearchParams();
   const error = searchParams?.get('error');
 
+  const callbackUrl = searchParams.get('callbackUrl') ?? '/projects';
+
   useEffect(() => {
     const errorMessage = Array.isArray(error) ? error.pop() : error;
     errorMessage && toast({ description: errorMessage, status: 'error' });
   }, [error, toast]);
 
-  const getCallbackUrl = () => {
-    const callbackUrl = searchParams?.get('callbackUrl');
+  const handleLogin = async () => {
+    const params = new URLSearchParams(searchParams);
 
-    if (typeof callbackUrl === 'string') {
-      return callbackUrl;
-    }
+    params.delete('callbackUrl');
 
-    return '/';
+    params.append('signedIn', 'true');
+
+    setLoading(true);
+
+    await signIn('github', {
+      redirect: true,
+      callbackUrl: `${callbackUrl}?${params}`,
+    });
+
+    setLoading(false);
   };
 
   return (
@@ -41,13 +50,7 @@ export const LoginByGithub = ({ org }: LoginByGithubProps) => {
         isDisabled={isLoading}
         leftIcon={<GithubIcon />}
         loadingText="Login with GitHub"
-        onClick={() => {
-          setLoading(true);
-          signIn('github', {
-            redirect: true,
-            callbackUrl: getCallbackUrl(),
-          });
-        }}
+        onClick={handleLogin}
       >
         Login with GitHub
       </Button>
