@@ -1,35 +1,6 @@
 import { format, formatRelative as formatRelativeFn } from 'date-fns';
-import { HttpMethod } from '@/types';
-import deepmerge from 'deepmerge';
 
 export { default as isEqual } from 'fast-deep-equal';
-
-export const swrConfigs = {
-  fetcher,
-  suspend: true,
-};
-
-export async function fetcher<JSON = unknown>(
-  input: RequestInfo,
-  init: RequestInit = {}
-): Promise<JSON> {
-  const options = deepmerge(
-    {
-      cache: 'no-store',
-      method: HttpMethod.GET,
-      headers: { 'Content-Type': 'application/json' },
-    },
-    init
-  );
-
-  const response = await fetch(input, options);
-
-  if (response.status === 204 || response.statusText === 'No Content') {
-    return JSON.parse('{}');
-  }
-
-  return await response.json();
-}
 
 export function capitalize(s: string) {
   if (typeof s !== 'string') return '';

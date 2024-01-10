@@ -1,26 +1,26 @@
 'use client';
 
-import { SessionProvider } from 'next-auth/react';
 import { ChakraProvider } from '@/components/chakra';
-import { Provider as JotaiProvider } from 'jotai';
-import { SWRConfig } from 'swr';
-
 import { theme, toastOptions } from '@/lib/chakra';
-import { swrConfigs } from '@/lib/utils';
+import { SessionProvider } from 'next-auth/react';
+import { Provider as JotaiProvider } from 'jotai';
+import { swrConfigs } from '@/lib/swr';
+import { ReactNode } from '@/types';
 import dynamic from 'next/dynamic';
+import { SWRConfig } from 'swr';
 
 const ColorModeScript = dynamic(
   () => import('@chakra-ui/react').then((mod) => mod.ColorModeScript),
   { ssr: false }
 );
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function GeneralProviders({ children }: { children: ReactNode }) {
   return (
     <SWRConfig value={swrConfigs}>
       <SessionProvider>
         <JotaiProvider>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <ChakraProvider theme={theme} toastOptions={toastOptions}>
-            <ColorModeScript initialColorMode={theme.config.initialColorMode} />
             {children}
           </ChakraProvider>
         </JotaiProvider>

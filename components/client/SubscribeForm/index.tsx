@@ -13,7 +13,7 @@ import {
 import { useColorModeValue, useState, useToast } from '@/hooks';
 import { HttpMethod, SubscribeResponse } from '@/types';
 import { NextLink } from '@/components/client';
-import { fetcher } from '@/lib/utils';
+import { fetcher } from '@/lib/fetcher';
 
 export type SubscribeFormProps = {
   heading?: string;

@@ -5,9 +5,9 @@ import EmailProvider from 'next-auth/providers/email';
 import { AdapterUser } from 'next-auth/adapters';
 import { Organization, UserRole } from '@/types';
 import { render } from '@react-email/render';
-import { prisma } from '@/lib/prisma';
-import { fetcher } from '@/lib/utils';
+import { fetcher } from '@/lib/fetcher';
 import { cookies } from 'next/headers';
+import { prisma } from '@/lib/prisma';
 
 import MagicLinkTemplate from './emails/MagicLink';
 import { sendEmail } from './nodemailer';

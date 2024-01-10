@@ -98,6 +98,12 @@ The mailbox can be reach at http://localhost:8025
 
 Uncomment the `GITHUB` section in .env file. Follow this [documentation](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app) to configure the authentication.
 
+
+#### Setup PostHog
+
+- Register a PostHog account here: https://posthog.com/, or https://posthog.com/eu if you are in EU.
+- Create a new project, then follow the instructions to get the POSTHOG_KEY and PERSONAL_API_KEY
+
 #### Let's get started!
 
 Then, run the development server:

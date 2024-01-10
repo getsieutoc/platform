@@ -20,6 +20,7 @@ export {
   useRef,
   useId,
 } from 'react';
+export { usePostHog, useFeatureFlagEnabled } from 'posthog-js/react';
 export { useAtom, useSetAtom, useAtomValue } from 'jotai';
 export { useDebounce, useLocalStorage } from 'react-use';
 export { default as useSWRInfinite } from 'swr/infinite';
