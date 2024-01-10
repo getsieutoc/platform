@@ -49,7 +49,7 @@ https://platform.sieutoc.website
 
 ## Getting Started
 
-#### For Development
+### For Development
 
 - We use `pnpm` package manager. Get it [here](https://pnpm.io/installation).
 - Make sure Docker up and running.
@@ -57,7 +57,7 @@ https://platform.sieutoc.website
     - Follow [this guide](https://docs.docker.com/docker-hub/access-tokens/).
     - Login with `docker login --username <your-username>`
 
-#### Clone the project
+### Clone the project
 
 You can either use this template by:
 
@@ -72,7 +72,7 @@ Optional: Search and replace `platform` with your project slug.
 
 Optional but highly recommended: Replace all the logo and favicon files in `/public` and meta data with your project resources.
 
-#### Install dependencies
+### Install dependencies
 
 ```bash
 cd your-project
@@ -87,24 +87,24 @@ For the first time, you need some default environment variables:
 cp .env.example .env
 ```
 
-#### If you want to use magic link login
+### If you want to use magic link login
 
 Uncomment the `SMPT` section in `.env` file. By default we already set Mailpit for you.
 
 The mailbox can be reach at http://localhost:8025
 
 
-#### If you want to use GitHub login
+### If you want to use GitHub login
 
 Uncomment the `GITHUB` section in .env file. Follow this [documentation](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app) to configure the authentication.
 
 
-#### Setup PostHog
+### Setup PostHog
 
 - Register a PostHog account here: https://posthog.com/, or https://posthog.com/eu if you are in EU.
 - Create a new project, then follow the instructions to get the POSTHOG_KEY and PERSONAL_API_KEY
 
-#### Let's get started!
+### Let's get started!
 
 Then, run the development server:
 
