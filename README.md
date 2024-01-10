@@ -31,19 +31,19 @@ https://platform.sieutoc.website
 
 ## Gallery
 
+![Screenshot 2024-01-09 at 20 56 58](https://github.com/websitesieutoc/platform/assets/1083478/f01eba8f-4674-40ad-a823-a499eef7269e)
+![Screenshot 2024-01-09 at 20 56 23](https://github.com/websitesieutoc/platform/assets/1083478/cdd50973-8478-478b-9114-398f2b70553b)
+![Screenshot 2024-01-09 at 20 54 49](https://github.com/websitesieutoc/platform/assets/1083478/f96c813b-8928-497a-9a85-daf2bf2426ad)
+
 <details>
-  <summary>Click me</summary>
+  <summary>Click me to see more</summary>
     
 ![Screenshot 2024-01-09 at 20 57 35](https://github.com/websitesieutoc/platform/assets/1083478/a34c4055-f187-4ad5-8224-2b7ec67acec8)
 ![Screenshot 2024-01-09 at 20 57 16](https://github.com/websitesieutoc/platform/assets/1083478/d543b6ad-1d95-4c28-ad17-6b46cd944a89)
 ![Screenshot 2024-01-09 at 20 57 12](https://github.com/websitesieutoc/platform/assets/1083478/4ba7869b-c27b-4377-9b75-3a50b3c0ec45)
-![Screenshot 2024-01-09 at 20 56 58](https://github.com/websitesieutoc/platform/assets/1083478/f01eba8f-4674-40ad-a823-a499eef7269e)
 ![Screenshot 2024-01-09 at 20 56 46](https://github.com/websitesieutoc/platform/assets/1083478/b6366cf9-8e5b-414d-802f-124bab2f2100)
 ![Screenshot 2024-01-09 at 20 56 33](https://github.com/websitesieutoc/platform/assets/1083478/a11c25bd-d781-4c92-a8fb-c8e74adeca35)
 ![Screenshot 2024-01-09 at 20 56 28](https://github.com/websitesieutoc/platform/assets/1083478/43f7d462-5eeb-4c3c-9f0f-7199fe005915)
-![Screenshot 2024-01-09 at 20 56 23](https://github.com/websitesieutoc/platform/assets/1083478/cdd50973-8478-478b-9114-398f2b70553b)
-![Screenshot 2024-01-09 at 20 55 51](https://github.com/websitesieutoc/platform/assets/1083478/c95134dc-88a6-4760-8171-d5d53c9deb00)
-![Screenshot 2024-01-09 at 20 54 49](https://github.com/websitesieutoc/platform/assets/1083478/f96c813b-8928-497a-9a85-daf2bf2426ad)
 
 </details>
 
