@@ -13,7 +13,7 @@ class ChatwootWidget extends React.Component {
 
     // Paste the script from inbox settings except the <script> tag
     (function (d, t) {
-      const BASE_URL = 'https://success.pika.menu';
+      const BASE_URL = process.env.NEXT_PUBLIC_CHATWOOT_URL;
 
       // eslint-disable-next-line
       var g = d.createElement(t),
@@ -27,7 +27,7 @@ class ChatwootWidget extends React.Component {
       g.onload = function () {
         // @ts-expect-error this is special for Chatwoot
         window.chatwootSDK.run({
-          websiteToken: 'wk1nwfC8tCdpLQ3b2f2dMJLC',
+          websiteToken: process.env.NEXT_PUBLIC_CHATWOOT_TOKEN,
           baseUrl: BASE_URL,
         });
       };
