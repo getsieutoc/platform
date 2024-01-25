@@ -1,4 +1,6 @@
-<img alt="Sieutoc" src="https://github.com/websitesieutoc/platform/assets/1083478/9fffbada-3bf9-4c3c-b592-fd8ddca53463">
+<p align="center">
+    <img width="150" src="https://github.com/websitesieutoc/platform/assets/1083478/a0e7ccf3-82d5-4ad1-9179-dd6b97c6d569">
+</p>
 
 <h1 align="center">Sieutoc Platform</h1>
 
@@ -7,6 +9,16 @@
 </p>
 
 <br/>
+
+![hero image](https://github.com/websitesieutoc/platform/assets/1083478/9fffbada-3bf9-4c3c-b592-fd8ddca53463)
+
+<h2 align="center">Used by</h1>
+
+<p align="center">
+    <img width="100" src="https://github.com/websitesieutoc/platform/assets/1083478/71126c55-e37c-432a-abd2-ca8c8f82ff97">
+    <img width="100" src="https://github.com/websitesieutoc/platform/assets/1083478/98fd2aa1-2d3e-4ee6-a794-52b4cf0379e1">
+    <img width="100" src="https://github.com/websitesieutoc/platform/assets/1083478/90df8660-005a-4c1d-b27f-8c83182dcce5">
+</p>
 
 > [!IMPORTANT]
 > Working in progress, breaking changes are expected.
