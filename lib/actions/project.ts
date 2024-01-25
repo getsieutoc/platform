@@ -1,9 +1,8 @@
 'use server';
 
-import { EnvironmentVariables, Project } from '@/types';
-import { generatePassword } from '@/lib/generators';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { Project } from '@/types';
 
 export const getProject = async (id: string) => {
   try {
@@ -32,21 +31,9 @@ export const createProject = async (input: CreateProjectDto) => {
     throw new Error('Unauthorized request');
   }
 
-  const environmentVariables: EnvironmentVariables = {
-    production: {
-      NEXTAUTH_SECRET: generatePassword(),
-      POSTGRES_PASSWORD: generatePassword({ hasSpecial: false }),
-    },
-    preview: {
-      NEXTAUTH_SECRET: generatePassword(),
-      POSTGRES_PASSWORD: generatePassword({ hasSpecial: false }),
-    },
-  };
-
   const response = await prisma.project.create({
     data: {
       ...input,
-      environmentVariables,
       users: {
         connect: {
           id: session.user.id,

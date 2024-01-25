@@ -9,6 +9,7 @@ export * from './Loading';
 export * from './Logo';
 export * from './NextImage';
 export * from './NextLink';
+export * from './PaidFeatureButton';
 export * from './Paragraph';
 export * from './ProxyImage';
 export * from './SimpleTable';
