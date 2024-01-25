@@ -1,4 +1,5 @@
 import { format, formatRelative as formatRelativeFn } from 'date-fns';
+import { Plan } from '@/types';
 
 export { default as isEqual } from 'fast-deep-equal';
 
@@ -104,3 +105,24 @@ export const delayAsync = async (amountMs = 500): Promise<void> => {
     }, amountMs);
   });
 };
+
+// TODO type the searchParams to accept object {} or URLSearchParams
+export function newURLWithSearchParams(baseUrl: string, searchParams: unknown) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const queryStr = new URLSearchParams(searchParams as unknown as any).toString();
+
+  const searchParamsStr = queryStr.length > 0 ? `?${queryStr}` : '';
+
+  return `${baseUrl}${searchParamsStr}`;
+}
+
+export function getPlanColor(plan: string | Plan) {
+  switch (plan) {
+    case Plan.PRO:
+      return 'yellow.500';
+    case Plan.ENTERPRISE:
+      return 'purple.500';
+    default:
+      return undefined;
+  }
+}

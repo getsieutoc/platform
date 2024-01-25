@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useSearchParams, useToast } from '@/hooks';
+import { useState, useEffect, useSearchParams, useToast, usePostHog } from '@/hooks';
 import { Button, Stack, Text } from '@/components/chakra';
 import { signIn } from 'next-auth/react';
 import { GithubIcon } from '@/icons';
@@ -12,6 +12,8 @@ export type LoginByGithubProps = {
 export const LoginByGithub = ({ org }: LoginByGithubProps) => {
   const { toast } = useToast();
   const [isLoading, setLoading] = useState(false);
+
+  const posthog = usePostHog();
 
   // Get error message added by next/auth in URL.
   const searchParams = useSearchParams();
@@ -25,6 +27,8 @@ export const LoginByGithub = ({ org }: LoginByGithubProps) => {
   }, [error, toast]);
 
   const handleLogin = async () => {
+    posthog?.capture('click_login_github');
+
     const params = new URLSearchParams(searchParams);
 
     params.delete('callbackUrl');

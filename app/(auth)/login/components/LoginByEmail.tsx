@@ -3,6 +3,7 @@
 import {
   useKeyPressEvent,
   useSearchParams,
+  usePostHog,
   useEffect,
   useState,
   useToast,
@@ -27,7 +28,10 @@ export type LoginByEmailProps = {
 export const LoginByEmail = ({ isRequested }: LoginByEmailProps) => {
   const { toast } = useToast();
 
+  const posthog = usePostHog();
+
   const [isFocused, setFocused] = useState(false);
+
   const [isLoading, setLoading] = useState(false);
 
   // Get error message added by next/auth in URL.
@@ -37,6 +41,8 @@ export const LoginByEmail = ({ isRequested }: LoginByEmailProps) => {
   const [email, setEmail] = useState('');
 
   const handleSignIn = async () => {
+    posthog?.capture('click_login_email');
+
     if (!email) {
       toast({ description: 'Email is required', status: 'info' });
       return;

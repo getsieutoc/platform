@@ -8,6 +8,7 @@ import {
   useAuth,
   useEffect,
 } from '@/hooks';
+import { newURLWithSearchParams } from '@/lib/utils';
 
 export const NavigationEvents = () => {
   const { session } = useAuth();
@@ -22,19 +23,25 @@ export const NavigationEvents = () => {
 
   const signedIn = searchParams.get('signedIn');
 
+  // const selectedPlan = searchParams.get('plan');
+
   useEffect(() => {
-    if (!!signedIn && session?.user) {
-      const params = new URLSearchParams(searchParams);
-
-      params.delete('signedIn');
-
+    if (session) {
       const { id, email, name } = session.user;
 
-      posthog.identify(id, { email, name });
+      const params = new URLSearchParams(searchParams);
 
-      const newUrl = !params.toString() ? pathname : `${pathname}?${params}`;
+      // if (plan === selectedPlan) {
+      //   params.delete('plan');
+      // }
 
-      router.replace(newUrl, { scroll: false });
+      if (signedIn) {
+        params.delete('signedIn');
+
+        posthog.identify(id, { email, name });
+
+        router.replace(newURLWithSearchParams(pathname, params), { scroll: false });
+      }
     }
   });
 
