@@ -9,6 +9,8 @@ import {
   Stack,
   ButtonGroup,
   useColorModeValue,
+  Wrap,
+  WrapItem,
 } from '@/components/chakra';
 import { GradientText } from '@/components/client';
 import {
@@ -48,21 +50,32 @@ export const HeroSection = () => {
             102+ builders have signed up in the last 30 days
           </Text>
 
-          <Stack
-            direction="row"
-            justify="center"
-            align="center"
-            spacing={12}
-            marginY={8}
+          <Wrap
             color={logoColor}
+            justify="center"
+            // align="center"
+            spacing={12}
+            // marginY={8}
           >
-            <NextLogo boxSize={16} />
-            <PrismaLogo boxSize={14} />
-            <TypescriptLogo boxSize={16} />
-            <ChakraLogo boxSize={12} />
-            <AwsLogo boxSize={16} />
-            <GcpLogo boxSize={16} />
-          </Stack>
+            <WrapItem>
+              <NextLogo boxSize={16} />
+            </WrapItem>
+            <WrapItem>
+              <PrismaLogo boxSize={14} />
+            </WrapItem>
+            <WrapItem>
+              <TypescriptLogo boxSize={16} />
+            </WrapItem>
+            <WrapItem>
+              <ChakraLogo boxSize={12} />
+            </WrapItem>
+            <WrapItem>
+              <AwsLogo boxSize={16} />
+            </WrapItem>
+            <WrapItem>
+              <GcpLogo boxSize={16} />
+            </WrapItem>
+          </Wrap>
         </Container>
       </Center>
     </Container>

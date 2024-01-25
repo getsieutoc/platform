@@ -1,4 +1,4 @@
-import { Plan } from '@/types';
+import { Plan, Pricing } from '@/types';
 
 export const STRIPE_API_VERSION = '2023-10-16';
 export const STRIPE_APP_NAME = 'Sieutoc Platform';
@@ -18,74 +18,90 @@ export const MAX_PROJECTS = Number(process.env.MAX_PROJECTS ?? 1);
 
 export const LISTMONK_API = process.env.LISTMONK_API ?? '';
 export const LISTMONK_SECRET = `${process.env.LISTMONK_ADMIN_USERNAME}:${process.env.LISTMONK_ADMIN_PASSWORD}`;
+export const LISTMONK_LISTS: Record<
+  'Default' | 'OptIn' | 'Beta',
+  { id: number; uuid: string }
+> = {
+  Default: {
+    id: 1,
+    uuid: '',
+  },
+  OptIn: {
+    id: 2,
+    uuid: '',
+  },
+  Beta: {
+    id: 3,
+    uuid: '',
+  },
+};
 
 export const RESERVED_SLUGS = ['sang', 'aiei'];
 
-type Pricing = {
-  price: {
-    monthly: number | string;
-    yearly: number | string;
-  };
-  description?: string;
-  ctaText?: string;
-  features: string[];
-  quota: {
-    projects: number;
-    rows: number;
-  };
-};
-
 export const FEATURES: Record<keyof typeof Plan, Pricing> = {
   [Plan.HOBBY]: {
-    price: {
-      monthly: 9,
-      yearly: 5,
+    monthly: {
+      value: 'Free',
     },
-    description: 'Unlock key features and higher usage limits',
+    yearly: {
+      value: 'Free',
+    },
+    description: 'Perfect fits your needs',
+    ctaText: 'Get Started',
     features: [
-      'Up to 3 team members',
-      'Up to 3 projects',
+      'Max 1 team members',
+      'Max 1 project',
       'Intuitive, fast and privacy-friendly dashboard',
     ],
     quota: {
-      projects: 3,
-      rows: 10,
-    },
-  },
-  [Plan.PRO]: {
-    price: {
-      monthly: 62,
-      yearly: 59,
-    },
-    description: 'Enjoy higher limits and extra features with our Pro plan.',
-    features: [
-      `Everything in ${Plan.HOBBY}`,
-      'Up to 10 team members',
-      'Up to 10 projects',
-      'Lorem ipsum plan dono',
-      'Something else longer so it will make two lines',
-    ],
-    quota: {
-      projects: 10,
+      projects: 1,
+      members: 1,
       rows: 100,
     },
   },
-  [Plan.ENTERPRISE]: {
-    price: {
-      monthly: 'Custom',
-      yearly: 'Custom',
+  [Plan.PRO]: {
+    monthly: {
+      currency: '€',
+      value: 14,
     },
-    description: 'Elevate with exclusive features and limitless potential.',
+    yearly: {
+      currency: '€',
+      value: 9,
+    },
+    description: 'Enjoy higher limits and extra features for your growth',
+    features: [
+      `Everything in ${Plan.HOBBY}`,
+      'Up to 3 team members',
+      'Up to 3 projects',
+      'Custom domain',
+      'Custom QR Code',
+    ],
+    quota: {
+      projects: 3,
+      members: 3,
+      rows: 10000,
+    },
+  },
+  [Plan.ENTERPRISE]: {
+    monthly: {
+      value: 'Custom',
+    },
+    yearly: {
+      value: 'Custom',
+    },
+    description: 'Elevate with exclusive features',
     ctaText: 'Contact Us',
     features: [
       `Everything in ${Plan.PRO}`,
       'Unlimited team members',
       'Unlimited projects',
       'Technical onboarding',
+      'Priority support',
     ],
     quota: {
       projects: 999,
-      rows: 1000,
+      members: 9999,
+      rows: 999999,
     },
   },
 };

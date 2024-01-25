@@ -8,6 +8,10 @@ module.exports = {
         protocol: 'https',
         hostname: '**.githubusercontent.com',
       },
+      {
+        protocol: 'https',
+        hostname: '**.s3.eu-central-1.amazonaws.com',
+      },
     ],
   },
   reactStrictMode: false,

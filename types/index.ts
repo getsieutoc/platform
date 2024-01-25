@@ -1,14 +1,9 @@
-import { Prisma } from '@prisma/client';
-import { Endpoints } from '@octokit/types';
+export type { ChangeEventHandler, ChangeEvent, ReactNode, ElementRef } from 'react';
 
-export type { ChangeEvent, ReactNode, ElementRef } from 'react';
 export type { Metadata } from 'next';
-
-export type * from './github';
 
 // Do not know why export * will make nextjs complain about
 // can not find module '@octokit/types'
-export type { RequestParameters } from '@octokit/types';
 export type { ToastId } from '@/components/chakra';
 
 export * from '@prisma/client';
@@ -25,7 +20,16 @@ export enum HttpMethod {
   TRACE = 'TRACE',
 }
 
-// For Listmonk
+// TODO: Convert types below to be proper types like upbove
+
+export type GoogleRefreshTokenResponse = {
+  access_token: string;
+  expires_in: number; // NextAuth fucking changed this to expires_at
+  id_token: string;
+  refresh_token: string;
+  scope: string;
+};
+
 export type SubscribeResponse = {
   data: {
     id: number;
@@ -40,12 +44,72 @@ export type SubscribeResponse = {
   };
 };
 
-export type JsonObject = Prisma.JsonObject;
-
-export type ReposResponse = Endpoints['GET /repos/{owner}/{repo}']['response'];
-
-export type EnvironmentType = 'production' | 'preview';
-
-export type EnvironmentVariables = {
-  [key in EnvironmentType]: Record<string, string | undefined>;
+export type SheetValues = {
+  majorDimension: 'ROWS' | 'COLUMNS' | 'DIMENSION_UNSPECIFIED';
+  range: string;
+  values: string[][];
 };
+
+export type SheetData = {
+  spreadsheetId: string;
+  properties: {
+    title: string;
+    locale: string;
+    defaultFormat: Record<string, unknown>;
+  };
+  sheets: {
+    properties: {
+      sheetId: number | string;
+      title: string;
+      index: number;
+      sheetType: string;
+      gridProperties: {
+        rowCount: number;
+        columnCount: number;
+        frozenRowCount: number;
+      };
+    };
+  }[];
+  spreadsheetUrl: string;
+};
+
+export type SheetError = {
+  code: number;
+  config: Record<string, unknown>;
+  errors: Record<string, unknown>[];
+  response: Record<string, unknown>;
+  status: number;
+};
+
+export type SheetResponse = SheetData | SheetError;
+
+// ----
+
+export type BillCycle = 'monthly' | 'yearly';
+
+export type PriceValue = {
+  value: number | string;
+  currency?: '€' | '$';
+};
+
+export type PriceInfo = {
+  features: string[];
+  description?: string;
+  ctaText?: string;
+  quota?: {
+    projects?: number;
+    members?: number | string;
+    rows?: number;
+  };
+};
+
+export type Pricing = Record<BillCycle, PriceValue> & PriceInfo;
+
+export type Preferences = {
+  includeGridData?: boolean;
+  qr?: {
+    extraQuery?: string;
+    logo?: string;
+    color?: string;
+  };
+} | null;

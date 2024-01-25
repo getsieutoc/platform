@@ -9,68 +9,66 @@ import {
   Stack,
   Text,
   VStack,
-  useColorModeValue,
 } from '@/components/chakra';
+import { useBreakpointValue, useColorMode, useColorModeValue } from '@/hooks';
+import { NextImage } from '@/components/client';
 
 const features = [
   {
-    title: 'Detailed Analytics',
+    title: 'Effortless Menu Creation',
     description:
-      "No more spending hours writing formulas in Excel to figure out how much you're making. We surface important metrics to keep your business going strong.",
-    // image:
-    //   'https://launchman-space.nyc3.digitaloceanspaces.com/chakra-ui-landing-page-feature-1.png',
+      'Instantly generate your restaurant menu from a Google Sheets link, simplifying the process for hassle-free updates and modifications.',
+    image: 'https://sieutoc-general.s3.eu-central-1.amazonaws.com/platform-demo/first',
   },
   {
-    title: 'Track your clients',
+    title: 'Rich Built-in Tools',
     description:
-      'Know when and how your projects are going so you can stay on top of delivery dates.',
-    // image:
-    //   'https://launchman-space.nyc3.digitaloceanspaces.com/chakra-ui-landing-page-feature-2.png',
-  },
-  {
-    title: 'Manage projects',
-    description:
-      "You don't have to hunt your email inbox to find that one conversation. Every task, project, and client information is just a click away.",
-    // image:
-    //   'https://launchman-space.nyc3.digitaloceanspaces.com/chakra-ui-landing-page-feature-3.png',
+      "Unlock a suite of free tools, including auto-generated QR codes, short links, and built-in analytics, empowering your restaurant's marketing without added costs.",
+    image: 'https://sieutoc-general.s3.eu-central-1.amazonaws.com/platform-demo/second',
   },
 ];
 
 export const Features = () => {
   const popColor = useColorModeValue('gray.200', 'gray.900');
 
-  return (
-    <VStack w="full" id="features" spacing={16} py={[16, 0]}>
-      {features.map(({ title, description /* image */ }, i: number) => {
-        const isOdd = i % 2 === 1;
+  const { colorMode } = useColorMode();
 
-        const rowDirection = isOdd ? 'row-reverse' : 'row';
+  const height = useBreakpointValue({ base: 1080 / 4.84, md: 1080 / 2.2 });
+  const width = useBreakpointValue({ base: 1920 / 4.84, md: 1290 / 1.4 });
+
+  return (
+    <VStack w="full" id="features" spacing={0} py={16}>
+      {features.map(({ title, description, image }, i: number) => {
+        const isSwapped = i % 2 === 0;
+
+        const rowDirection = isSwapped ? 'row' : 'row-reverse';
 
         return (
           <Center
+            bg={!isSwapped ? popColor : undefined}
+            minH={[null, '90vh']}
             key={`feature_${i}`}
             w="full"
-            minH={[null, '90vh']}
-            bg={!isOdd ? popColor : undefined}
           >
-            <Container maxW="container.xl" rounded="lg">
+            <Container maxW="container.xl" rounded="lg" pt={10} pb={16}>
               <Stack
-                spacing={[4, 16]}
-                alignItems="center"
                 direction={['column', null, rowDirection]}
+                alignItems="center"
+                spacing={[4, 10]}
                 w="full"
                 h="full"
               >
-                <Box rounded="lg">
-                  {/* <NextImage */}
-                  {/*   src={image} */}
-                  {/*   width={684} */}
-                  {/*   height={433} */}
-                  {/*   alt={`Feature: ${title}`} */}
-                  {/* /> */}
-                </Box>
+                {image && (
+                  <NextImage
+                    src={`${image}-${colorMode}.png`}
+                    alt={`Feature: ${title}`}
+                    height={height}
+                    width={width}
+                    priority
+                  />
+                )}
 
-                <VStack maxW={500} spacing={4} align={['center', 'flex-start']}>
+                <VStack maxW={400} spacing={4} align={['center', 'flex-start']}>
                   <Box>
                     <Heading as="h3" fontSize="2xl" fontWeight="bold">
                       {title}

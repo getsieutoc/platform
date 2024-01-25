@@ -1,22 +1,16 @@
 'use client';
 
 import {
-  Button,
   Container,
   Flex,
-  FormControl,
-  FormLabel,
   Heading,
-  Input,
   SimpleGrid,
   Stack,
-  Text,
   UnorderedList,
   ListItem,
-  useColorModeValue,
 } from '@/components/chakra';
-import { ColorModeBox, Logo, NextLink } from '@/components/client';
-import { ExternalLinkIcon } from '@/icons';
+import { ButtonLink, ColorModeBox, Logo } from '@/components/client';
+import { ReactNode } from '@/types';
 
 type FooterLink = {
   label: string;
@@ -59,51 +53,22 @@ const footerLinkColumns: { title: string; links: FooterLink[] }[] = [
     ],
   },
 ];
-export const Footer = () => {
-  const inputBgColor = useColorModeValue('gray.100', 'gray.800');
 
+export const Footer = ({ children }: { children?: ReactNode }) => {
   return (
-    <Flex as={ColorModeBox} minH="20vh" py={20}>
+    <Flex id="footer" as={ColorModeBox} minH="20vh" py={20}>
       <Container
-        as={Stack}
+        maxW="container.lg"
         direction="column"
         align="center"
         spacing={20}
-        maxW={{
-          lg: 'container.lg',
-          md: 'container.m',
-          sm: 'container.sm',
-          xl: 'container.xl',
-        }}
+        as={Stack}
       >
-        <SimpleGrid
-          minChildWidth="300px"
-          maxW="container.lg"
-          spacingX={10}
-          spacingY={10}
-          mb={4}
-        >
-          <Stack spacing={0}>
-            <Heading as="h3" fontSize="3xl" fontWeight="bold">
-              Subscribe for updates
-            </Heading>
-            <Text fontSize="sm">
-              By subscribing, you agree with our <NextLink href="/">Terms</NextLink> and{' '}
-              <NextLink href="/">Privacy Policy.</NextLink>
-            </Text>
-          </Stack>
-          <FormControl as={Stack} direction="row">
-            <FormLabel hidden>Subscribe</FormLabel>
-            <Input size="lg" bgColor={inputBgColor} focusBorderColor="brand.500" />
-            <Button colorScheme="brand" size="lg">
-              Subscribe
-            </Button>
-          </FormControl>
-        </SimpleGrid>
+        {children}
 
         <SimpleGrid width="100%" minChildWidth="140px" spacing={10}>
           {footerLinkColumns.map(({ title, links }) => (
-            <Stack key={title}>
+            <Stack key={title} ml={{ base: 6, md: 0 }}>
               <Heading as="h4" fontSize="md" fontWeight="bold" mb={4}>
                 {title}
               </Heading>
@@ -111,16 +76,9 @@ export const Footer = () => {
               <UnorderedList minH={20} listStyleType="none" marginInline={0} spacing={2}>
                 {links.map(({ label, url, isExternal }) => (
                   <ListItem key={label}>
-                    <Button
-                      variant="link"
-                      size="sm"
-                      as={NextLink}
-                      href={url}
-                      target={isExternal ? '_blank' : '_self'}
-                    >
+                    <ButtonLink href={url} isExternal={isExternal}>
                       {label}
-                    </Button>
-                    {isExternal && <ExternalLinkIcon mx="2px" />}
+                    </ButtonLink>
                   </ListItem>
                 ))}
               </UnorderedList>
@@ -128,7 +86,7 @@ export const Footer = () => {
           ))}
         </SimpleGrid>
 
-        <Logo />
+        <Logo size="sm" />
       </Container>
     </Flex>
   );

@@ -28,15 +28,18 @@ const data = [
   {
     question: 'Do you offer refunds?',
     answer:
-      'We currently do not offer refunds. However, you can cancel your subscription at any time, after which you will not be charged again. We are constantly working on improving Dub, so this might change in the future.',
+      'We currently do not offer refunds. However, you can cancel your subscription at any time, after which you will not be charged again. We are constantly working on improving Pika, so this might change in the future.',
   },
 ];
 
 export const FAQs = () => {
   return (
-    <Container maxW="container.xl" mb={20}>
-      <Flex gap={10}>
-        <Stack maxW="320px">
+    <Container maxW="container.lg" mb={20}>
+      <Flex direction={{ base: 'column', md: 'row' }} gap={10}>
+        <Stack
+          maxW={{ base: '100%', md: '320px' }}
+          textAlign={{ base: 'center', md: 'left' }}
+        >
           <Heading as="h2" fontSize="4xl">
             FAQs
           </Heading>
@@ -49,22 +52,22 @@ export const FAQs = () => {
         <Accordion allowToggle width="100%">
           {data.map(({ question, answer }) => (
             <AccordionItem key={question}>
-              <Heading as="h4">
-                <AccordionButton>
-                  <Box
-                    as="span"
-                    flex="1"
-                    py={3}
-                    textAlign="left"
-                    fontWeight="bold"
-                    fontSize="large"
-                  >
+              <AccordionButton>
+                <Box
+                  fontWeight="bold"
+                  textAlign="left"
+                  fontSize="large"
+                  as="span"
+                  flex="1"
+                  py={3}
+                >
+                  <Heading as="h4" size="md">
                     {question}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </Heading>
-              <AccordionPanel pb={4}>{answer}</AccordionPanel>
+                  </Heading>
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={6}>{answer}</AccordionPanel>
             </AccordionItem>
           ))}
         </Accordion>
