@@ -1,4 +1,4 @@
-<img alt="Sieutoc" src="https://github.com/websitesieutoc/platform/assets/1083478/85190f2c-a300-4f2d-bbb2-00cc632c80cf">
+<img alt="Sieutoc" src="https://github.com/websitesieutoc/platform/assets/1083478/9fffbada-3bf9-4c3c-b592-fd8ddca53463">
 
 <h1 align="center">Sieutoc Platform</h1>
 
