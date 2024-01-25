@@ -1,14 +1,10 @@
-export * from './github';
-
 export type { ChangeEventHandler, ChangeEvent, ReactNode, ElementRef } from 'react';
-
+export type { Message, UseChatHelpers } from 'ai/react';
+export type { ToastId } from '@chakra-ui/react';
 export type { Metadata } from 'next';
 
-// Do not know why export * will make nextjs complain about
-// can not find module '@octokit/types'
-export type { ToastId } from '@/components/chakra';
-
 export * from '@prisma/client';
+export * from './github';
 
 export enum HttpMethod {
   CONNECT = 'CONNECT',

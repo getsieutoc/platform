@@ -1,7 +1,12 @@
 import { getProject } from '@/lib/actions/project';
 import { Stack } from '@/components/chakra';
 
-import { CustomDomainForm, DeleteForm, GeneralSettingsForm } from './components';
+import {
+  CustomDomainForm,
+  DeleteForm,
+  GeneralSettingsForm,
+  QuickLinks,
+} from './components';
 
 export type SingleProjectPageProps = {
   params: {
@@ -18,6 +23,8 @@ export default async function SingleProjectPage({ params }: SingleProjectPagePro
 
   return (
     <Stack width="100%" spacing={6}>
+      <QuickLinks />
+
       <GeneralSettingsForm />
 
       {project && <CustomDomainForm data={project} />}

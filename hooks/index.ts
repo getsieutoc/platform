@@ -4,7 +4,7 @@ export {
   useDisclosure,
   useClipboard,
   useColorMode,
-} from '@/components/chakra';
+} from '@chakra-ui/react';
 export {
   useSelectedLayoutSegments,
   useSearchParams,
@@ -22,12 +22,13 @@ export {
   useId,
 } from 'react';
 export { usePostHog, useFeatureFlagEnabled } from 'posthog-js/react';
+export { useCopyToClipboard, useKeyPressEvent } from 'react-use';
 export { useAtom, useSetAtom, useAtomValue } from 'jotai';
 export { useDebounce, useLocalStorage } from 'react-use';
 export { default as useSWRInfinite } from 'swr/infinite';
 export { useDebouncedCallback } from 'use-debounce';
+export { useChat, useCompletion } from 'ai/react';
 export { useSession } from 'next-auth/react';
-export { useKeyPressEvent } from 'react-use';
 export { default as useSWR } from 'swr';
 
 export * from './use-window-size';

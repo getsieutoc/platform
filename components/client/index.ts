@@ -1,5 +1,6 @@
 'use client';
 
+export * from './Chatbox';
 export * from './ColorModeBox';
 export * from './ColorModeSwitcher';
 export * from './Copyable';

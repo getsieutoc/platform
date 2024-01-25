@@ -18,14 +18,7 @@ import {
   Text,
   Textarea,
 } from '@/components/chakra';
-import {
-  useColorModeValue,
-  useEffect,
-  useMemo,
-  useParams,
-  useState,
-  useSWR,
-} from '@/hooks';
+import { useColorModeValue, useEffect, useMemo, useProject, useState } from '@/hooks';
 import { updateProject } from '@/lib/actions/project';
 import { RepeatIcon, SaveIcon } from '@/icons';
 import { Plan, Project } from '@/types';
@@ -40,9 +33,7 @@ const initialValues: GeneralFormValues = {
 };
 
 export const GeneralSettingsForm = () => {
-  const params = useParams<{ id: string }>();
-
-  const { data: project, mutate } = useSWR<Project>(`/api/projects/${params.id}`);
+  const { project, mutate } = useProject();
 
   const projectValues = useMemo(
     () => ({

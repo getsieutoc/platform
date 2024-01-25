@@ -13,19 +13,19 @@ import {
   Stack,
   Text,
 } from '@/components/chakra';
-import { useAuth, useColorModeValue } from '@/hooks';
+import { useChat, useColorModeValue, useProject } from '@/hooks';
+import { Chatbox } from '@/components/client';
 import { ExternalLinkIcon } from '@/icons';
-import { Project } from '@/types';
 
 export type QuickLinksProps = {
-  data: Project;
   baseUrl?: string;
-  easypanelUrl?: string;
 };
 
 // We will continue to work on this soon
-export const QuickLinks = ({ data, easypanelUrl }: QuickLinksProps) => {
-  const { isAdmin } = useAuth();
+export const QuickLinks = () => {
+  const { project } = useProject();
+
+  const { ...bindChat } = useChat();
 
   const footerBorder = useColorModeValue('gray.200', 'gray.600');
 
@@ -38,22 +38,20 @@ export const QuickLinks = ({ data, easypanelUrl }: QuickLinksProps) => {
         <CardBody>
           <Stack spacing={6} minW="240px">
             <Stack direction="row" spacing={3}>
-              {isAdmin && easypanelUrl && (
-                <Button
-                  href={`${easypanelUrl}/projects/${data.id}`}
-                  rightIcon={<ExternalLinkIcon />}
-                  colorScheme="green"
-                  variant="outline"
-                  target="_blank"
-                  as={Link}
-                >
-                  Go to EasyPanel project
-                </Button>
-              )}
+              <Button
+                href={`/projects/${project?.id}`}
+                rightIcon={<ExternalLinkIcon />}
+                colorScheme="green"
+                variant="outline"
+                target="_blank"
+                as={Link}
+              >
+                Go to project
+              </Button>
 
-              {data.customDomain && (
+              {project && project.customDomain && (
                 <Button
-                  href={`https://${data.customDomain}`}
+                  href={`https://${project.customDomain}`}
                   rightIcon={<ExternalLinkIcon />}
                   colorScheme="blue"
                   variant="outline"
@@ -63,6 +61,8 @@ export const QuickLinks = ({ data, easypanelUrl }: QuickLinksProps) => {
                   Go to website
                 </Button>
               )}
+
+              <Chatbox {...bindChat} />
             </Stack>
           </Stack>
         </CardBody>
