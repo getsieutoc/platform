@@ -2,10 +2,10 @@
     <img width="150" src="https://github.com/websitesieutoc/platform/assets/1083478/a0e7ccf3-82d5-4ad1-9179-dd6b97c6d569">
 </p>
 
-<h1 align="center">Sieutoc Platform</h1>
+<h1 align="center">Platform</h1>
 
 <p align="center">
-    Create modern apps easier
+    Next.js starter template for creating modern apps easier
 </p>
 
 <br/>
