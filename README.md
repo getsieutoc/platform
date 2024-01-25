@@ -68,7 +68,7 @@ You can either use this template by:
 - Or using the script below:
 
 ```bash
-npx tiged websitesieutoc/platform your-project
+pnpm dlx tiged websitesieutoc/platform your-project
 ```
 
 Optional: Search and replace `platform` with your project slug.
@@ -105,7 +105,7 @@ Uncomment the `GITHUB` section in .env file. Follow this [documentation](https:/
 ### Setup PostHog
 
 - Register a PostHog account here: https://posthog.com/, or https://posthog.com/eu if you are in EU.
-- Create a new project, then follow the instructions to get the POSTHOG_KEY and PERSONAL_API_KEY
+- Create a new project, then follow the instructions to get the POSTHOG_KEY
 
 ### Let's get started!
 
