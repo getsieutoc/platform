@@ -1,5 +1,5 @@
-import { Divider, Heading, Stack } from '@/components/chakra';
-import { ColorModeSwitcher, Logo } from '@/components/client';
+import { Button, Divider, Flex, Heading, Stack, Text } from '@/components/chakra';
+import { ColorModeSwitcher, Logo, NextLink } from '@/components/client';
 import { newURLWithSearchParams } from '@/lib/utils';
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth';
@@ -26,35 +26,40 @@ export default async function LoginPage({
   const isRequested = !!requestCookie && requestCookie.value === 'true';
 
   return (
-    <Stack
-      gap={4}
-      maxWidth="sm"
+    <Flex
+      justify="space-evenly"
+      direction="column"
       marginX="auto"
-      marginTop="10vh"
       align="center"
-      justify="center"
+      maxWidth="sm"
+      h="70%"
     >
-      <Logo href="/" />
+      <Stack w="100%" align="center">
+        <Logo href="/" />
 
-      <Heading as="h1" size="lg">
-        Login
-      </Heading>
+        <Heading as="h1" size="lg">
+          Login
+        </Heading>
 
-      {hasEmailProvider && (
-        <>
-          <Divider />
-          <LoginByEmail isRequested={isRequested} />
-        </>
-      )}
+        <Divider />
+      </Stack>
 
-      {hasGithubProvider && (
-        <>
-          <Divider />
-          <LoginByGithub org={process.env.GITHUB_ORG} />
-        </>
-      )}
+      {hasEmailProvider && <LoginByEmail isRequested={isRequested} />}
 
-      <ColorModeSwitcher />
-    </Stack>
+      {hasGithubProvider && <LoginByGithub org={process.env.GITHUB_ORG} />}
+
+      <Stack w="100%" align="center" spacing={4}>
+        <Divider />
+
+        <Text fontSize="xs" textAlign="center">
+          By continue using service, you agree to our{' '}
+          <Button as={NextLink} size="xs" variant="link" href="/terms">
+            Terms
+          </Button>
+        </Text>
+
+        <ColorModeSwitcher />
+      </Stack>
+    </Flex>
   );
 }

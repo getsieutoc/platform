@@ -1,4 +1,4 @@
-import { RetrievalQAChain, loadQAStuffChain } from 'langchain/chains';
+// import { RetrievalQAChain, loadQAStuffChain } from 'langchain/chains';
 import { StreamingTextResponse, LangChainStream, Message } from 'ai';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { NextRequest, NextResponse } from 'next/server';

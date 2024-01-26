@@ -78,7 +78,7 @@ export const Chatbox = ({
         onClose={onClose}
         placement="left"
         isOpen={isOpen}
-        size="lg"
+        size="md"
       >
         <DrawerOverlay />
         <DrawerContent>
