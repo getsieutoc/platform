@@ -21,10 +21,14 @@ export {
   useRef,
   useId,
 } from 'react';
+export {
+  useCopyToClipboard,
+  useKeyPressEvent,
+  useLocalStorage,
+  useDebounce,
+} from 'react-use';
 export { usePostHog, useFeatureFlagEnabled } from 'posthog-js/react';
-export { useCopyToClipboard, useKeyPressEvent } from 'react-use';
 export { useAtom, useSetAtom, useAtomValue } from 'jotai';
-export { useDebounce, useLocalStorage } from 'react-use';
 export { default as useSWRInfinite } from 'swr/infinite';
 export { useDebouncedCallback } from 'use-debounce';
 export { useChat, useCompletion } from 'ai/react';

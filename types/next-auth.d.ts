@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import NextAuth, { DefaultSession, Account } from 'next-auth';
 import { User as PrismaUser, UserRole } from '@prisma/client';
 
