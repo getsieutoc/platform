@@ -34,15 +34,14 @@ This template includes the following:
 - Chakra UI
 - Prisma
 - Next-Auth
-- Docker Compose with:
-    - PostgresQL
-    - Redis
-    - Mailpit
+- Docker Compose
+- PostgresQL
+- Mailpit and React Email
 - And plenty of well-crafted components like HeroSection, Features, Pricings, SubscribeForm etc.
 
 ## Demo
 
-https://platform.sieutoc.website
+https://platform.sieutoc.app
 
 ## Gallery
 
@@ -69,8 +68,8 @@ https://platform.sieutoc.website
 - We use `pnpm` package manager. Get it [here](https://pnpm.io/installation).
 - Make sure Docker up and running.
 - If your Docker account has 2FA enabled, you have to create a Personal Access Token and login before:
-    - Follow [this guide](https://docs.docker.com/docker-hub/access-tokens/).
-    - Login with `docker login --username <your-username>`
+  - Follow [this guide](https://docs.docker.com/docker-hub/access-tokens/).
+  - Login with `docker login --username <your-username>`
 
 ### Clone the project
 
@@ -106,13 +105,11 @@ cp .env.example .env
 
 Uncomment the `SMPT` section in `.env` file. By default we already set Mailpit for you.
 
-The mailbox can be reach at http://localhost:8025
-
+The mailbox can be reach at [http://localhost:8025](http://localhost:8025)
 
 ### If you want to use GitHub login
 
 Uncomment the `GITHUB` section in .env file. Follow this [documentation](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app) to configure the authentication.
-
 
 ### Setup PostHog
 
@@ -128,6 +125,8 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser and start developing.
+
+The React Email server is running at [http://localhost:3002](http://localhost:3002)
 
 ## Further instructions
 

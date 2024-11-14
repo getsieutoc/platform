@@ -1,13 +1,12 @@
 {
   "private": true,
   "scripts": {
-    "prisma": "prisma",
     "postinstall": "prisma generate",
     "clean": "rimraf node_modules .next dist .react-email && pnpm install",
-    "dev": "docker-compose up -d && pnpm watch && docker-compose down",
-    "dev-mail": "next dev & email dev --port 3002 --dir lib/emails",
-    "watch": "trap 'exit 0' SIGINT; prisma generate && prisma db push && next dev",
-    "build": "prisma generate && next build",
+    "compose": "docker compose -f ./docker/develop/docker-compose.yaml",
+    "dev": "pnpm compose up -d && pnpm watch && pnpm compose down",
+    "watch": "trap 'exit 0' SIGINT; concurrently \"next dev\" \"email dev --port 3002\"",
+    "build": "prisma migrate deploy && next build",
     "format": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "start": "next start",
     "lint": "next lint",
@@ -15,7 +14,10 @@
   },
   "engines": {
     "node": "20.x",
-    "pnpm": "8.x"
+    "pnpm": "9.x"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@chakra-ui/icons": "2.1.1",
@@ -81,12 +83,14 @@
     "@types/react-dom": "18.2.19",
     "@typescript-eslint/eslint-plugin": "7.0.1",
     "@typescript-eslint/parser": "7.0.1",
+    "concurrently": "9.1.0",
     "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",
     "eslint-config-prettier": "9.1.0",
     "prettier": "3.2.5",
     "prisma": "5.9.1",
     "rimraf": "5.0.5",
+    "tsx": "4.19.2",
     "typescript": "5.3.3"
   }
 }
