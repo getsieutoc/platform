@@ -2,15 +2,13 @@
 
 import {
   Container,
-  FormControl,
-  FormLabel,
+  Fieldset,
   Heading,
   SimpleGrid,
-  Switch,
-  SwitchProps,
   Text,
   VStack,
 } from '@/components/chakra';
+import { Field, Switch } from '@/components/ui';
 import { usePostHog, useRouter, useState } from '@/hooks';
 import { GradientText } from '@/components/client';
 import { FEATURES } from '@/lib/constants';
@@ -27,14 +25,6 @@ export const PricingSection = () => {
 
   const isAnnually = cycle === 'yearly';
 
-  const handleSwitch: SwitchProps['onChange'] = (e) => {
-    if (e.target.checked) {
-      setCycle('yearly');
-    } else {
-      setCycle('monthly');
-    }
-  };
-
   const handleSelectPrice = (planKey: string) => {
     posthog.capture('select_plan', {
       plan: planKey,
@@ -45,7 +35,7 @@ export const PricingSection = () => {
 
   return (
     <Container py={20} maxW="container.lg" id="pricing">
-      <VStack spacing={10} align="center">
+      <VStack gap={10} align="center">
         <Heading
           size={{ base: 'xl', sm: '2xl' }}
           maxW="container.md"
@@ -56,25 +46,23 @@ export const PricingSection = () => {
           <GradientText>enterprise&nbsp;level</GradientText> capabilities
         </Heading>
 
-        <FormControl display="flex" alignItems="center" justifyContent="center">
-          <FormLabel htmlFor="billed-annually" mb="0">
-            Billed monthly
-          </FormLabel>
-
-          <Switch
-            onChange={handleSwitch}
-            isChecked={isAnnually}
-            id="billed-annually"
-            colorScheme="brand"
-            size="lg"
-          />
+        <Fieldset.Content display="flex" alignItems="center" justifyContent="center">
+          <Field label="Billed monthly">
+            <Switch
+              onChange={setCycle}
+              isChecked={isAnnually}
+              id="billed-annually"
+              colorScheme="brand"
+              size="lg"
+            />
+          </Field>
 
           <Text as="span" marginLeft={3}>
             Billed yearly (Save up to 37%)
           </Text>
-        </FormControl>
+        </Fieldset.Content>
 
-        <SimpleGrid columns={[1, null, 3]} spacing={6}>
+        <SimpleGrid columns={[1, null, 3]} gap={6}>
           {Object.entries(FEATURES).map(([k, v]) => (
             <PricingBox
               onClick={() => handleSelectPrice(k)}

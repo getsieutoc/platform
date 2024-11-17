@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect, useSearchParams, useToast, usePostHog } from '@/hooks';
-import { Button, Stack, Text } from '@/components/chakra';
+import { Stack, Text } from '@/components/chakra';
 import { signIn } from 'next-auth/react';
 import { GithubIcon } from '@/icons';
+import { Button } from '@/components/ui';
 
 export type LoginByGithubProps = {
   org?: string;
@@ -50,13 +51,12 @@ export const LoginByGithub = ({ org }: LoginByGithubProps) => {
       <Button
         size="lg"
         colorScheme="brand"
-        isLoading={isLoading}
-        isDisabled={isLoading}
-        leftIcon={<GithubIcon />}
+        loading={isLoading}
+        disabled={isLoading}
         loadingText="Login with GitHub"
         onClick={handleLogin}
       >
-        Login with GitHub
+        <GithubIcon /> Login with GitHub
       </Button>
 
       {org && (

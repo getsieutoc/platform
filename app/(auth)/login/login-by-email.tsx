@@ -101,14 +101,13 @@ export const LoginByEmail = ({ isRequested }: LoginByEmailProps) => {
       />
 
       <Button
-        leftIcon={<FlashIcon />}
         isDisabled={isLoading}
         onClick={handleSignIn}
         isLoading={isLoading}
         colorScheme="brand"
         size="lg"
       >
-        Login with Email
+        <FlashIcon /> Login with Email
       </Button>
     </Stack>
   );
