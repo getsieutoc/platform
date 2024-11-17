@@ -15,4 +15,7 @@ module.exports = {
     ],
   },
   reactStrictMode: false,
+  experimental: {
+    optimizePackageImports: ['@chakra-ui/react'],
+  },
 };

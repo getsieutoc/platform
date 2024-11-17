@@ -1,11 +1,4 @@
 export {
-  useBreakpointValue,
-  useColorModeValue,
-  useDisclosure,
-  useClipboard,
-  useColorMode,
-} from '@chakra-ui/react';
-export {
   useSelectedLayoutSegments,
   useSearchParams,
   usePathname,
@@ -26,6 +19,7 @@ export {
   useKeyPressEvent,
   useLocalStorage,
   useDebounce,
+  useToggle,
 } from 'react-use';
 export { usePostHog, useFeatureFlagEnabled } from 'posthog-js/react';
 export { useAtom, useSetAtom, useAtomValue } from 'jotai';
@@ -36,6 +30,7 @@ export { useSession } from 'next-auth/react';
 export { default as useSWR } from 'swr';
 
 export * from './use-window-size';
+export * from './use-disclosure';
 export * from './use-project';
 export * from './use-nanoid';
 export * from './use-toast';

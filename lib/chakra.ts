@@ -1,15 +1,15 @@
-import { extendTheme, UseToastOptions } from '@/components/chakra';
+import { createSystem, defaultConfig } from '@chakra-ui/react';
 import { StyleFunctionProps } from '@chakra-ui/styled-system';
 import { mode } from '@chakra-ui/theme-tools';
 
-export const toastOptions: { defaultOptions?: UseToastOptions } = {
-  defaultOptions: {
-    position: 'top-right',
-    duration: 3000,
-    status: 'success',
-    isClosable: true,
-  },
-};
+// export const toastOptions: { defaultOptions?: UseToastOptions } = {
+//   defaultOptions: {
+//     position: 'top-right',
+//     duration: 3000,
+//     status: 'success',
+//     isClosable: true,
+//   },
+// };
 
 const getColorMode = () => {
   if (typeof window !== 'undefined') {
@@ -19,10 +19,10 @@ const getColorMode = () => {
   return 'system';
 };
 
-const config = {
-  initialColorMode: 'system',
-  useSystemColorMode: getColorMode() === 'system',
-};
+// const config = {
+//   initialColorMode: 'system',
+//   useSystemColorMode: getColorMode() === 'system',
+// };
 
 const colors = {
   brand: {
@@ -137,4 +137,10 @@ const components = {
   },
 };
 
-export const theme = extendTheme({ config, colors, components, styles });
+export const system = createSystem(defaultConfig, {
+  theme: {
+    // colors,
+    // components,
+    // styles,
+  },
+});

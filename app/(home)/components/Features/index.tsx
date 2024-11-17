@@ -37,7 +37,7 @@ export const Features = () => {
   const width = useBreakpointValue({ base: 1920 / 4.84, md: 1290 / 1.4 });
 
   return (
-    <VStack w="full" id="features" spacing={0} py={16}>
+    <VStack w="full" id="features" gap={0} py={16}>
       {features.map(({ title, description, image }, i: number) => {
         const isSwapped = i % 2 === 0;
 
@@ -54,7 +54,7 @@ export const Features = () => {
               <Stack
                 direction={['column', null, rowDirection]}
                 alignItems="center"
-                spacing={[4, 10]}
+                gap={[4, 10]}
                 w="full"
                 h="full"
               >
@@ -68,7 +68,7 @@ export const Features = () => {
                   />
                 )}
 
-                <VStack maxW={400} spacing={4} align={['center', 'flex-start']}>
+                <VStack maxW={400} gap={4} align={['center', 'flex-start']}>
                   <Box>
                     <Heading as="h3" fontSize="2xl" fontWeight="bold">
                       {title}
@@ -82,7 +82,7 @@ export const Features = () => {
                   <Button
                     colorScheme="brand"
                     textAlign={['center', 'left']}
-                    variant="link"
+                    variant="plain"
                   >
                     Learn more →
                   </Button>
