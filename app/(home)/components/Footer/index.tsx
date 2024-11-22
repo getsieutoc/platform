@@ -6,10 +6,10 @@ import {
   Heading,
   SimpleGrid,
   Stack,
-  UnorderedList,
   ListItem,
+  VStack,
 } from '@/components/chakra';
-import { ButtonLink, ColorModeBox, Logo } from '@/components/client';
+import { NextLink, ColorModeBox, Logo } from '@/components/client';
 import { ReactNode } from '@/types';
 
 type FooterLink = {
@@ -57,31 +57,25 @@ const footerLinkColumns: { title: string; links: FooterLink[] }[] = [
 export const Footer = ({ children }: { children?: ReactNode }) => {
   return (
     <Flex id="footer" as={ColorModeBox} minH="20vh" py={20}>
-      <Container
-        maxW="container.lg"
-        direction="column"
-        align="center"
-        spacing={20}
-        as={Stack}
-      >
+      <Container maxW="container.lg" direction="column" gap={20} as={Stack}>
         {children}
 
-        <SimpleGrid width="100%" minChildWidth="140px" spacing={10}>
+        <SimpleGrid width="100%" minChildWidth="140px" gap={10}>
           {footerLinkColumns.map(({ title, links }) => (
             <Stack key={title} ml={{ base: 6, md: 0 }}>
               <Heading as="h4" fontSize="md" fontWeight="bold" mb={4}>
                 {title}
               </Heading>
 
-              <UnorderedList minH={20} listStyleType="none" marginInline={0} spacing={2}>
+              <VStack minH={20} listStyleType="none" marginInline={0} gap={2}>
                 {links.map(({ label, url, isExternal }) => (
                   <ListItem key={label}>
-                    <ButtonLink href={url} isExternal={isExternal}>
+                    <NextLink href={url} isExternal={isExternal}>
                       {label}
-                    </ButtonLink>
+                    </NextLink>
                   </ListItem>
                 ))}
-              </UnorderedList>
+              </VStack>
             </Stack>
           ))}
         </SimpleGrid>

@@ -34,7 +34,7 @@ export const Highlights = () => {
         Why use Sieutoc?
       </Heading>
 
-      <SimpleGrid spacingX={10} spacingY={10} minChildWidth="300px" mb={14}>
+      <SimpleGrid gap={10} minChildWidth="300px" mb={14}>
         {highlights.map(({ title, description, icon }, i: number) => (
           <Box p={4} rounded="md" key={`highlight_${i}`}>
             <Text fontSize="xl">{icon}</Text>

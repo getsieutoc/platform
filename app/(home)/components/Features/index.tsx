@@ -10,7 +10,6 @@ import {
   Text,
   VStack,
 } from '@/components/chakra';
-import { useBreakpointValue, useColorMode, useColorModeValue } from '@/hooks';
 import { NextImage } from '@/components/client';
 
 const features = [
