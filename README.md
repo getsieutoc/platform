@@ -28,15 +28,15 @@
 This template includes the following:
 
 - Next.js 14
+- Next-Auth
+- Prisma 5
 - TypeScript
 - ESLint
 - Prettier
-- Chakra UI
-- Prisma
-- Next-Auth
+- Chakra UI v2
 - Docker Compose
-- PostgresQL
-- Mailpit and React Email
+  - PostgresQL
+  - Mailpit and React Email
 - And plenty of well-crafted components like HeroSection, Features, Pricings, SubscribeForm etc.
 
 ## Demo
@@ -79,7 +79,7 @@ You can either use this template by:
 - Or using the script below:
 
 ```bash
-pnpm dlx tiged websitesieutoc/platform your-project
+pnpm dlx tiged getsieutoc/platform your-project
 ```
 
 Optional: Search and replace `platform` with your project slug.
